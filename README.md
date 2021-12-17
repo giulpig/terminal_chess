@@ -13,8 +13,7 @@ This is a chess game board program developed by the team "C++ mi +" = {Giulio Co
   - [ ] Divide tasks
 
 
-##Classes
-
+## Classes
 - Piece
   - King   R
   - Queen  D
@@ -22,5 +21,4 @@ This is a chess game board program developed by the team "C++ mi +" = {Giulio Co
   - Tower  T
   - Horse  C
   - Pawn   P
-
 - Board
