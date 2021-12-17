@@ -11,3 +11,16 @@ This is a chess game board program developed by the team "C++ mi +" = {Giulio Co
   - [ ] Files
 - [ ] Organize workflow
   - [ ] Divide tasks
+
+
+##Classes
+
+- Piece
+  - King   R
+  - Queen  D
+  - Bishop A
+  - Tower  T
+  - Horse  C
+  - Pawn   P
+
+- Board
