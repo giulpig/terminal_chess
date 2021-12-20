@@ -7,10 +7,14 @@ This is a chess game board program developed by the team "C++ mi +" = {Giulio Co
 
 - [x] Init Repo
 - [ ] Strucure the program
-  - [ ] Classes
-  - [ ] Files
+  - [x] Headers 
+  - [ ] Structure of the classes
+  - [ ] Program classes
 - [ ] Organize workflow
   - [ ] Divide tasks
+  - [ ] Cross revision
+- [ ] Test
+- [ ] Optimize 
 
 
 ## Classes
