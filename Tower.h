@@ -1,10 +1,14 @@
 #ifndef TOWER_H
 #define TOWER_H
+
 #include "ChessPiece.h"
+
 class Tower : public ChessPiece{
-    private:
+
+private:
     bool notMoved = true;
-    public:
+
+public:
     void doPossibleMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     void undoPossibleMove() override;
     void move(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
@@ -12,4 +16,5 @@ class Tower : public ChessPiece{
     bool isLegalMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     bool IsMoved();
 };
+
 #endif

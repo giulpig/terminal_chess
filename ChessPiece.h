@@ -1,30 +1,41 @@
 #ifndef CHESSPIECE_H
 #define CHESSPIECE_H
+
 #include <utility>
 #include <vector>
+
 #include "Enums.h"
 #include "Exceptions.h"
 #include <memory>
+
 using std::pair;
 using std::vector;
 using std::shared_ptr;
+
 class ChessPiece{
-    private:
+
+private:
     pair<int, int> precmove{-1, -1};//used to store precedent position in case of possible move
     pair<int, int> location;
     side color;
+
+protected:
     role rol;
-    public:
+
+public:
     ChessPiece(int _row, int _col, side s, role r);
+
     int getRow();
     int getCol();
     role getRole();
+
     virtual void doPossibleMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]);
     virtual void undoPossibleMove();
     virtual void move(int _row, int _col, shared_ptr<ChessPiece>[8][8]);
     virtual vector<pair<int, int>>getLegalMoves(shared_ptr<ChessPiece>[8][8]) = 0;
     virtual bool isLegalMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) = 0;
 };
+
 #endif
 /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxnxxxxxnnnnnnnnnnnnnnnnnnnnnnnnn
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxnnnnnnnnnnnnnnnnnnnnnnnnnn

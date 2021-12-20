@@ -1,12 +1,17 @@
 #ifndef PAWN_H
 #define PAWN_H
+
 #include "ChessPiece.h"
+
 using std::unique_ptr;
+
 class Pawn : public ChessPiece{
-    private:
+
+private:
     bool enpasse = false;
     bool notMoved = true;
-    public:
+
+public:
     void doPossibleMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     void undoPossibleMove() override;
     void move(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
@@ -14,4 +19,5 @@ class Pawn : public ChessPiece{
     bool isLegalMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     unique_ptr<ChessPiece> upgrade(role);//non si può restituire un oggetto di classe virtuale pure ma un puntatore sì
 };
+
 #endif

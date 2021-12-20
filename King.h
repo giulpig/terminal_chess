@@ -1,10 +1,13 @@
 #ifndef KING_H
 #define KING_H
+
 #include "ChessPiece.h"
+
 class King : public ChessPiece{
-    private:
+private:
     bool notMoved = true;
-    public:
+
+public:
     void doPossibleMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     void undoPossibleMove() override;
     void move(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
@@ -12,4 +15,5 @@ class King : public ChessPiece{
     bool isLegalMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
     bool IsMoved();
 };
+
 #endif
