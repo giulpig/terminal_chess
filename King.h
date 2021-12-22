@@ -5,15 +5,13 @@
 
 class King : public ChessPiece{
 private:
-    bool notMoved = true;
+    bool notMoved;
+    role rol = role::king;
 
 public:
-    void doPossibleMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
-    void undoPossibleMove() override;
-    void move(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
-    vector<pair<int, int>> getLegalMoves(shared_ptr<ChessPiece>[8][8]) override;
-    bool isLegalMove(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
-    bool IsMoved();
+    void setPosition(int _row, int _col) override;
+    set<pair<int, int>> getLegalMoves(shared_ptr<ChessPiece>[8][8]) override;
+    move moveType(int _row, int _col, shared_ptr<ChessPiece>[8][8]) override;
 };
 
 #endif

@@ -6,7 +6,9 @@ enum class side{
 };
 
 enum class role{
-    king, queen, bishop, tower, knight, pawn
+    king, queen, bishop, tower, knight, pawn, dummy
 };
-
+enum class move{
+    NaM, movement, castling, promotion, enpassant
+};
 #endif
