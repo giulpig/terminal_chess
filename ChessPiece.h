@@ -30,6 +30,7 @@ public:
     int getCol();
     role getRole();
     bool isMoved();
+    side getSide();
 
     //moves without validating the move
     virtual void setPosition(int _row, int _col);

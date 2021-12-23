@@ -9,6 +9,6 @@ enum class role{
     king, queen, bishop, tower, knight, pawn, dummy
 };
 enum class move{
-    NaM, movement, castling, promotion, enpassant
+    NaM/*Not a Move*/, movement, castling, promotion, enpassant
 };
 #endif
