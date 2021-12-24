@@ -9,7 +9,6 @@ class Pawn : public ChessPiece{
 
 private:
     bool enpassant = false;
-    role rol = role::pawn;
 
 public:
     Pawn(int _row, int _col, side s);
