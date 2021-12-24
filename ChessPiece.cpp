@@ -9,11 +9,15 @@ ChessPiece::ChessPiece(int _row, int _col, side s){
     color = s;
 }
 
-int ChessPiece::getRow(){
+ChessPiece::ChessPiece(const ChessPiece& o){
+    
+}
+
+int ChessPiece::getRow() const{
         return location.first;
     }
 
-int ChessPiece::getCol(){
+int ChessPiece::getCol() const{
     return location.second;
 }
 
@@ -22,15 +26,15 @@ void ChessPiece::setPosition(int _row, int _col){
     location.second = _col;
     moved = true;
 }
-role ChessPiece::getRole(){
+role ChessPiece::getRole() const{
     return rol;
 }
 
-bool ChessPiece::isMoved(){
+bool ChessPiece::isMoved() const{
     return moved;
 }
 
-side ChessPiece::getSide(){
+side ChessPiece::getSide() const{
     return color;
 }
 

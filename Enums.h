@@ -1,14 +1,27 @@
 #ifndef ENUMS_CPP
 #define ENUMS_CPP
 
-enum class side{
-    black, white
+enum class side: bool{
+    black = false,
+    white = true
 };
 
-enum class role{
-    king, queen, bishop, tower, knight, pawn, dummy
+enum class role: char{
+    king   = 'R',
+    queen  = 'D',
+    bishop = 'A',
+    tower  = 'T',
+    knight = 'C',
+    pawn   = 'P',
+    dummy  = ' '
 };
+
 enum class move{
-    NaM/*Not a Move*/, movement, castling, promotion, enpassant
+    NaM,
+    movement,
+    castling,
+    promotion,
+    enpassant
 };
+
 #endif

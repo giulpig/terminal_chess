@@ -22,23 +22,26 @@ private:
 
 protected:
     role rol;
-
-public:
     ChessPiece(int _row, int _col, side s);
 
-    int getRow();
-    int getCol();
-    role getRole();
-    bool isMoved();
-    side getSide();
+public:
+
+    ChessPiece(const ChessPiece&);
+
+    int getRow() const;
+    int getCol() const;
+    role getRole() const;
+    bool isMoved() const;
+    side getSide() const;
 
     //moves without validating the move
-    virtual void setPosition(int _row, int _col);
+    virtual void setPosition(int _row, int _col) = 0;
 
     //returns legal moves not counting the possible autocheck
-    virtual set<pair<int, int>>getLegalMoves(shared_ptr<ChessPiece>[8][8]) = 0;
+    virtual set<pair<int, int>>getLegalMoves(shared_ptr<ChessPiece>[8][8]) const = 0;
+    
     //returns the type of move that they did
-    virtual move moveType(int _row, int _col, shared_ptr<ChessPiece>[8][8]) = 0;
+    virtual move moveType(int _row, int _col, shared_ptr<ChessPiece>[8][8]) const = 0;
 };
 
 #endif
