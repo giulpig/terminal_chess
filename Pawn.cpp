@@ -13,7 +13,7 @@ void Pawn::setPosition(int _row, int _col){
         enpassant = false;
     }
 }
-set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]){
+set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
     set<pair<int, int>> m;
     int dir;
 
@@ -58,7 +58,7 @@ set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]){
 
     return m;
 }
-move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]){
+move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
     if(_row < 0 || _row >= 8 || _col < 0 || _col >= 8){
         return move::NaM;
     }
@@ -103,7 +103,7 @@ move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]){
 void Pawn::cancelEnpassant(){
     enpassant = false;
 }
-bool Pawn::getEnpassant(){
+bool Pawn::getEnpassant() const{
     return enpassant;
 }
 #endif

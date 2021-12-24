@@ -6,7 +6,7 @@
 
 
 
-set<pair<int, int>>Queen::getLegalMoves(shared_ptr<ChessPiece>[8][8] board) {
+set<pair<int, int>>Queen::getLegalMoves(shared_ptr<ChessPiece>[8][8] board) const {
 
     set<pair<int, int>> legalMoves ();
     
