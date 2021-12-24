@@ -29,4 +29,9 @@ role ChessPiece::getRole(){
 bool ChessPiece::isMoved(){
     return moved;
 }
+
+side ChessPiece::getSide(){
+    return color;
+}
+
 #endif

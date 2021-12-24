@@ -59,7 +59,7 @@ class ChessBoard{
 private:
     shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
     list<shared_ptr<ChessPiece>> black, white;//le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
-
+    Pawn p{-1, -1, side::black};//pawn to promove
 public:
     ChessBoard();
     ChessBoard(ChessBoard&);
@@ -70,6 +70,16 @@ public:
     bool isCheck();
     bool isCheckMate();
     bool isStaleMate();
-    bool move(pair<int, int>, pair<int, int>);//returns true if the move is legal
+    //returns possible movements from a specific chesspiece. the returned set is empty if there isn't any piece or if there aren't any possible moves
+    set<std::pair<int, int>> getPossiblemovements(int _row, int _col);
+    //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side
+    set<std::pair<int, int>> getPossiblemovementsByIndex(int index, side c);
+    //returns the type of move that was done
+    move move(pair<int, int>, pair<int, int>);
+    //returns a string containing the board disposition
+    std::string notToString();
+    int nOfPieces(side c);
+    //does a promotion
+    void promotion(role r);
 };
 #endif
