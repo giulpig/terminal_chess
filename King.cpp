@@ -19,7 +19,7 @@ set<pair<int, int>> King::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
                 continue;
             }
             else{
-                if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide()){
+                if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide() || (*(mat[getRow() + i][getCol() + j])).getRole() == role::dummy){
                     s.insert({getRow() + i, getCol() + j});
                 }
             }
@@ -58,45 +58,17 @@ set<pair<int, int>> King::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
     return s;
 }
 move King::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
-    if(_row < 0 || _row >= 8 || _col < 0 || _col >= 8){
+    set<pair<int, int>> s = getLegalMoves(mat);
+    if(s.find({_row, _col}) == s.end()){
         return move::NaM;
-    }
-    else if((_row != getRow() || _col != getCol()) && ((_row == getRow() - 1 || _row == getRow() + 1) || (_col == getCol() - 1 || _col == getCol() + 1))){
-        if((*(mat[_row][_col])).getSide() != getSide()){
-            return move::movement;
-        }
-    }
-    //not around it, so castling
-    else if(getRow() == _row){
-        //right castling
-        if(_col == getCol() + 2){
-            bool free = true;
-            for(int i = getCol() + 1; i < 7; i ++){
-                if((*(mat[getRow()][i])).getRole() != role::dummy){
-                    free = false;
-                    break;
-                }
-            }
-            if(free && !(*(mat[getRow()][7])).isMoved()){
-                return move::castling;
-            }
-        }
-        //left castling
-        else if(_col == getCol() - 2){
-            bool free = true;
-            for(int i = getCol() - 1; i > 0; i --){
-                if((*(mat[getRow()][i])).getRole() != role::dummy){
-                    free = false;
-                    break;
-                }
-            }
-            if(free && !(*(mat[getRow()][0])).isMoved()){
-                return move::castling;
-            }
-        }
     }
     else{
-        return move::NaM;
+        if(_row == getRow() && (_col == getCol() + 2 || _col == getCol() - 2)){
+            return move::castling;
+        }
+        else{
+            return move::movement;
+        }
     }
 }
 #endif

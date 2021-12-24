@@ -66,14 +66,10 @@ set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
             m.insert({getRow() + dir, getCol() - 1});
         }
     }
-
     return m;
 }
 
 move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
-    if(_row < 0 || _row >= 8 || _col < 0 || _col >= 8){
-        return move::NaM;
-    }
     int dir;
     if(getSide() == side::black){
         dir = 1;
@@ -81,49 +77,30 @@ move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
     else{
         dir = -1;
     }
-    //two moves up
-    if(_col == getCol() &&  _row == getRow() + 2 * dir && (*(mat[_row][_col])).getRole() == role::dummy){
-        if(!isMoved() && (*(mat[getRow() + dir][_col])).getRole() == role::dummy){
-            return move::movement;
-        }
+    set<pair<int, int>> s = getLegalMoves(mat);
+    if(s.find({_row, _col}) == s.end()){
+        return move::NaM;
     }
-    //normal one move in the direction
-    if(_col == getCol() &&  _row == getRow() + dir && (*(mat[_row][_col])).getRole() == role::dummy){
-        return move::movement;
-    }
-    //eating to the right
-    else if(_row = getRow() + dir && _col == getCol() + 1 && (*(mat[_row][_col])).getRole() != role::dummy){
-        if((*(mat[_row][_col])).getSide() != getSide()){
-            return move::movement;
-        }
-    }
-    //eating to the left
-    else if(_row = getRow() + dir && _col == getCol() - 1 && (*(mat[_row][_col])).getRole() != role::dummy){
-        if((*(mat[_row][_col])).getSide() != getSide()){
-            return move::movement;
-        }
-    }
-    //enpassant right
-    else if(_row == getRow() + dir && _col == getCol() + 1 && ((*(mat[getRow()][getCol() + 1])).getRole() == role::pawn)){
+    else{
+        //enpassant right
+        if(_row == getRow() + dir && _col == getCol() + 1 && ((*(mat[getRow()][getCol() + 1])).getRole() == role::pawn)){
             Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + 1]));
             if(p.getEnpassant()){
                 if((*(mat[_row][_col])).getRole() == role::dummy){
                     return move::enpassant;
                 }
             }
-    }
-    //enpassant left
-    else if(_row == getRow() + dir && _col == getCol() - 1 && ((*(mat[getRow()][getCol() - 1])).getRole() == role::pawn)){
-        Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() - 1]));
+        }
+        //enpassant left
+        else if(_row == getRow() + dir && _col == getCol() - 1 && ((*(mat[getRow()][getCol() - 1])).getRole() == role::pawn)){
+            Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() - 1]));
             if(p.getEnpassant()){
-               if((*(mat[_row][_col])).getRole() == role::dummy){
+                if((*(mat[_row][_col])).getRole() == role::dummy){
                     return move::enpassant;
                 }
             }
-    }
-
-    else{
-        return move::NaM;
+        }
+        return move::movement;
     }
 }
 void Pawn::cancelEnpassant(){
