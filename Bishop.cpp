@@ -1,57 +1,41 @@
-#ifndef QUEEN_CPP
-#define QUEEN_CPP
+#ifndef BISHOP_CPP
+#define BISHOP_CPP
 
-#include "Queen.h"
+#include "Bishop.h"
 
 using std::make_pair;
 
-set<pair<int, int>> Queen::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
+set<pair<int, int>> Bishop::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
 
     set<pair<int, int>> legalMoves {};
     
-    //dir up - 1
-    //dir up - right - 2
-    //dir right - 3
-    //dir down - right - 4
-    //dir down - 5
-    //dir down - left - 6
-    //dir left - 7 
-    //dir up - left - 8
+    //dir up - right - 1
+    //dir down - right - 2
+    //dir down - left - 3
+    //dir up - left - 4
     
-    for(int i = 1; i < 9; ++i)
+    for(int i = 1; i < 5; ++i)
         addLegalMoves(i, legalMoves, board);
 
     return legalMoves;
 }
 
-void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece> board[8][8]) const {
+void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece> board[8][8]) const {
     pair<int, int> pos = make_pair(getRow(), getCol());
     pair<int, int> additiveMovemnt;
 
 
     switch(dir) {
         case 1:
-            additiveMovemnt = make_pair(-1, 0);
-            break;
-        case 2:
             additiveMovemnt = make_pair(-1, 1);
             break;
-        case 3:
-            additiveMovemnt = make_pair(0, 1);
-            break;
-        case 4:
+        case 2:
             additiveMovemnt = make_pair(1, 1);
             break;
-        case 5:
-            additiveMovemnt = make_pair(1, 0);
-            break;
-        case 6:
+        case 3:
             additiveMovemnt = make_pair(1, -1);
             break;
-        case 7:
-            additiveMovemnt = make_pair(0, -1);
-            break;
-        case 8:
+        case 4:
             additiveMovemnt = make_pair(-1, -1);
             break;
     }
@@ -81,7 +65,7 @@ void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<C
 
 }
 
-bool Queen::checkBounds(pair<int, int> pos) const {
+bool Bishop::checkBounds(pair<int, int> pos) const {
     if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
         return false;
     return true;
@@ -90,12 +74,12 @@ bool Queen::checkBounds(pair<int, int> pos) const {
 //MAYBE is not to override in this case, is better find a solution fot the PEDONE 
 //(non so come si dice in inglese)
 
-void Queen::setPosition(int _row, int _column) {
+void Bishop::setPosition(int _row, int _column) {
     //do not know if this is correct
     ChessPiece::setPosition(_row, _column);
 }
 
-move Queen::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) const {
+move Bishop::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
@@ -105,6 +89,4 @@ move Queen::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) co
         return move::NaM;
 
 }
-
-
 #endif

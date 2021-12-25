@@ -10,7 +10,8 @@ private:
     role rol = role::queen;
     //Maybe usefull
     //But for now seems a good think to simplify the code
-    void addLegalMoves(int dir, set<pair<int, int>>& legalMoves);
+    void addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece>[8][8]) const;
+    bool checkBounds(pair<int, int>) const;
 public:
     void setPosition(int _row, int _col) override;
     //wht not &?
