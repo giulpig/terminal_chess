@@ -4,6 +4,38 @@
 #include "ChessBoard.h"
 
 
+/*
+    Index of contents:
+        > Section 1 - Utility methods---------------
+            ~ addToPieceList()
+            ~ nOfPieces()
+            ~ notToString()
+            ~ getPossiblemovements()
+            ~ copyPiece()    [static]
+
+        > Section 2 - Constructors & operators------
+            ~ ChessBoard() [constructor]
+            ~ ChessBoard() [copy constructor]
+            ~ ChessBoard() [move constructor]
+            ~ operator=()
+
+        > Section 3 - Special moves & situations----
+            ~ isCheck()
+            ~ isCheckMate()
+            ~ isStaleMate()
+            ~ promotion()
+
+        
+
+*/
+
+
+
+
+/*--------------------------- Section 1 - Utility methods ----------------------------------------*/
+
+
+//adds piece at the end of the corresponding (black or white) list of pieces
 void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const side sid){
     if(sid == side::black)
         black.push_back(piece);
@@ -11,7 +43,46 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const side s
         white.push_back(piece);
 }
 
-shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy) const{
+
+//returns the number of piece on the chessboard
+int ChessBoard::nOfPieces(side c) const{
+    return white.size() + black.size();
+}
+
+
+//returns a string containing the board disposition
+std::string ChessBoard::notToString() const{
+    std::string res;
+
+    for(int i=0; i<SIZE; i++){
+        res += std::to_string(SIZE-i) + " ";
+        for(int j=0; j<SIZE; j++){
+            if(chessBoard[i][j]->getSide() == side::black)
+                res += static_cast<char>(chessBoard[i][j]->getRole());
+            else
+                res += std::tolower(static_cast<char>(chessBoard[i][j]->getRole()));
+        }
+        res += "\n";
+    }
+    for(int i=0; i<SIZE; i++){
+        res += 'A'+i;
+    }
+    res += "\n";
+}
+
+
+//returns possible movements from a specific chesspiece,
+//the returned set is empty if there isn't any piece or if there are no possible moves
+set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int _row, int _col) const{
+    const 
+}
+
+
+
+
+
+//static method to get copy of a piece
+shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
     switch(toCopy->getRole()){
         case role::king: {
             return shared_ptr<ChessPiece>(new King(*toCopy));
@@ -38,6 +109,14 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
     }
 }
 
+
+
+
+
+/*--------------------------- Section 2 - Constructors & operators --------------------------------------*/
+
+
+//constructor
 ChessBoard::ChessBoard(){
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
@@ -93,6 +172,7 @@ ChessBoard::ChessBoard(){
 }
 
 
+//copy constructor
 ChessBoard::ChessBoard(const ChessBoard& o){
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
@@ -108,6 +188,8 @@ ChessBoard::ChessBoard(const ChessBoard& o){
     }
 }
 
+
+//move constructor
 ChessBoard::ChessBoard(ChessBoard&& o){
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
@@ -128,6 +210,8 @@ ChessBoard::ChessBoard(ChessBoard&& o){
     o.white.clear();
 }
 
+
+//equals operator, does a copy of the chessPiece objects
 ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     
     if(this == &o)
@@ -149,6 +233,10 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     return *this;
 }
 
+
+/*--------------------------- Section 3 - Special moves & situations --------------------------------------*/
+
+
 bool ChessBoard::isCheck() const{
 
 }
@@ -161,31 +249,6 @@ bool ChessBoard::isStaleMate() const{
 
 }
 
-
-//returns a string containing the board disposition
-std::string ChessBoard::notToString() const{
-    std::string res;
-
-    for(int i=0; i<SIZE; i++){
-        res += std::to_string(SIZE-i) + " ";
-        for(int j=0; j<SIZE; j++){
-            if(chessBoard[i][j]->getSide() == side::black)
-                res += static_cast<char>(chessBoard[i][j]->getRole());
-            else
-                res += std::tolower(static_cast<char>(chessBoard[i][j]->getRole()));
-        }
-        res += "\n";
-    }
-    for(int i=0; i<SIZE; i++){
-        res += 'A'+i;
-    }
-    res += "\n";
-}
-
-//returns the number of piece on the chessboard
-int ChessBoard::nOfPieces(side c) const{
-    return white.size() + black.size();
-}
 
 //does a promotion
 void ChessBoard::promotion(role r){
