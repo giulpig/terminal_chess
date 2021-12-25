@@ -74,7 +74,7 @@ std::string ChessBoard::notToString() const{
 //returns possible movements from a specific chesspiece,
 //the returned set is empty if there isn't any piece or if there are no possible moves
 set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int _row, int _col) const{
-    const 
+     
 }
 
 
