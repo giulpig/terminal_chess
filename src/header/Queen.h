@@ -13,6 +13,7 @@ private:
     bool checkBounds(pair<int, int>) const;
 public:
     Queen(int row, int column, side sidePiece);
+    //Queen(Queen&);
     void setPosition(int _row, int _col) override;
     //wht not &?
     set<pair<int, int>> getLegalMoves(shared_ptr<ChessPiece>[8][8]) const override;

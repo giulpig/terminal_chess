@@ -8,6 +8,11 @@ using std::make_pair;
 Queen::Queen(int row, int column, side sidePiece) : ChessPiece{row, column, sidePiece} {
     rol = role::queen;
 }
+/*
+Queen::Queen(Queen& piece) : ChessPiece{piece.getRow(), piece.getCol(), piece.getSide()} {
+    rol = role::queen;
+}
+*/
 
 set<pair<int, int>> Queen::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
 

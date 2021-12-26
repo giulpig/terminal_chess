@@ -88,7 +88,7 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
             return shared_ptr<ChessPiece>(new King(*toCopy));
         }
         case role::queen: {
-            return shared_ptr<ChessPiece>(new Queen(*toCopy));
+            return shared_ptr<ChessPiece>(new Queen(dynamic_cast<Queen&>(*toCopy)));
         }
         case role::bishop: {
             return shared_ptr<ChessPiece>(new Bishop(*toCopy));
