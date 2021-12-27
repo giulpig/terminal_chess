@@ -37,11 +37,19 @@ public:
     //moves without validating the move
     virtual void setPosition(int _row, int _col) = 0;
 
+
+    /*
+    //
+    // Non so perchè, ma senza il         "const", non funzionava
+    //                                       \
+    //                                        v
+    */
+
     //returns legal moves not counting the possible autocheck
-    virtual set<pair<int, int>>getLegalMoves(shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual set<pair<int, int>>getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const = 0;
     
     //returns the type of move that they did
-    virtual move moveType(int _row, int _col, shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual move moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const = 0;
 };
 
 #endif

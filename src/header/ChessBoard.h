@@ -40,8 +40,8 @@ constexpr char initial_roles[8][8] = {
     {'T', 'C', 'A', 'D', 'R', 'A', 'C', 'T'}};
 
 constexpr bool initial_colors[8][8] = {
-    //dummy chesspieces are black by convenction
-
+    
+    //dummy chesspieces are black
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
@@ -62,13 +62,16 @@ class ChessBoard
 {
 
 private:
-    //atrributes
+    //attributes
     shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
-    list<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
+    
+    //why list??
+    vector<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
     Pawn p{-1, -1, side::black};               //pawn to promove
 
     //utility functions
     void addToPieceList(const shared_ptr<ChessPiece>, const side);
+    void inline swapPointers(const shared_ptr<ChessPiece>*, const shared_ptr<ChessPiece>*);
     static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
 
 
@@ -92,10 +95,10 @@ public:
 
     //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>>& getPossiblemovementsByIndex(int index, side c) const;
+    set<std::pair<int, int>>& getPossiblemovementsByIndex(int index, side) const;
 
-    //swaps pointers and returns the type of move that was done
-    move move(pair<int, int>, pair<int, int>) const;
+    //changes pointers and returns the type of move that was done
+    move doMove(pair<int, int>, pair<int, int>);
 
 
     bool isCheck() const;

@@ -18,7 +18,7 @@ void Pawn::setPosition(int _row, int _col){
     }
 }
 
-set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
+set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) const{
     set<pair<int, int>> m;
     int dir;
 
@@ -69,7 +69,7 @@ set<pair<int, int>> Pawn::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
     return m;
 }
 
-move Pawn::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
+move Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
     int dir;
     if(getSide() == side::black){
         dir = 1;

@@ -14,7 +14,7 @@ Queen::Queen(Queen& piece) : ChessPiece{piece.getRow(), piece.getCol(), piece.ge
 }
 */
 
-set<pair<int, int>> Queen::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
+set<pair<int, int>> Queen::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
 
     set<pair<int, int>> legalMoves {};
     
@@ -33,7 +33,7 @@ set<pair<int, int>> Queen::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) con
     return legalMoves;
 }
 
-void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece> board[8][8]) const {
+void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
     pair<int, int> pos = make_pair(getRow(), getCol());
     pair<int, int> additiveMovemnt;
 
@@ -110,7 +110,7 @@ void Queen::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-move Queen::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) const {
+move Queen::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {

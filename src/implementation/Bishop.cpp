@@ -5,7 +5,7 @@
 
 using std::make_pair;
 
-set<pair<int, int>> Bishop::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
+set<pair<int, int>> Bishop::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
 
     set<pair<int, int>> legalMoves {};
     
@@ -20,7 +20,7 @@ set<pair<int, int>> Bishop::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) co
     return legalMoves;
 }
 
-void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece> board[8][8]) const {
+void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
     pair<int, int> pos = make_pair(getRow(), getCol());
     pair<int, int> additiveMovemnt;
 
@@ -85,7 +85,7 @@ void Bishop::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-move Bishop::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) const {
+move Bishop::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {

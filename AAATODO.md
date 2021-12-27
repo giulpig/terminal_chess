@@ -1,5 +1,4 @@
-- Costruttore che per ogni derivata di ChessPiece (Knight, King, ...) prenda come parametro 
-  un oggetto di classe ChessPiece (per rifer.)
+> 1- Costruttore che per ogni derivata di ChessPiece (Knight, King, ...) prenda questi parametri 
+ >> ES: Queen([int]pox, [int]posy, [side]thisside)
 
- - Costruttore che per ogni derivata di ChessPiece (Knight, King, ...) prenda questi parametri 
- > ES: Queen([int]pox, [int]posy, [side]thisside)
+> 2- Ripetizione di mosse

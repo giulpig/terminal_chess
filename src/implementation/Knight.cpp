@@ -9,7 +9,7 @@ Knight::Knight(int _row, int _col, side s) : ChessPiece(_row, _col, s){
 void Knight::setPosition(int _row, int _col){
     ChessPiece::setPosition(_row, _col);
 }
-set<pair<int, int>> Knight::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) const{
+set<pair<int, int>> Knight::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) const{
     set<pair<int, int>> s;
     for(int i = -2; i <= 2; i ++){
         for(int j = -2; j <= 2; j ++){
@@ -26,7 +26,7 @@ set<pair<int, int>> Knight::getLegalMoves(shared_ptr<ChessPiece> mat[8][8]) cons
     }
     return s;
 }
-move Knight::moveType(int _row, int _col, shared_ptr<ChessPiece> mat[8][8]) const{
+move Knight::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
     set<pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
         return move::NaM;

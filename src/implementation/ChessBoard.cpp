@@ -7,10 +7,13 @@
 /*
     Index of contents:
         > Section 1 - Utility methods---------------
+            ~ move()
             ~ addToPieceList()
+            ~ swapPointers()
             ~ nOfPieces()
             ~ notToString()
             ~ getPossiblemovements()
+            ~ getPossiblemovementsByIndex()
             ~ copyPiece()    [static]
 
         > Section 2 - Constructors & operators------
@@ -35,12 +38,39 @@
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
 
+//changes pointers and returns the type of move that was done
+move ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
+    //TODO: Arrocco?
+
+    //I don't want to create more dummy objects if I don't need to
+    if(chessBoard[to.first][to.second]->getRole() == role::dummy){
+        swapPointers(&chessBoard[to.first][to.second], &chessBoard[from.first][from.second]);
+        return chessBoard[from.first][from.second]->moveType(from.first, from.second, chessBoard);
+    }
+    else{
+        //TODO: should we have a "eaten" container?
+        //sould I delete the shared pointer??
+        chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
+        shared_ptr<ChessPiece> newDummy(new Dummy());
+        chessBoard[from.first][from.second] = newDummy;
+    }
+
+}
+
+
 //adds piece at the end of the corresponding (black or white) list of pieces
 void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const side sid){
     if(sid == side::black)
         black.push_back(piece);
     else
         white.push_back(piece);
+}
+
+
+void inline ChessBoard::swapPointers(const shared_ptr<ChessPiece>* a, const shared_ptr<ChessPiece>* b){
+    const shared_ptr<ChessPiece>* temp = a;
+    a = b;
+    b = temp;
 }
 
 
@@ -73,11 +103,38 @@ std::string ChessBoard::notToString() const{
 
 //returns possible movements from a specific chesspiece,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int _row, int _col) const{
-     
+set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int row, int col) const{
+
+    std::set<std::pair<int, int>> ret = chessBoard[row][col]->getLegalMoves(chessBoard);
+    
+    for(auto &i: ret){
+        //you can't eat your own pieces
+        if(chessBoard[row][col]->getSide() == chessBoard[i.first][i.second]->getSide()){
+            ret.erase(i);
+        }
+
+        //TODO: you can't put yourself in a check position
+        if(false){
+            ret.erase(i);
+        }
+    }
+
+    return ret;
 }
 
 
+//returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
+//the returned set is empty if there isn't any piece or if there are no possible moves
+set<std::pair<int, int>>& ChessBoard::getPossiblemovementsByIndex(int index, side thisSide) const{
+    switch(thisSide){
+        case side::black:
+            return getPossiblemovements(black[index]->getRow(), black[index]->getCol());
+        break;
+        case side::white:
+            return getPossiblemovements(white[index]->getRow(), white[index]->getCol());
+        break;
+    }
+}
 
 
 
@@ -85,22 +142,22 @@ set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int _row, int _col) c
 shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
     switch(toCopy->getRole()){
         case role::king: {
-            return shared_ptr<ChessPiece>(new King(*toCopy));
+            return shared_ptr<ChessPiece>(new King(dynamic_cast<King&>(*toCopy)));
         }
         case role::queen: {
             return shared_ptr<ChessPiece>(new Queen(dynamic_cast<Queen&>(*toCopy)));
         }
         case role::bishop: {
-            return shared_ptr<ChessPiece>(new Bishop(*toCopy));
+            return shared_ptr<ChessPiece>(new Bishop(dynamic_cast<Bishop&>(*toCopy)));
         }
         case role::knight:{
-            return shared_ptr<ChessPiece>(new Knight(*toCopy));
+            return shared_ptr<ChessPiece>(new Knight(dynamic_cast<Knight&>(*toCopy)));
         }
         case role::tower:{
-            return shared_ptr<ChessPiece>(new Tower(*toCopy));
+            return shared_ptr<ChessPiece>(new Tower(dynamic_cast<Tower&>(*toCopy)));
         }
         case role::pawn:{
-            return shared_ptr<ChessPiece>(new Pawn(*toCopy));
+            return shared_ptr<ChessPiece>(new Pawn(dynamic_cast<Pawn&>(*toCopy)));
         }
         case role::dummy:{
             return shared_ptr<ChessPiece>(new Dummy());
