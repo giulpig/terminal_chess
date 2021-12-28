@@ -1,7 +1,7 @@
 #ifndef DUMMY_CPP
 #define DUMMY_CPP
 
-#include "../header/Dummy.h"
+#include "Dummy.h"
 
 void Dummy::setPosition(int _row, int _col){}
 

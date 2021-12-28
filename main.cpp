@@ -8,4 +8,5 @@ int main(void) {
 
     ChessBoard cb {};
 
+    //cb.print();
 }

@@ -50,5 +50,6 @@
         "ranges": "cpp",
         "sstream": "cpp"
     },
-    "cmake.sourceDirectory": "${workspaceFolder}/src"
+    "cmake.sourceDirectory": "${workspaceFolder}/src",
+    "cmake.configureOnOpen": true
 }

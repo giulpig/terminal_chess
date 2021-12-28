@@ -1,7 +1,7 @@
 #ifndef KNIGHT_CPP
 #define KNIGHT_CPP
 
-#include "../header/Knight.h"
+#include "Knight.h"
 
 Knight::Knight(int _row, int _col, Side s) : ChessPiece(_row, _col, s){
     rol = Role::knight;

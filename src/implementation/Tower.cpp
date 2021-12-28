@@ -1,7 +1,7 @@
 #ifndef TOWER_CPP
 #define TOWER_CPP
 
-#include "../header/Tower.h"
+#include "Tower.h"
 
 using std::make_pair;
 

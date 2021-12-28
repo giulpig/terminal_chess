@@ -1,7 +1,7 @@
 #ifndef BISHOP_CPP
 #define BISHOP_CPP
 
-#include "../header/Bishop.h"
+#include "Bishop.h"
 
 using std::make_pair;
 

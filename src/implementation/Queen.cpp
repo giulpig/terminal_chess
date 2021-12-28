@@ -1,7 +1,7 @@
 #ifndef QUEEN_CPP
 #define QUEEN_CPP
 
-#include "../header/Queen.h"
+#include "Queen.h"
 
 using std::make_pair;
 

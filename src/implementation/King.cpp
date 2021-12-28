@@ -1,7 +1,7 @@
 #ifndef KING_CPP
 #define KING_CPP
 
-#include "../header/King.h"
+#include "King.h"
 
 King::King(int _row, int _col, Side s) : ChessPiece(_row, _col, s) {
     rol = Role::king;

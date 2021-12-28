@@ -1,7 +1,7 @@
 #ifndef PAWN_CPP
 #define PAWN_CPP
 
-#include "../header/Pawn.h"
+#include "Pawn.h"
 
 Pawn::Pawn(int _row, int _col, Side s) : ChessPiece{_row, _col, s}{
     rol = Role::pawn;
