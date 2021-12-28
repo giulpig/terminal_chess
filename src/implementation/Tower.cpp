@@ -75,8 +75,8 @@ void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared
 
 bool Tower::checkBounds(pair<int, int> pos) const {
     if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
-        return false;
-    return true;
+        return true;
+    return false;
 }
 
 //MAYBE is not to override in this case, is better find a solution fot the PEDONE 

@@ -5,6 +5,7 @@
 
 Pawn::Pawn(int _row, int _col, Side s) : ChessPiece{_row, _col, s}{
     rol = Role::pawn;
+    enpassant = false;
 }
 
 void Pawn::setPosition(int _row, int _col){
@@ -54,16 +55,18 @@ set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     if(getCol() + 1 < 8 && ((*(mat[getRow()][getCol() + 1])).getRole() == Role::pawn)){
         Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + 1]));
         if(p.getEnpassant()){
-        if((*(mat[getRow() + dir][getCol() + 1])).getRole() == Role::dummy){
-            m.insert({getRow() + dir, getCol() + 1});
-        }
+            if((*(mat[getRow() + dir][getCol() + 1])).getRole() == Role::dummy){
+                m.insert({getRow() + dir, getCol() + 1});
+            }
         }
     }
     //enpassant left
     if(getCol() - 1 >= 0 && ((*(mat[getRow()][getCol() - 1])).getRole() == Role::pawn)){
         Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() - 1]));
-        if((*(mat[getRow() + dir][getCol() - 1])).getRole() == Role::dummy){
-            m.insert({getRow() + dir, getCol() - 1});
+        if(p.getEnpassant()){
+            if((*(mat[getRow() + dir][getCol() - 1])).getRole() == Role::dummy){
+                m.insert({getRow() + dir, getCol() - 1});
+            }
         }
     }
     return m;

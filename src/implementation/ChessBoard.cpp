@@ -2,6 +2,8 @@
 #define CHESSBOARD_CPP
 
 #include "../header/ChessBoard.h"
+//temp
+#include <iostream>
 
 /*
     Index of contents:
@@ -39,20 +41,18 @@
 
 //changes pointers and returns the type of move that was done
 Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
+    //TODO verifica della mossa piu' successivo scambio
+    chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
     //TODO: Arrocco?
+    //TODO: Modifica variabile del pedone
+    //TODO: should we have a "eaten" container?
 
-    //I don't want to create more dummy objects if I don't need to
-    if(chessBoard[to.first][to.second]->getRole() == Role::dummy){
-        swapPointers(&chessBoard[to.first][to.second], &chessBoard[from.first][from.second]);
-        return chessBoard[from.first][from.second]->moveType(from.first, from.second, chessBoard);
-    }
-    else{
-        //TODO: should we have a "eaten" container?
-        //sould I delete the shared pointer??
-        chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
-        shared_ptr<ChessPiece> newDummy(new Dummy());
-        chessBoard[from.first][from.second] = newDummy;
-    }
+    //TODO: dummy is always the same
+    //sould I delete the shared pointer??
+    chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
+    shared_ptr<ChessPiece> newDummy(new Dummy());
+    chessBoard[from.first][from.second] = newDummy;
+    
 
 }
 
@@ -63,13 +63,6 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side s
         black.push_back(piece);
     else
         white.push_back(piece);
-}
-
-
-void inline ChessBoard::swapPointers(const shared_ptr<ChessPiece>* a, const shared_ptr<ChessPiece>* b){
-    const shared_ptr<ChessPiece>* temp = a;
-    a = b;
-    b = temp;
 }
 
 
@@ -93,6 +86,7 @@ std::string ChessBoard::notToString() const{
         }
         res += "\n";
     }
+    res += "  ";
     for(int i=0; i<SIZE; i++){
         res += 'A'+i;
     }
@@ -103,16 +97,13 @@ std::string ChessBoard::notToString() const{
 
 //returns possible movements from a specific chesspiece,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int row, int col) const{
+set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) const{
 
     std::set<std::pair<int, int>> ret = chessBoard[row][col]->getLegalMoves(chessBoard);
-    
-    for(auto &i: ret){
-        //you can't eat your own pieces
-        if(chessBoard[row][col]->getSide() == chessBoard[i.first][i.second]->getSide()){
-            ret.erase(i);
-        }
 
+    for(auto &i: ret){
+        //TODO not possible remove pair from ret
+        //maybe create a new set with the effectivly legal moves
         //TODO: you can't put yourself in a check position
         if(false){
             ret.erase(i);
@@ -125,7 +116,7 @@ set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int row, int col) con
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>>& ChessBoard::getPossiblemovementsByIndex(int index, Side thisSide) const{
+set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side thisSide) const{
     switch(thisSide){
         case Side::black:
             return getPossiblemovements(black[index]->getRow(), black[index]->getCol());

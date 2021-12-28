@@ -1,0 +1,52 @@
+[
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/ChessPiece.dir/implementation/ChessPiece.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/ChessPiece.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/ChessPiece.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Tower.dir/implementation/Tower.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Tower.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Tower.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Knight.dir/implementation/Knight.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Knight.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Knight.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Bishop.dir/implementation/Bishop.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Bishop.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Bishop.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/King.dir/implementation/King.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/King.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/King.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Queen.dir/implementation/Queen.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Queen.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Queen.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Pawn.dir/implementation/Pawn.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Pawn.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Pawn.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Dummy.dir/implementation/Dummy.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Dummy.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/Dummy.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/ChessBoard.dir/implementation/ChessBoard.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/ChessBoard.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/implementation/ChessBoard.cpp"
+},
+{
+  "directory": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -I/home/gabriele/Documents/University/Lab.Programmazione/chess_project/src/header -g -std=gnu++11 -o CMakeFiles/Main.dir/home/gabriele/Documents/University/Lab.Programmazione/chess_project/main.cpp.o -c /home/gabriele/Documents/University/Lab.Programmazione/chess_project/main.cpp",
+  "file": "/home/gabriele/Documents/University/Lab.Programmazione/chess_project/main.cpp"
+}
+]

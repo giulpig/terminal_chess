@@ -86,16 +86,16 @@ public:
     //returns a string containing the board disposition
     std::string notToString() const;
 
-    //returns the number of pieces on the chessboard
+    //returns the number of pices on the chessboard
     int nOfPieces(Side c) const;
 
     //returns possible movements from a specific chesspiece,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>>& getPossiblemovements(int _row, int _col) const;
+    set<std::pair<int, int>> getPossiblemovements(int _row, int _col) const;
 
     //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>>& getPossiblemovementsByIndex(int index, Side) const;
+    set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side) const;
 
     //changes pointers and returns the type of move that was done
     Moves doMove(pair<int, int>, pair<int, int>);

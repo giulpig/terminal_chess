@@ -7,7 +7,7 @@ using std::unique_ptr;
 
 class Bishop : public ChessPiece{
 private:
-    Role rol = Role::bishop;
+    //Role rol = Role::bishop;
     void addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece>[8][8]) const;
     bool checkBounds(pair<int, int>) const;
 public:
