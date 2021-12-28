@@ -1,7 +1,7 @@
 #ifndef CHESSPIECE_CPP
 #define CHESSPIECE_CPP
 
-#include "ChessPiece.h"
+#include "../header/ChessPiece.h"
 
 ChessPiece::ChessPiece(int _row, int _col, side s){
     location.first = _row;

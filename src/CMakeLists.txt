@@ -23,7 +23,7 @@ add_library(ChessPieces
 )
 
 add_library(ChessBoard
-    imlementation/ChessBoard.cpp
+    implementation/ChessBoard.cpp
     header/ChessBoard.h
 )
 
