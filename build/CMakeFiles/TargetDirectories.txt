@@ -1,5 +1,0 @@
-/home/giulio/Desktop/chess_project/build/CMakeFiles/edit_cache.dir
-/home/giulio/Desktop/chess_project/build/CMakeFiles/Main.dir
-/home/giulio/Desktop/chess_project/build/CMakeFiles/rebuild_cache.dir
-/home/giulio/Desktop/chess_project/build/CMakeFiles/ChessBoard.dir
-/home/giulio/Desktop/chess_project/build/CMakeFiles/ChessPieces.dir
