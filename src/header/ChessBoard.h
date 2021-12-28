@@ -67,10 +67,10 @@ private:
     
     //why list??
     vector<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
-    Pawn p{-1, -1, side::black};               //pawn to promove
+    Pawn p{-1, -1, Side::black};               //pawn to promove
 
     //utility functions
-    void addToPieceList(const shared_ptr<ChessPiece>, const side);
+    void addToPieceList(const shared_ptr<ChessPiece>, const Side);
     void inline swapPointers(const shared_ptr<ChessPiece>*, const shared_ptr<ChessPiece>*);
     static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
 
@@ -87,7 +87,7 @@ public:
     std::string notToString() const;
 
     //returns the number of pieces on the chessboard
-    int nOfPieces(side c) const;
+    int nOfPieces(Side c) const;
 
     //returns possible movements from a specific chesspiece,
     //the returned set is empty if there isn't any piece or if there are no possible moves
@@ -95,10 +95,10 @@ public:
 
     //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>>& getPossiblemovementsByIndex(int index, side) const;
+    set<std::pair<int, int>>& getPossiblemovementsByIndex(int index, Side) const;
 
     //changes pointers and returns the type of move that was done
-    move doMove(pair<int, int>, pair<int, int>);
+    Moves doMove(pair<int, int>, pair<int, int>);
 
 
     bool isCheck() const;
@@ -106,7 +106,7 @@ public:
     bool isStaleMate() const;
 
     //does a promotion
-    void promotion(role r);
+    void promotion(Role r);
 
 };
 #endif

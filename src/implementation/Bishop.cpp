@@ -1,9 +1,13 @@
 #ifndef BISHOP_CPP
 #define BISHOP_CPP
 
-#include "Bishop.h"
+#include "../header/Bishop.h"
 
 using std::make_pair;
+
+Bishop::Bishop(int row, int column, Side sidePiece) : ChessPiece{row, column, sidePiece} {
+    rol = Role::bishop;
+}
 
 set<pair<int, int>> Bishop::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
 
@@ -59,7 +63,7 @@ void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const share
         }
 
         bool empty = false;
-        if(board[pos.first][pos.second] -> getRole() != role::dummy) 
+        if(board[pos.first][pos.second] -> getRole() != Role::dummy) 
             isPossibleMove = false;
         else
             empty = true;
@@ -85,14 +89,14 @@ void Bishop::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-move Bishop::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
+Moves Bishop::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
-        return move::movement;
+        return Moves::movement;
     } else
-        return move::NaM;
+        return Moves::NaM;
 
 }
 #endif

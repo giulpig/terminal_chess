@@ -44,7 +44,11 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "optional": "cpp",
+        "istream": "cpp",
+        "ranges": "cpp",
+        "sstream": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/src"
 }

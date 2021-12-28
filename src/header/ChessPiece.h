@@ -16,13 +16,13 @@ class ChessPiece{
 
 private:
     pair<int, int> location;
-    side color;
+    Side color;
     //used for special moves
     bool moved = false;
 
 protected:
-    role rol;
-    ChessPiece(int _row, int _col, side s);
+    Role rol;
+    ChessPiece(int _row, int _col, Side s);
 
 public:
 
@@ -30,9 +30,9 @@ public:
 
     int getRow() const;
     int getCol() const;
-    role getRole() const;
+    Role getRole() const;
     bool isMoved() const;
-    side getSide() const;
+    Side getSide() const;
 
     //moves without validating the move
     virtual void setPosition(int _row, int _col) = 0;
@@ -49,7 +49,7 @@ public:
     virtual set<pair<int, int>>getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const = 0;
     
     //returns the type of move that they did
-    virtual move moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual Moves moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const = 0;
 };
 
 #endif

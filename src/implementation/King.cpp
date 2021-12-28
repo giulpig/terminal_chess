@@ -1,10 +1,10 @@
 #ifndef KING_CPP
 #define KING_CPP
 
-#include "King.h"
+#include "../header/King.h"
 
-King::King(int _row, int _col, side s) : ChessPiece(_row, _col, s) {
-    rol = role::king;
+King::King(int _row, int _col, Side s) : ChessPiece(_row, _col, s) {
+    rol = Role::king;
 }
 
 void King::setPosition(int _row, int _col){
@@ -19,7 +19,7 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
                 continue;
             }
             else{
-                if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide() || (*(mat[getRow() + i][getCol() + j])).getRole() == role::dummy){
+                if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide() || (*(mat[getRow() + i][getCol() + j])).getRole() == Role::dummy){
                     s.insert({getRow() + i, getCol() + j});
                 }
             }
@@ -30,7 +30,7 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
         if(!(*(mat[getRow()][0])).isMoved()){
             bool free = true;
             for(int i = getCol() - 1; i > 0; i --){
-                if((*(mat[getRow()][i])).getRole() != role::dummy){
+                if((*(mat[getRow()][i])).getRole() != Role::dummy){
                     free = false;
                     break;
                 }
@@ -45,7 +45,7 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
         if(!(*(mat[getRow()][7])).isMoved()){
             bool free = true;
             for(int i = getCol() + 1; i < 7; i ++){
-                if((*(mat[getRow()][i])).getRole() != role::dummy){
+                if((*(mat[getRow()][i])).getRole() != Role::dummy){
                     free = false;
                     break;
                 }
@@ -57,17 +57,17 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     return s;
 }
-move King::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
+Moves King::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
     set<pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
-        return move::NaM;
+        return Moves::NaM;
     }
     else{
         if(_row == getRow() && (_col == getCol() + 2 || _col == getCol() - 2)){
-            return move::castling;
+            return Moves::castling;
         }
         else{
-            return move::movement;
+            return Moves::movement;
         }
     }
 }

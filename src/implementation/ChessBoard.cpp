@@ -1,8 +1,7 @@
 #ifndef CHESSBOARD_CPP
 #define CHESSBOARD_CPP
 
-#include "ChessBoard.h"
-
+#include "../header/ChessBoard.h"
 
 /*
     Index of contents:
@@ -15,7 +14,7 @@
             ~ getPossiblemovements()
             ~ getPossiblemovementsByIndex()
             ~ copyPiece()    [static]
-
+../header/
         > Section 2 - Constructors & operators------
             ~ ChessBoard() [constructor]
             ~ ChessBoard() [copy constructor]
@@ -39,11 +38,11 @@
 
 
 //changes pointers and returns the type of move that was done
-move ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
+Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: Arrocco?
 
     //I don't want to create more dummy objects if I don't need to
-    if(chessBoard[to.first][to.second]->getRole() == role::dummy){
+    if(chessBoard[to.first][to.second]->getRole() == Role::dummy){
         swapPointers(&chessBoard[to.first][to.second], &chessBoard[from.first][from.second]);
         return chessBoard[from.first][from.second]->moveType(from.first, from.second, chessBoard);
     }
@@ -59,8 +58,8 @@ move ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
 
 
 //adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const side sid){
-    if(sid == side::black)
+void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side sid){
+    if(sid == Side::black)
         black.push_back(piece);
     else
         white.push_back(piece);
@@ -75,7 +74,7 @@ void inline ChessBoard::swapPointers(const shared_ptr<ChessPiece>* a, const shar
 
 
 //returns the number of piece on the chessboard
-int ChessBoard::nOfPieces(side c) const{
+int ChessBoard::nOfPieces(Side c) const{
     return white.size() + black.size();
 }
 
@@ -87,7 +86,7 @@ std::string ChessBoard::notToString() const{
     for(int i=0; i<SIZE; i++){
         res += std::to_string(SIZE-i) + " ";
         for(int j=0; j<SIZE; j++){
-            if(chessBoard[i][j]->getSide() == side::black)
+            if(chessBoard[i][j]->getSide() == Side::black)
                 res += static_cast<char>(chessBoard[i][j]->getRole());
             else
                 res += std::tolower(static_cast<char>(chessBoard[i][j]->getRole()));
@@ -125,12 +124,12 @@ set<std::pair<int, int>>& ChessBoard::getPossiblemovements(int row, int col) con
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>>& ChessBoard::getPossiblemovementsByIndex(int index, side thisSide) const{
+set<std::pair<int, int>>& ChessBoard::getPossiblemovementsByIndex(int index, Side thisSide) const{
     switch(thisSide){
-        case side::black:
+        case Side::black:
             return getPossiblemovements(black[index]->getRow(), black[index]->getCol());
         break;
-        case side::white:
+        case Side::white:
             return getPossiblemovements(white[index]->getRow(), white[index]->getCol());
         break;
     }
@@ -141,25 +140,25 @@ set<std::pair<int, int>>& ChessBoard::getPossiblemovementsByIndex(int index, sid
 //static method to get copy of a piece
 shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
     switch(toCopy->getRole()){
-        case role::king: {
+        case Role::king: {
             return shared_ptr<ChessPiece>(new King(dynamic_cast<King&>(*toCopy)));
         }
-        case role::queen: {
+        case Role::queen: {
             return shared_ptr<ChessPiece>(new Queen(dynamic_cast<Queen&>(*toCopy)));
         }
-        case role::bishop: {
+        case Role::bishop: {
             return shared_ptr<ChessPiece>(new Bishop(dynamic_cast<Bishop&>(*toCopy)));
         }
-        case role::knight:{
+        case Role::knight:{
             return shared_ptr<ChessPiece>(new Knight(dynamic_cast<Knight&>(*toCopy)));
         }
-        case role::tower:{
+        case Role::tower:{
             return shared_ptr<ChessPiece>(new Tower(dynamic_cast<Tower&>(*toCopy)));
         }
-        case role::pawn:{
+        case Role::pawn:{
             return shared_ptr<ChessPiece>(new Pawn(dynamic_cast<Pawn&>(*toCopy)));
         }
-        case role::dummy:{
+        case Role::dummy:{
             return shared_ptr<ChessPiece>(new Dummy());
         }
 
@@ -177,7 +176,7 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
 ChessBoard::ChessBoard(){
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            side thisSide = static_cast<side>(initial_colors[i][j]);
+            Side thisSide = static_cast<Side>(initial_colors[i][j]);
             switch (initial_roles[i][j]){
                 case 'R': {
                     shared_ptr<ChessPiece> toAdd(new King(i, j, thisSide));
@@ -216,7 +215,7 @@ ChessBoard::ChessBoard(){
                     break;
                 }
                 case ' ':{
-                    shared_ptr<ChessPiece> toAdd(new Dummy(i, j, thisSide));
+                    shared_ptr<ChessPiece> toAdd(new Dummy());
                     chessBoard[i][j] = toAdd;
                     break;
                 }
@@ -308,7 +307,7 @@ bool ChessBoard::isStaleMate() const{
 
 
 //does a promotion
-void ChessBoard::promotion(role r){
+void ChessBoard::promotion(Role r){
 
 }
 

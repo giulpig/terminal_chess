@@ -3,7 +3,7 @@
 
 #include "../header/ChessPiece.h"
 
-ChessPiece::ChessPiece(int _row, int _col, side s){
+ChessPiece::ChessPiece(int _row, int _col, Side s){
     location.first = _row;
     location.second = _col;
     color = s;
@@ -26,7 +26,7 @@ void ChessPiece::setPosition(int _row, int _col){
     location.second = _col;
     moved = true;
 }
-role ChessPiece::getRole() const{
+Role ChessPiece::getRole() const{
     return rol;
 }
 
@@ -34,7 +34,7 @@ bool ChessPiece::isMoved() const{
     return moved;
 }
 
-side ChessPiece::getSide() const{
+Side ChessPiece::getSide() const{
     return color;
 }
 

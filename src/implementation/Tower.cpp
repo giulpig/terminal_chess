@@ -1,11 +1,15 @@
 #ifndef TOWER_CPP
 #define TOWER_CPP
 
-#include "Tower.h"
+#include "../header/Tower.h"
 
 using std::make_pair;
 
-set<pair<int, int>> Tower::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) const {
+Tower::Tower(int row, int column, Side sidePiece) : ChessPiece{row, column, sidePiece} {
+    rol = Role::tower;
+}
+
+set<pair<int, int>> Tower::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
 
     set<pair<int, int>> legalMoves {};
     
@@ -20,7 +24,7 @@ set<pair<int, int>> Tower::getLegalMoves(shared_ptr<ChessPiece> board[8][8]) con
     return legalMoves;
 }
 
-void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<ChessPiece> board[8][8]) const {
+void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
     pair<int, int> pos = make_pair(getRow(), getCol());
     pair<int, int> additiveMovemnt;
 
@@ -57,7 +61,7 @@ void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, shared_ptr<C
         }
 
         bool empty = false;
-        if(board[pos.first][pos.second] -> getRole() != role::dummy) 
+        if(board[pos.first][pos.second] -> getRole() != Role::dummy) 
             isPossibleMove = false;
         else
             empty = true;
@@ -83,14 +87,14 @@ void Tower::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-move Tower::moveType(int _row, int _col, shared_ptr<ChessPiece> board [8][8]) const {
+Moves Tower::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
-        return move::movement;
+        return Moves::movement;
     } else
-        return move::NaM;
+        return Moves::NaM;
 
 }
 #endif

@@ -1,12 +1,12 @@
 #ifndef QUEEN_CPP
 #define QUEEN_CPP
 
-#include "Queen.h"
+#include "../header/Queen.h"
 
 using std::make_pair;
 
-Queen::Queen(int row, int column, side sidePiece) : ChessPiece{row, column, sidePiece} {
-    rol = role::queen;
+Queen::Queen(int row, int column, Side sidePiece) : ChessPiece{row, column, sidePiece} {
+    rol = Role::queen;
 }
 /*
 Queen::Queen(Queen& piece) : ChessPiece{piece.getRow(), piece.getCol(), piece.getSide()} {
@@ -84,7 +84,7 @@ void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared
         }
 
         bool empty = false;
-        if(board[pos.first][pos.second] -> getRole() != role::dummy) 
+        if(board[pos.first][pos.second] -> getRole() != Role::dummy) 
             isPossibleMove = false;
         else
             empty = true;
@@ -110,14 +110,14 @@ void Queen::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-move Queen::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
+Moves Queen::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
 
     set<pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
-        return move::movement;
+        return Moves::movement;
     } else
-        return move::NaM;
+        return Moves::NaM;
 
 }
 

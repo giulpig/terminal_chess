@@ -1,12 +1,12 @@
 #ifndef ENUMS_CPP
 #define ENUMS_CPP
 
-enum class side: bool{
+enum class Side: bool{
     black = false,
     white = true
 };
 
-enum class role: char{
+enum class Role: char{
     king   = 'R',
     queen  = 'D',
     bishop = 'A',
@@ -16,7 +16,7 @@ enum class role: char{
     dummy  = ' '
 };
 
-enum class move{
+enum class Moves{
     NaM,
     movement,
     castling,
