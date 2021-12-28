@@ -1,7 +1,7 @@
 #ifndef CHESSBOARD_CPP
 #define CHESSBOARD_CPP
 
-#include "../header/ChessBoard.h"
+#include "ChessBoard.h"
 //temp
 #include <iostream>
 
@@ -15,8 +15,9 @@
             ~ notToString()
             ~ getPossiblemovements()
             ~ getPossiblemovementsByIndex()
-            ~ copyPiece()    [static]
-../header/
+            ~ copyPiece()   [static]
+            ~ newPiece()    [static]
+
         > Section 2 - Constructors & operators------
             ~ ChessBoard() [constructor]
             ~ ChessBoard() [copy constructor]
@@ -41,17 +42,18 @@
 
 //changes pointers and returns the type of move that was done
 Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
-    //TODO verifica della mossa piu' successivo scambio
-    chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
     //TODO: Arrocco?
     //TODO: Modifica variabile del pedone
     //TODO: should we have a "eaten" container?
 
-    //TODO: dummy is always the same
-    //sould I delete the shared pointer??
+    if(chessBoard[from.first][from.second]->getRole() == Role::pawn){
+        chessBoard[from.first][from.second]->isMoved();
+    }
+    
+    chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
+
     chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
-    shared_ptr<ChessPiece> newDummy(new Dummy());
-    chessBoard[from.first][from.second] = newDummy;
+    chessBoard[from.first][from.second] = oneDummyToRuleThemAll;
     
 
 }
@@ -102,8 +104,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) cons
     std::set<std::pair<int, int>> ret = chessBoard[row][col]->getLegalMoves(chessBoard);
 
     for(auto &i: ret){
-        //TODO not possible remove pair from ret
-        //maybe create a new set with the effectivly legal moves
+        //OKKIO: not possible remove pair from ret, maybe create a new set
         //TODO: you can't put yourself in a check position
         if(false){
             ret.erase(i);
@@ -116,8 +117,8 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) cons
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side thisSide) const{
-    switch(thisSide){
+set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side) const{
+    switch(side){
         case Side::black:
             return getPossiblemovements(black[index]->getRow(), black[index]->getCol());
         break;
@@ -132,29 +133,66 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side
 //static method to get copy of a piece
 shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
     switch(toCopy->getRole()){
-        case Role::king: {
+        case Role::king:
             return shared_ptr<ChessPiece>(new King(dynamic_cast<King&>(*toCopy)));
-        }
-        case Role::queen: {
+
+        case Role::queen:
             return shared_ptr<ChessPiece>(new Queen(dynamic_cast<Queen&>(*toCopy)));
-        }
-        case Role::bishop: {
+
+        case Role::bishop:
             return shared_ptr<ChessPiece>(new Bishop(dynamic_cast<Bishop&>(*toCopy)));
-        }
-        case Role::knight:{
+
+        case Role::knight:
             return shared_ptr<ChessPiece>(new Knight(dynamic_cast<Knight&>(*toCopy)));
-        }
-        case Role::tower:{
+
+        case Role::tower:
             return shared_ptr<ChessPiece>(new Tower(dynamic_cast<Tower&>(*toCopy)));
-        }
-        case Role::pawn:{
+
+        case Role::pawn:
             return shared_ptr<ChessPiece>(new Pawn(dynamic_cast<Pawn&>(*toCopy)));
-        }
-        case Role::dummy:{
+
+        case Role::dummy:
             return shared_ptr<ChessPiece>(new Dummy());
-        }
+
+        default:
+            ;       //Exception?
 
     }
+
+    return shared_ptr<ChessPiece>(nullptr);
+}
+
+
+//static method to get shared pointer of new ChessPiece
+shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role role){
+    switch(role){
+        case Role::king:
+            return shared_ptr<ChessPiece>(new King(row, col, side));
+
+        case Role::queen:
+            return shared_ptr<ChessPiece>(new Queen(row, col, side));
+
+        case Role::bishop:
+            return shared_ptr<ChessPiece>(new Bishop(row, col, side));
+
+        case Role::knight:
+            return shared_ptr<ChessPiece>(new Knight(row, col, side));
+
+        case Role::tower:
+            return shared_ptr<ChessPiece>(new Tower(row, col, side));
+
+        case Role::pawn:
+            return shared_ptr<ChessPiece>(new Pawn(row, col, side));
+
+        case Role::dummy:
+            return shared_ptr<ChessPiece>(new Dummy());
+
+        default:
+            ;       //Exception?
+
+    }
+
+    return shared_ptr<ChessPiece>(nullptr);
 }
 
 
@@ -166,55 +204,16 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
 
 //constructor
 ChessBoard::ChessBoard(){
+
+    oneDummyToRuleThemAll = std::make_shared<Dummy>();
+
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            Side thisSide = static_cast<Side>(initial_colors[i][j]);
-            switch (initial_roles[i][j]){
-                case 'R': {
-                    shared_ptr<ChessPiece> toAdd(new King(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case 'D': {
-                    shared_ptr<ChessPiece> toAdd(new Queen(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case 'A': {
-                    shared_ptr<ChessPiece> toAdd(new Bishop(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case 'C':{
-                    shared_ptr<ChessPiece> toAdd(new Knight(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case 'T':{
-                    shared_ptr<ChessPiece> toAdd(new Tower(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case 'P':{
-                    shared_ptr<ChessPiece> toAdd(new Pawn(i, j, thisSide));
-                    chessBoard[i][j] = toAdd;
-                    addToPieceList(toAdd, thisSide);
-                    break;
-                }
-                case ' ':{
-                    shared_ptr<ChessPiece> toAdd(new Dummy());
-                    chessBoard[i][j] = toAdd;
-                    break;
-                }
-
-                default:
-                    ; //should I implement an exception?
-            }
+            Side side = static_cast<Side>(initial_colors[i][j]);
+            Role role = static_cast<Role>(initial_roles[i][j]);
+            shared_ptr<ChessPiece> toAdd = newPiece(i, j, side, role);
+            chessBoard[i][j] = toAdd;
+            addToPieceList(toAdd, side);
         }
     }
 }
@@ -222,6 +221,9 @@ ChessBoard::ChessBoard(){
 
 //copy constructor
 ChessBoard::ChessBoard(const ChessBoard& o){
+    
+    oneDummyToRuleThemAll = std::make_shared<Dummy>();
+
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
             shared_ptr<ChessPiece> toAdd(copyPiece(o.chessBoard[i][j]));
@@ -285,6 +287,8 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
 /*--------------------------- Section 3 - Special moves & situations --------------------------------------*/
 
 
+/*
+TODO
 bool ChessBoard::isCheck() const{
 
 }
@@ -296,11 +300,21 @@ bool ChessBoard::isCheckMate() const{
 bool ChessBoard::isStaleMate() const{
 
 }
-
+*/
 
 //does a promotion
-void ChessBoard::promotion(Role r){
-
+void ChessBoard::promotion(Role role){         //sould I get the position also?
+    for(int i=0; i<SIZE; i++){
+        if(chessBoard[0][i]->getRole() == Role::pawn){  
+            //should I delete old object explicitly?
+            chessBoard[0][i] = newPiece(0, i, chessBoard[0][i]->getSide(), role);
+            break;
+        }
+        if(chessBoard[SIZE-1][i]->getRole() == Role::pawn){
+            chessBoard[SIZE-1][i] = newPiece(0, i, chessBoard[SIZE-1][i]->getSide(), role);
+            break;
+        }
+    }
 }
 
 
