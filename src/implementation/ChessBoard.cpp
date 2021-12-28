@@ -97,6 +97,7 @@ std::string ChessBoard::notToString() const{
         res += 'A'+i;
     }
     res += "\n";
+    return res;
 }
 
 

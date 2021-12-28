@@ -8,5 +8,6 @@ int main(void) {
 
     ChessBoard cb {};
 
-    //cb.print();
+    cout << cb.notToString() <<endl;
+    
 }
