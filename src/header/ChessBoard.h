@@ -17,11 +17,14 @@
 #include <memory>
 #include <utility>
 #include <string>
+#include <map>
 
 using std::list;
 using std::pair;
 using std::shared_ptr;
 using std::vector;
+using std::string;
+using std::map;
 
 
 //--------------------constants----------------------
@@ -66,7 +69,7 @@ class ChessBoard
 private:
     //attributes
     shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
-    //why list??
+    //why list?? because yes
     vector<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
     Pawn p{-1, -1, Side::black};               //pawn to promove
     shared_ptr<ChessPiece> oneDummyToRuleThemAll;
@@ -76,6 +79,13 @@ private:
     void addToPieceList(const shared_ptr<ChessPiece>, const Side);
     static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
 
+    //TODO Giulio:
+    //counts moves since last capture or movement of a pawn
+    int finalCountDown = 0;
+    //string representing the chessBoard and the number of times it has been repeated
+    map<string, int> chessBoards;
+    //true if a single configuration has been repeated three times
+    bool threeRep = false;
 
 public:
     ChessBoard();
@@ -102,10 +112,15 @@ public:
     //changes pointers and returns the type of move that was done
     Moves doMove(pair<int, int>, pair<int, int>);
 
-
-    bool isCheck() const;
-    bool isCheckMate() const;
-    bool isStaleMate() const;
+    //argument 1: which side to check if the king is in check
+    //argument 2: chessboard to use for the check
+    //argument 3: needed if the board is a possible board and it signals where's the piece that was moved.
+    //            used for check for possible moves
+    bool isCheck(Side, const shared_ptr<ChessPiece>[8][8], pair<int,int> p = pair<int,int>{-1, -1}) const;
+    //argument: which side to check if it has possible moves
+    bool ArePossibleMoves(Side) const;
+    //argument: which side to check if it's in stalemate
+    bool isStaleMate(Side) const;
 
     //does a promotion
     void promotion(Role);
