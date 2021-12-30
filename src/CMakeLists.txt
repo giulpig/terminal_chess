@@ -51,6 +51,28 @@ add_library(ChessBoard
     header/ChessBoard.h
 )
 
+# Game libraries
+add_library(Game
+    header/Enums.h
+    implementation/Game.cpp
+    header/Game.h
+)
+
+add_library(Player
+    implementation/Player.cpp
+    header/Player.h
+)
+
+add_library(HumanPlayer
+    implementation/HumanPlayer.cpp
+    header/HumanPlayer.h
+)
+
+add_library(PcPlayer
+    implementation/PcPlayer.cpp
+    header/PcPlayer.h
+)
+
 add_executable(Main
     ../main.cpp
 )
@@ -66,7 +88,7 @@ target_link_libraries(ChessBoard
     ChessPiece
 )
 
-
 target_link_libraries(Main
     ChessBoard
+    Game
 )

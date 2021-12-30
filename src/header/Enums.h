@@ -24,4 +24,11 @@ enum class Moves{
     enpassant
 };
 
+//for now add an enum for the type of play
+enum class GameType {
+    HumanVsPc,
+    PcVsPc
+};
+
+
 #endif
