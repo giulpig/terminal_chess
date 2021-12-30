@@ -3,6 +3,10 @@
 
 #include "Dummy.h"
 
+Dummy::Dummy() : ChessPiece{-1, -1, Side::white} {
+    rol = Role::dummy;
+}
+
 void Dummy::setPosition(int _row, int _col){}
 
 set<pair<int, int>> Dummy::getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const{

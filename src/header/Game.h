@@ -10,7 +10,7 @@
 
 class Game {
     private:
-        Player players[2];
+        vector<Player> players{2};
         ChessBoard board;
         void printChessBoard();
 

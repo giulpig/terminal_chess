@@ -1,10 +1,15 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include<utility>
+#include<vector>
+#include<string>
+
 class Player {
+
     protected:
 
-        std::pair<int, int> convertPos(std::pair<char, int>) const;
+        std::pair<int, int> convertPos(std::string) const;
         
     public:
 

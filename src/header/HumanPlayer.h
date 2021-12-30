@@ -6,8 +6,11 @@
 #include"Player.h"
 
 class HumanPlayer : public Player {
-    public:
+
+    private:
+        bool isValidInput(std::string) const;
         
+    public:
       HumanPlayer();
       std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
 

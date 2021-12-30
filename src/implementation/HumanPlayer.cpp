@@ -5,6 +5,7 @@
 
 using std::pair;
 using std::string;
+using std::vector;
 using std::getline;
 using std::stringstream;
 
@@ -13,18 +14,38 @@ HumanPlayer::HumanPlayer() : Player{} {};
 pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
 
   pair<pair<int, int>, pair<int, int>> movement;
-  string line, pos;
+  string line;
+  vector<string> pos {3};
+  bool rightInput = false; 
+  
+  do {
+    getline(std::cin, line);
+    stringstream inStream (line);
+    int i = 0;   
+    while(getline(inStream, pos[i], ' ')) {
 
-  getline(std::cin, line);
-  stringstream inStream (line);
-    
-  while(getline(inStream, pos, ' ')) {
-       
-      //TODO get the position and convert it to int int with the Player class
-      //
-      //so get, convert and return
-  }
+      if(!isValidInput(pos[i++])) {
+        rightInput = false;
+        break;
+      }
 
+    } 
+  } while(!rightInput);
+
+  movement.first = convertPos(pos[0]);
+  movement.second = convertPos(pos[1]);
+
+  return movement;
+}
+
+bool HumanPlayer::isValidInput(string pos) const {
+  if(pos.size() != 2)
+    return false;
+
+  if(pos[0] < 65 || pos[0] > 73 || pos[1] < 48 || pos[1]> 56)
+    return false;
+
+  return true; 
 }
 
 #endif 

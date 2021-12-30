@@ -7,11 +7,11 @@ using std::pair;
 
 Player::Player() {}
 
-pair<int, int> Player::convertPos(pair<char, int> toConvert) const {
+pair<int, int> Player::convertPos(std::string toConvert) const {
 
     pair<int, int> convertedPos;
-    convertedPos.first = (int)toConvert.first - 65;
-    convertedPos.second = 8 - toConvert.second;
+    convertedPos.second = toConvert[0] - 65;
+    convertedPos.first = 8 - (toConvert[1] - 48);
 
 }
 
