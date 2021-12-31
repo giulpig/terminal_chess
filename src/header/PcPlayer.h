@@ -5,7 +5,6 @@
 #include"ChessBoard.h"
 
 class PcPlayer : public Player {
-        
     private:
       ChessBoard board;
       Side side;

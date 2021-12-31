@@ -101,6 +101,9 @@ public:
     //returns the number of pices on the chessboard
     int nOfPieces(Side) const;
 
+    //get position of the piece with index in the piece list of specific side (-1, -1 if invalid)
+    pair<int, int> getPosition(int index, Side) const;
+
     //returns possible movements from a specific chesspiece,
     //the returned set is empty if there isn't any piece or if there are no possible moves
     set<std::pair<int, int>> getPossiblemovements(int row, int col) const;

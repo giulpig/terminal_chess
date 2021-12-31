@@ -52,6 +52,7 @@ void Game::play() {
             }
         }
 
+        //that function is totally usefull 
         printChessBoard();
 
         //TODO something for the log

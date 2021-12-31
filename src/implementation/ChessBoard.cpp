@@ -15,6 +15,7 @@
             ~ notToString()
             ~ getPossiblemovements()
             ~ getPossiblemovementsByIndex()
+            ~ getPosition()
             ~ copyPiece()   [static]
             ~ newPiece()    [static]
 
@@ -71,6 +72,27 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side s
 //returns the number of piece on the chessboard
 int ChessBoard::nOfPieces(Side c) const{
     return white.size() + black.size();
+}
+
+
+//get position of the piece with index in the piece list of specific side
+pair<int, int> ChessBoard::getPosition(int index, Side side) const{
+    switch(side){
+        case Side::black:
+            if(index >= black.size())
+                return {-1, -1};
+
+            return {black[index]->getCol(), black[index]->getRow()};
+        break;
+
+        case Side::white:
+            if(index >= white.size())
+                return {-1, -1};
+    
+            return {white[index]->getCol(), white[index]->getRow()};
+        break;
+    }
+    return {-1, -1};
 }
 
 

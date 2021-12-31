@@ -11,9 +11,11 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
     bool findAMove = false;
     pair<pair<int, int>, pair<int, int>> movement;
 
+    int remainPiece = board.nOfPieces(side);
+
     do {
 
-        int indexPlayer = rand() % 20;
+        int indexPlayer = rand() % remainPiece;
 
         //TODO get a set of possible movements for the player
 
@@ -23,7 +25,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
         if(!possMovement.empty()) {
 
             //get the now position of the selected piece
-            movement.first = getPosition(indexPlayer, side);
+            movement.first = board.getPosition(indexPlayer, side);
             
             //select one movement from the set
             int randMov = rand() % possMovement.size();
