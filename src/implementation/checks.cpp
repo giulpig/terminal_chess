@@ -2,10 +2,10 @@
 #define CHECKS_CPP
 
 #include "ChessBoard.h"
-bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<int,int>) const{
+bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<int,int> p) const{
     shared_ptr<ChessPiece> k;
     vector<shared_ptr<ChessPiece>> v;
-    if(s == Side::black){
+    if(s == Side::white){
         v = black;
         for(int i = 0; i < white.size(); i ++){
             if(white[i]->getRole() == Role::king){
@@ -14,7 +14,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
             }
         }
     }
-    if(s == Side::white){
+    if(s == Side::black){
         v = white;
         for(int i = 0; i < black.size(); i ++){
             if(black[i]->getRole() == Role::king){
@@ -26,6 +26,9 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
     int r = k->getRow();
     int c = k->getCol();
     for(shared_ptr<ChessPiece> i : v){
+        if(i->getRow() == p.first && i->getCol() == p.second){
+            continue;
+        }
         if(i->moveType(r, c, mat) != Moves::NaM){
             return true;
         }
@@ -42,31 +45,15 @@ bool ChessBoard::ArePossibleMoves(Side s) const{
         v = black;
     }
     for(shared_ptr<ChessPiece> i : v){
-        for(pair<int,int> p : getPossiblemovements(i->getRow(), i->getCol())){
-            shared_ptr<ChessPiece> temp[8][8];
-            for(int ii = 0; ii < 8; ii ++){
-                for(int jj = 0; jj < 8; jj ++){
-                    if(ii == i->getRow() && jj == i->getCol()){
-                        temp[ii][jj] = shared_ptr<Dummy>{};
-                    }
-                    else if(ii == p.first && jj == p.second){
-                        temp[ii][jj] = i;
-                    }
-                    else{
-                        temp[ii][jj] = chessBoard[ii][jj];
-                    }
-                }
-            }
-            if(!isCheck(s, temp, p)){
-                return false;
-            }
+        if(!getPossiblemovements(i->getRow(), i->getCol()).empty()){
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 bool ChessBoard::isStaleMate(Side s) const{
-    if(!isCheck(s, chessBoard) && ArePossibleMoves(s)){
+    if(!isCheck(s, chessBoard) && !ArePossibleMoves(s)){
         return true;
     }
     else if(threeRep || finalCountDown >= 50){
@@ -91,5 +78,6 @@ bool ChessBoard::isStaleMate(Side s) const{
             }
         }
     }
+    return false;
 }
 #endif
