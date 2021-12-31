@@ -82,10 +82,11 @@ set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     //enpassant
     for(int i = -1; i <= 1; i += 2){
         if(getCol() + i >= 0 && getCol() + i < 8 && ((*(mat[getRow()][getCol() + i])).getRole() == Role::pawn)){
-        Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + i]));
-        if(p.getEnpassant()){
-            if((*(mat[getRow() + dir][getCol() + i])).getRole() == Role::dummy){
-                m.insert({getRow() + dir, getCol() + i});
+            Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + i]));
+            if(p.getEnpassant()){
+                if((*(mat[getRow() + dir][getCol() + i])).getRole() == Role::dummy){
+                    m.insert({getRow() + dir, getCol() + i});
+                }
             }
         }
     }
