@@ -15,6 +15,7 @@ class Player {
 
         Player();  
         virtual std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const = 0;
+        //virtual set<pair<int, int>>getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const = 0;
 
 };
 #endif 

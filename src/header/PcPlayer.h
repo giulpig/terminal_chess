@@ -6,12 +6,12 @@
 
 class PcPlayer : public Player {
     private:
-      ChessBoard board;
+      const ChessBoard *board;
       Side side;
 
     public:
 
-      PcPlayer(const ChessBoard&, Side);
+      PcPlayer(const ChessBoard*, Side);
       std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
 
 };

@@ -1,11 +1,13 @@
 #include<iostream>
-#include"src/header/ChessBoard.h"
+//#include"src/header/ChessBoard.h"
 //#include"ChessBoard.h"
+
+#include"Game.h"
 
 using namespace std;
 
 int main(void) {
-
+    /*
     ChessBoard cb {};
 
     cout << cb.notToString() <<endl;
@@ -51,4 +53,9 @@ int main(void) {
     for (auto i : cb.getPossiblemovements(5,2))
         cout << i.first << " " << i.second <<endl;
     cout <<endl;
+    */
+
+    Game game (GameType::HumanVsPc);
+
+    game.play();
 }
