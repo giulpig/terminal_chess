@@ -5,17 +5,17 @@
 
 Game::Game(GameType gType) {
 
-    board = new ChessBoard{};
+    board = ChessBoard{};
 
     switch(gType) {
         case GameType::HumanVsPc:
             players[0] = new HumanPlayer();
             break;
         case GameType::PcVsPc:
-            players[0] = new PcPlayer(board, Side::white);
+            players[0] = new PcPlayer(&board, Side::white);
             break;
     }
-    players[1] = new PcPlayer(board, Side::black);
+    players[1] = new PcPlayer(&board, Side::black);
 
 }
 
@@ -37,7 +37,7 @@ void Game::play() {
                 // ADD TODO keyword to give up
 
                 movement = players[i] -> getMove();
-                moveType = board -> doMove(movement.first, movement.second);
+                moveType = board.doMove(movement.first, movement.second);
             } while(moveType == Moves::NaM);
     
             switch(moveType) {
@@ -63,7 +63,7 @@ void Game::printChessBoard() {
     //space maybe usefull
     //but to make it clear they could be beautiful
     std::cout << std::endl;
-    std::cout << board -> notToString() << std::endl;
+    std::cout << board.notToString() << std::endl;
     std::cout << std::endl;
 }
 

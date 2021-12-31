@@ -13,6 +13,8 @@ pair<int, int> Player::convertPos(std::string toConvert) const {
     convertedPos.second = toConvert[0] - 65;
     convertedPos.first = 8 - (toConvert[1] - 48);
 
+    return convertedPos;
+
 }
 
 

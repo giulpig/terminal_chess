@@ -11,7 +11,7 @@
 class Game {
     private:
         vector<Player*> players{2};
-        ChessBoard* board;
+        ChessBoard board;
         void printChessBoard();
 
     public:

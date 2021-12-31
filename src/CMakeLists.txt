@@ -88,6 +88,21 @@ target_link_libraries(ChessBoard
     ChessPiece
 )
 
+target_link_libraries(Game
+    ChessBoard
+    Player
+    HumanPlayer
+    PcPlayer
+)
+
+target_link_libraries(HumanPlayer
+    Player
+)
+
+target_link_libraries(PcPlayer
+    Player
+)
+
 target_link_libraries(Main
     ChessBoard
     Game
