@@ -2,6 +2,8 @@
 #define PCPLAYER_CPP
 
 #include"PcPlayer.h"
+//only for testing
+#include<iostream>
 
 using std::pair;
 
@@ -12,6 +14,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
     pair<pair<int, int>, pair<int, int>> movement;
 
     int remainPiece = board -> nOfPieces(side);
+    std::cout << "pezzi rimanenti: " << remainPiece <<std::endl;
 
     do {
 

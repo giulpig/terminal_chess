@@ -5,7 +5,7 @@
 
 Game::Game(GameType gType) {
 
-    board = ChessBoard{};
+    //bard = ChessBoard{};
 
     switch(gType) {
         case GameType::HumanVsPc:
@@ -15,6 +15,7 @@ Game::Game(GameType gType) {
             players[0] = new PcPlayer(&board, Side::white);
             break;
     }
+
     players[1] = new PcPlayer(&board, Side::black);
 
 }
@@ -24,19 +25,22 @@ void Game::play() {
     bool endGame = false;
     pair<pair<int, int>, pair<int, int>> movement;
     Moves moveType;
+    int playerTurn = 0;
+
+    printChessBoard();
 
     while(!endGame) {
 
-        for(int i = 0; i < 2; ++i) {
+        //for(int i = 0; i < 2; ++i) {
 
             do {
-                std::cout << "Type a movement player " << i << ": " <<std::endl;
+                std::cout << "Type a movement player " << playerTurn << ": " <<std::endl;
                 //maybe the PcPlayer could print the movement so seems like
                 //the human player (when it write the move remain on the screen)
 
                 // ADD TODO keyword to give up
 
-                movement = players[i] -> getMove();
+                movement = players[playerTurn++] -> getMove();
                 moveType = board.doMove(movement.first, movement.second);
             } while(moveType == Moves::NaM);
     
@@ -50,10 +54,13 @@ void Game::play() {
                    break;
                 */
             }
-        }
+        //}
 
         //that function is totally usefull 
         printChessBoard();
+
+        if(playerTurn >= 2)
+            playerTurn = 0;
 
         //TODO something for the log
     }

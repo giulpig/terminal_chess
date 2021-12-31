@@ -16,7 +16,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
   pair<pair<int, int>, pair<int, int>> movement;
   string line;
   vector<string> pos {3};
-  bool rightInput = true; 
+  bool rightInput; 
   
   do {
     getline(std::cin, line);
@@ -27,9 +27,14 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
       if(!isValidInput(pos[i++])) {
         rightInput = false;
         break;
-      }
+      } else 
+        rightInput = true;
 
     } 
+
+    if(i != 2)
+        rightInput = false;
+
   } while(!rightInput);
 
   movement.first = convertPos(pos[0]);
