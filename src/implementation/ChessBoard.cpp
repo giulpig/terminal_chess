@@ -50,7 +50,7 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: should we have a "eaten" container?
 
     if((from.first==0 || from.first==SIZE-1) && chessBoard[from.first][from.second]->getRole() == Role::pawn){
-        //toPromote = ;
+        toPromote = chessBoard[from.first][from.second];
     }
     
     chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
@@ -95,14 +95,14 @@ pair<int, int> ChessBoard::getPosition(int index, Side side) const{
             if(index >= black.size())
                 return {-1, -1};
 
-            return {black[index]->getCol(), black[index]->getRow()};
+            return {black[index]->getRow(), black[index]->getCol()};
         break;
 
         case Side::white:
             if(index >= white.size())
                 return {-1, -1};
     
-            return {white[index]->getCol(), white[index]->getRow()};
+            return {white[index]->getRow(), white[index]->getCol()};
         break;
     }
     return {-1, -1};

@@ -71,8 +71,8 @@ private:
     shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
     //why list?? because yes
     vector<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
-    Pawn toPromote{-1, -1, Side::black};               //pawn to promove
-    shared_ptr<ChessPiece> oneDummyToRuleThemAll = std::make_shared<Dummy>();
+    shared_ptr<ChessPiece> toPromote;                  //pawn to promote
+    shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
 
     //utility functions
     static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
