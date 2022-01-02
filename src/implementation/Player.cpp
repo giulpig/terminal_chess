@@ -5,7 +5,7 @@
 
 using std::pair;
 
-Player::Player() {}
+Player::Player(Side _side) : side{_side} {}
 
 pair<int, int> Player::convertPos(std::string toConvert) const {
 
@@ -16,6 +16,12 @@ pair<int, int> Player::convertPos(std::string toConvert) const {
     return convertedPos;
 
 }
+
+/*
+Side Player::getSide() const {
+    return side;
+}
+*/
 
 
 #endif 

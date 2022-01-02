@@ -9,7 +9,8 @@ using std::vector;
 using std::getline;
 using std::stringstream;
 
-HumanPlayer::HumanPlayer() : Player{} {};
+HumanPlayer::HumanPlayer(Side side) : Player{side} {};
+
 
 pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
 
@@ -19,6 +20,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
   bool rightInput; 
   
   do {
+    /*
     getline(std::cin, line);
     stringstream inStream (line);
     int i = 0;   
@@ -34,6 +36,24 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
 
     if(i != 2)
         rightInput = false;
+    */
+
+    getline(std::cin, line);
+    stringstream inStream (line);
+    for(int i = 0; i < 2; i++) {
+      inStream >> pos[i];
+
+      if(!isValidInput(pos[i])) {
+        rightInput = false;
+        break;
+      }
+      else
+        rightInput = true;
+    }
+
+    //std::cout << inStream.str() <<std::endl;
+    //if(inStream.str().size() != 0)
+      //rightInput = false;
 
   } while(!rightInput);
 

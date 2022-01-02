@@ -4,6 +4,7 @@
 #include<iostream>
 #include<sstream>
 #include"Player.h"
+#include"Enums.h"
 
 class HumanPlayer : public Player {
 
@@ -11,7 +12,7 @@ class HumanPlayer : public Player {
         bool isValidInput(std::string) const;
         
     public:
-      HumanPlayer();
+      HumanPlayer(Side);
       std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
 
 };

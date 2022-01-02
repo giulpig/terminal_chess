@@ -9,15 +9,14 @@ Game::Game(GameType gType) {
 
     switch(gType) {
         case GameType::HumanVsPc:
-            players[0] = new HumanPlayer();
+            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(Side::white)};
             break;
         case GameType::PcVsPc:
-            players[0] = new PcPlayer(&board, Side::white);
+            players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, Side::white)};
             break;
     }
 
-    players[1] = new PcPlayer(&board, Side::black);
-
+    players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, Side::black)};
 }
 
 void Game::play() {
@@ -42,6 +41,8 @@ void Game::play() {
 
                 movement = players[playerTurn++] -> getMove();
                 moveType = board.doMove(movement.first, movement.second);
+                //moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
+
             } while(moveType == Moves::NaM);
     
             switch(moveType) {

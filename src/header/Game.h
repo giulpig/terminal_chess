@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include<iostream>
+#include<memory>
 #include"Enums.h"
 #include"Player.h"
 #include"HumanPlayer.h"
@@ -10,7 +11,8 @@
 
 class Game {
     private:
-        vector<Player*> players{2};
+        //vector<Player*> players{2};
+        vector<std::unique_ptr<Player>> players{2};
         ChessBoard board;
         void printChessBoard();
 
