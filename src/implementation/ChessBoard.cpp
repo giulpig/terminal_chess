@@ -49,8 +49,8 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: Modifica variabile del pedone
     //TODO: should we have a "eaten" container?
 
-    if(chessBoard[from.first][from.second]->getRole() == Role::pawn){
-        chessBoard[from.first][from.second]->isMoved();
+    if((from.first==0 || from.first==SIZE-1) && chessBoard[from.first][from.second]->getRole() == Role::pawn){
+        //toPromote = ;
     }
     
     chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
@@ -152,7 +152,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) cons
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side) const{
+set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side) const{
     switch(side){
         case Side::black:
             return getPossiblemovements(black[index]->getRow(), black[index]->getCol());
@@ -161,7 +161,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side
             return getPossiblemovements(white[index]->getRow(), white[index]->getCol());
         break;
     }
-    return set<std::pair<int, int>>{};
+    return set<pair<int, int>>{};
 }
 
 
@@ -241,8 +241,6 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
 //constructor
 ChessBoard::ChessBoard(){
 
-    oneDummyToRuleThemAll = std::make_shared<Dummy>();
-
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
             Side side = static_cast<Side>(initial_colors[i][j]);
@@ -258,8 +256,6 @@ ChessBoard::ChessBoard(){
 
 //copy constructor
 ChessBoard::ChessBoard(const ChessBoard& o){
-    
-    oneDummyToRuleThemAll = std::make_shared<Dummy>();
 
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
@@ -351,7 +347,7 @@ void ChessBoard::promotion(Role role){         //sould I get the position also?
         }
 
         if(xcoord != -1){
-            chessBoard[0][i] = newPiece(0, i, chessBoard[0][i]->getSide(), role);
+            chessBoard[xcoord][i] = newPiece(0, i, chessBoard[xcoord][i]->getSide(), role);
             break;
         }
     }
