@@ -1,9 +1,10 @@
 #ifndef ENUMS_CPP
 #define ENUMS_CPP
 
-enum class Side: bool{
-    black = false,
-    white = true
+enum class Side: char{
+    black   = 0,
+    white   = 1,
+    noRole  = -1
 };
 
 enum class Role: char{

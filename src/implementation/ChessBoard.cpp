@@ -5,6 +5,8 @@
 //temp
 #include <iostream>
 
+//TODO: modificare tutti i new a make_shared
+
 /*
     Index of contents:
         > Section 1 - Utility methods---------------
@@ -62,19 +64,27 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
 
 //adds piece at the end of the corresponding (black or white) list of pieces
 void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side side){
-    if(side == Side::black)
+    if(side == Side::black){
         black.push_back(piece);
-    else
+        return;
+    }
+
+    if(side == Side::white)
         white.push_back(piece);
+    
+    return;
 }
 
 
-//returns the number of piece on the chessboard
+//returns the number of piece on the chessboard, -1 if noRole
 int ChessBoard::nOfPieces(Side side) const{
     if(side == Side::black)
         return black.size();
-    else
+
+    else if(side == Side::white)
         return white.size();
+    
+    return -1;
 }
 
 
@@ -275,7 +285,7 @@ ChessBoard::ChessBoard(ChessBoard&& o){
         }
     }
 
-    for(auto &i: o.black){      //copy and clear
+    for(auto &i: o.black){      //copy pointers and clear
         black.push_back(i);
     }
     o.black.clear();
@@ -331,13 +341,16 @@ bool ChessBoard::isStaleMate() const{
 //does a promotion
 void ChessBoard::promotion(Role role){         //sould I get the position also?
     for(int i=0; i<SIZE; i++){
-        if(chessBoard[0][i]->getRole() == Role::pawn){  
-            //should I delete old object explicitly?
-            chessBoard[0][i] = newPiece(0, i, chessBoard[0][i]->getSide(), role);
-            break;
+        char xcoord = -1;
+        if(chessBoard[0][i]->getRole() == Role::pawn){
+            xcoord = 0;
         }
-        if(chessBoard[SIZE-1][i]->getRole() == Role::pawn){
-            chessBoard[SIZE-1][i] = newPiece(0, i, chessBoard[SIZE-1][i]->getSide(), role);
+        else if(chessBoard[SIZE-1][i]->getRole() == Role::pawn){
+            xcoord = SIZE-1;
+        }
+
+        if(xcoord != -1){
+            chessBoard[0][i] = newPiece(0, i, chessBoard[0][i]->getSide(), role);
             break;
         }
     }
