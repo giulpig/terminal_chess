@@ -33,9 +33,6 @@
             ~ isCheckMate()
             ~ isStaleMate()
             ~ promotion()
-
-        
-
 */
 
 
