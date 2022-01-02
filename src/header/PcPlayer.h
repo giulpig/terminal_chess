@@ -6,7 +6,7 @@
 
 class PcPlayer : public Player {
     private:
-      const ChessBoard board;
+      const ChessBoard& board;
 
     public:
 

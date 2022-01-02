@@ -14,7 +14,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
     pair<pair<int, int>, pair<int, int>> movement;
 
     int remainPiece = board.nOfPieces(side);
-    std::cout << "pezzi rimanenti: " << remainPiece <<std::endl;
+    //std::cout << "pezzi rimanenti: " << remainPiece <<std::endl;
 
     do {
 
@@ -29,6 +29,12 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
 
             //get the now position of the selected piece
             movement.first = board.getPosition(indexPlayer, side);
+
+            std::cout << "From piece" << movement.first.first << " " <<movement.first.second <<std::endl;
+            std::cout << "Possibili movimenti";
+            for(auto i : possMovement)
+                std::cout << i.first <<" " << i.second << " ";
+            std::cout <<std::endl;
             
             //select one movement from the set
             int randMov = rand() % possMovement.size();

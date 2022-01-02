@@ -17,26 +17,12 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
   pair<pair<int, int>, pair<int, int>> movement;
   string line;
   vector<string> pos {3};
-  bool rightInput; 
+  bool rightInput = true;
   
   do {
-    /*
-    getline(std::cin, line);
-    stringstream inStream (line);
-    int i = 0;   
-    while(getline(inStream, pos[i], ' ')) {
 
-      if(!isValidInput(pos[i++])) {
-        rightInput = false;
-        break;
-      } else 
-        rightInput = true;
-
-    } 
-
-    if(i != 2)
-        rightInput = false;
-    */
+    if(!rightInput)
+      std::cout << "Wrong Input" <<std::endl;
 
     getline(std::cin, line);
     stringstream inStream (line);
@@ -51,9 +37,10 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
         rightInput = true;
     }
 
-    //std::cout << inStream.str() <<std::endl;
-    //if(inStream.str().size() != 0)
-      //rightInput = false;
+    //remain of the line
+    inStream >> pos[2];
+    if(pos[2].size() != 0)
+      rightInput = false;
 
   } while(!rightInput);
 
