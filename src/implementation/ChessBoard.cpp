@@ -161,6 +161,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side
             return getPossiblemovements(white[index]->getRow(), white[index]->getCol());
         break;
     }
+    return set<std::pair<int, int>>{};
 }
 
 

@@ -44,7 +44,7 @@ constexpr char initial_roles[8][8] = {
 };
 
 
-constexpr bool initial_colors[8][8] = {
+constexpr char initial_colors[8][8] = {
     
     //dummy chesspieces are black
     {0,   0,  0,  0,  0,  0,  0,  0},
