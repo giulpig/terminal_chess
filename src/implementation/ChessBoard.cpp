@@ -43,9 +43,13 @@
 
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
+Moves ChessBoard::move(pair<int, int> from, pair<int, int> to, Side side){
+
+}
+
 
 //changes pointers and returns the type of move that was done
-Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
+void ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: Arrocco?
     //TODO: should we have a "eaten" container?
 
@@ -56,12 +60,12 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //update piece information
     chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
 
-    removeFromPieceList(chessBoard[to.first][to.second]);
+    if(chessBoard[to.first][to.second]->getRole() != Role::dummy)
+        removeFromPieceList(chessBoard[to.first][to.second]);
 
     //actually swap pointers
     chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
     chessBoard[from.first][from.second] = oneDummyToRuleThemAll;
-    
 
 }
 
@@ -82,7 +86,7 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece){
 
 //adds piece at the end of the corresponding (black or white) list of pieces
 void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece> piece){
-    
+
     if(chessBoard[piece->getRow()][piece->getCol()]->getSide() == Side::black){
         for(auto it=black.begin(); it!=black.end(); it++){
             if(*it == chessBoard[piece->getRow()][piece->getCol()])
@@ -101,7 +105,7 @@ void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece> piece){
 }
 
 
-//returns the number of piece on the chessboard, -1 if noRole
+//returns the number of piece on the chessboard, -1 if re
 int ChessBoard::nOfPieces(Side side) const{
     if(side == Side::black)
         return black.size();

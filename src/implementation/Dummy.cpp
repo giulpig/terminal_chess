@@ -3,7 +3,7 @@
 
 #include "Dummy.h"
 
-Dummy::Dummy() : ChessPiece{-1, -1, Side::white} {
+Dummy::Dummy() : ChessPiece{-1, -1, Side::noSide} {
     rol = Role::dummy;
 }
 

@@ -113,8 +113,11 @@ public:
     //the returned set is empty if there isn't any piece or if there are no possible moves
     set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side) const;
 
-    //changes pointers and returns the type of move that was done
-    Moves doMove(pair<int, int>, pair<int, int>);
+    //checks the move, calls doMove and returns the type of move that was done
+    Moves move(pair<int, int>, pair<int, int>, Side);
+    
+    //changes pointers and updates attributes
+    void doMove(pair<int, int>, pair<int, int>);
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check

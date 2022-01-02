@@ -4,7 +4,7 @@
 enum class Side: char{
     black   = 0,
     white   = 1,
-    noRole  = -1
+    noSide  = -1
 };
 
 enum class Role: char{
