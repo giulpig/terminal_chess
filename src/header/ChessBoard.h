@@ -76,7 +76,8 @@ private:
 
     //utility functions
     static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
-    void addToPieceList(const shared_ptr<ChessPiece>, const Side);
+    void addToPieceList(const shared_ptr<ChessPiece>);
+    void removeFromPieceList(const shared_ptr<ChessPiece>);
     static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
 
     //TODO Giulio:

@@ -12,6 +12,7 @@
         > Section 1 - Utility methods---------------
             ~ move()
             ~ addToPieceList()
+            ~ removeFromPieceList()
             ~ swapPointers()
             ~ nOfPieces()
             ~ notToString()
@@ -46,15 +47,18 @@
 //changes pointers and returns the type of move that was done
 Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: Arrocco?
-    //TODO: Modifica variabile del pedone
     //TODO: should we have a "eaten" container?
 
     if((from.first==0 || from.first==SIZE-1) && chessBoard[from.first][from.second]->getRole() == Role::pawn){
         toPromote = chessBoard[from.first][from.second];
     }
     
+    //update piece information
     chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
 
+    removeFromPieceList(chessBoard[to.first][to.second]);
+
+    //actually swap pointers
     chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
     chessBoard[from.first][from.second] = oneDummyToRuleThemAll;
     
@@ -63,16 +67,37 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
 
 
 //adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side side){
-    if(side == Side::black){
+void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece){
+    if(piece->getSide() == Side::black){
         black.push_back(piece);
         return;
     }
 
-    if(side == Side::white)
+    if(piece->getSide() == Side::white)
         white.push_back(piece);
     
     return;
+}
+
+
+//adds piece at the end of the corresponding (black or white) list of pieces
+void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece> piece){
+    
+    if(chessBoard[piece->getRow()][piece->getCol()]->getSide() == Side::black){
+        for(auto it=black.begin(); it!=black.end(); it++){
+            if(*it == chessBoard[piece->getRow()][piece->getCol()])
+                black.erase(it);
+                return;
+        }
+    }
+
+   if(chessBoard[piece->getRow()][piece->getCol()]->getSide() == Side::white){
+        for(auto it=white.begin(); it!=white.end(); it++){
+            if(*it == chessBoard[piece->getRow()][piece->getCol()])
+                white.erase(it);
+                return;
+        }
+    }
 }
 
 
@@ -248,7 +273,7 @@ ChessBoard::ChessBoard(){
             shared_ptr<ChessPiece> toAdd = newPiece(i, j, side, role);
             chessBoard[i][j] = toAdd;
             if(toAdd->getRole() != Role::dummy)
-                addToPieceList(toAdd, side);
+                addToPieceList(toAdd);
         }
     }
 }
@@ -347,8 +372,12 @@ void ChessBoard::promotion(Role role){         //sould I get the position also?
         }
 
         if(xcoord != -1){
+            removeFromPieceList(chessBoard[xcoord][i]);
             chessBoard[xcoord][i] = newPiece(0, i, chessBoard[xcoord][i]->getSide(), role);
             break;
+        }
+        else{
+            ;   //eccezzzzzzzzzione
         }
     }
 }
