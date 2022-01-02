@@ -106,6 +106,7 @@ Moves Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8])
         return Moves::NaM;
     }
     else{
+        /*
         //enpassant right
         if(_row == getRow() + dir && _col == getCol() + 1 && ((*(mat[getRow()][getCol() + 1])).getRole() == Role::pawn)){
             Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + 1]));
@@ -123,6 +124,15 @@ Moves Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8])
                     return Moves::enpassant;
                 }
             }
+        }*/
+        //enpassant
+        for(int i = - 1; i <= 1; i += 2){
+            if(_row == getRow() + dir && _col == getCol() + i && (*(mat[getRow()][getCol() + i])).getRole() == Role::pawn && ((*(mat[getRow() + dir][getCol() + i])).getRole() == Role::dummy)){
+                return Moves::enpassant;
+            }
+        }
+        if(_row == 7 || _row == 0){
+            return Moves::promotion;
         }
         return Moves::movement;
     }

@@ -6,8 +6,8 @@ This is a chess game board program developed by the team *C++ mi +* = {Giulio_Co
 
 ## TODO list
 
-- [ ] Initial steps
-  - [x] Init Repo
+- [x] Initial steps
+  - [ ] Init Repo
   - [ ] Main structure of the program
   - [ ] Program headers
   - [ ] BASIC and minimal functioning program

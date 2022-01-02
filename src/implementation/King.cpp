@@ -27,7 +27,7 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     //left castling
     if(!isMoved()){
-        if(!(*(mat[getRow()][0])).isMoved()){
+        if(!(*(mat[getRow()][0])).isMoved() && (*(mat[getRow()][0])).getRole() == Role::tower){
             bool free = true;
             for(int i = getCol() - 1; i > 0; i --){
                 if((*(mat[getRow()][i])).getRole() != Role::dummy){
@@ -42,7 +42,7 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     //right castling
     if(!isMoved()){
-        if(!(*(mat[getRow()][7])).isMoved()){
+        if(!(*(mat[getRow()][7])).isMoved() && (*(mat[getRow()][7])).getRole() == Role::tower){
             bool free = true;
             for(int i = getCol() + 1; i < 7; i ++){
                 if((*(mat[getRow()][i])).getRole() != Role::dummy){
