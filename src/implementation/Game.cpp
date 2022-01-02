@@ -39,9 +39,9 @@ void Game::play() {
 
                 // ADD TODO keyword to give up
 
-                movement = players[playerTurn++] -> getMove();
-                moveType = board.doMove(movement.first, movement.second);
-                //moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
+                movement = players[playerTurn] -> getMove();
+                //moveType = board.move(movement.first, movement.second, );
+                moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
 
             } while(moveType == Moves::NaM);
     
@@ -60,6 +60,7 @@ void Game::play() {
         //that function is totally usefull 
         printChessBoard();
 
+        playerTurn++;
         if(playerTurn >= 2)
             playerTurn = 0;
 

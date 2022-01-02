@@ -17,11 +17,7 @@ pair<int, int> Player::convertPos(std::string toConvert) const {
 
 }
 
-/*
 Side Player::getSide() const {
     return side;
 }
-*/
-
-
 #endif 

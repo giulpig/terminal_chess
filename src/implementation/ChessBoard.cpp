@@ -44,7 +44,12 @@
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
 Moves ChessBoard::move(pair<int, int> from, pair<int, int> to, Side side){
+    
+    if(chessBoard[from.first][from.second] -> getSide() != side)
+        return Moves::NaM;
 
+    doMove(from, to);
+    return Moves::movement;
 }
 
 
