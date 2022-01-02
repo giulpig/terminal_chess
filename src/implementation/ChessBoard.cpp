@@ -11,9 +11,9 @@
     Index of contents:
         > Section 1 - Utility methods---------------
             ~ move()
-            ~ addToPieceList()
-            ~ removeFromPieceList()
-            ~ swapPointers()
+            ~ doMove()              [private]
+            ~ addToPieceList()      [private]
+            ~ removeFromPieceList() [private]
             ~ nOfPieces()
             ~ notToString()
             ~ getPossiblemovements()
@@ -55,6 +55,7 @@ void ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     //TODO: Arrocco?
     //TODO: should we have a "eaten" container?
 
+    //SBAGLIATOOOO
     if((from.first==0 || from.first==SIZE-1) && chessBoard[from.first][from.second]->getRole() == Role::pawn){
         toPromote = chessBoard[from.first][from.second];
     }
@@ -201,32 +202,32 @@ set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side
 shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
     switch(toCopy->getRole()){
         case Role::king:
-            return shared_ptr<ChessPiece>(new King(dynamic_cast<King&>(*toCopy)));
+            return std::make_shared<King>(dynamic_cast<King&>(*toCopy));
 
         case Role::queen:
-            return shared_ptr<ChessPiece>(new Queen(dynamic_cast<Queen&>(*toCopy)));
+            return std::make_shared<Queen>(dynamic_cast<Queen&>(*toCopy));
 
         case Role::bishop:
-            return shared_ptr<ChessPiece>(new Bishop(dynamic_cast<Bishop&>(*toCopy)));
+            return std::make_shared<Bishop>(dynamic_cast<Bishop&>(*toCopy));
 
         case Role::knight:
-            return shared_ptr<ChessPiece>(new Knight(dynamic_cast<Knight&>(*toCopy)));
+            return std::make_shared<Knight>(dynamic_cast<Knight&>(*toCopy));
 
         case Role::tower:
-            return shared_ptr<ChessPiece>(new Tower(dynamic_cast<Tower&>(*toCopy)));
+            return std::make_shared<Tower>(dynamic_cast<Tower&>(*toCopy));
 
         case Role::pawn:
-            return shared_ptr<ChessPiece>(new Pawn(dynamic_cast<Pawn&>(*toCopy)));
+            return std::make_shared<Pawn>(dynamic_cast<Pawn&>(*toCopy));
 
         case Role::dummy:
-            return shared_ptr<ChessPiece>(new Dummy());
+            return std::make_shared<Dummy>(new Dummy());
 
         default:
             ;       //Exception?
 
     }
 
-    return shared_ptr<ChessPiece>(nullptr);
+    return std::make_shared<ChessPiece>(nullptr);
 }
 
 
@@ -234,32 +235,32 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
 shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role role){
     switch(role){
         case Role::king:
-            return shared_ptr<ChessPiece>(new King(row, col, side));
+            return std::make_shared<King>(row, col, side);
 
         case Role::queen:
-            return shared_ptr<ChessPiece>(new Queen(row, col, side));
+            return std::make_shared<Queen>(row, col, side);
 
         case Role::bishop:
-            return shared_ptr<ChessPiece>(new Bishop(row, col, side));
+            return std::make_shared<Bishop>(row, col, side);
 
         case Role::knight:
-            return shared_ptr<ChessPiece>(new Knight(row, col, side));
+            return std::make_shared<Knight>(row, col, side);
 
         case Role::tower:
-            return shared_ptr<ChessPiece>(new Tower(row, col, side));
+            return std::make_shared<Tower>(row, col, side);
 
         case Role::pawn:
-            return shared_ptr<ChessPiece>(new Pawn(row, col, side));
+            return std::make_shared<Pawn>(row, col, side);
 
         case Role::dummy:
-            return shared_ptr<ChessPiece>(new Dummy());
+            return std::make_shared<Dummy>();
 
         default:
             ;       //Exception?
 
     }
 
-    return shared_ptr<ChessPiece>(nullptr);
+    return std::make_shared<ChessPiece>(nullptr);
 }
 
 
@@ -290,8 +291,7 @@ ChessBoard::ChessBoard(const ChessBoard& o){
 
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            shared_ptr<ChessPiece> toAdd(copyPiece(o.chessBoard[i][j]));
-            chessBoard[i][j] = toAdd;
+            chessBoard[i][j] = copyPiece(o.chessBoard[i][j]);
         }
     }
     for(const auto &i: o.black){
@@ -307,7 +307,6 @@ ChessBoard::ChessBoard(const ChessBoard& o){
 ChessBoard::ChessBoard(ChessBoard&& o){
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            //chessBoard[i][j] = std::move(o.chessBoard[i][j]);
             chessBoard[i][j] = o.chessBoard[i][j];
             o.chessBoard[i][j] = nullptr;
         }
@@ -333,8 +332,7 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            shared_ptr<ChessPiece> toAdd(copyPiece(o.chessBoard[i][j]));
-            chessBoard[i][j] = toAdd;
+            chessBoard[i][j] = copyPiece(o.chessBoard[i][j]);
         }
     }
     for(const auto &i: o.black){
