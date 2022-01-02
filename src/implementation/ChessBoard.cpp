@@ -61,8 +61,8 @@ Moves ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
 
 
 //adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side sid){
-    if(sid == Side::black)
+void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side side){
+    if(side == Side::black)
         black.push_back(piece);
     else
         white.push_back(piece);
@@ -70,8 +70,11 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece, const Side s
 
 
 //returns the number of piece on the chessboard
-int ChessBoard::nOfPieces(Side c) const{
-    return white.size() + black.size();
+int ChessBoard::nOfPieces(Side side) const{
+    if(side == Side::black)
+        return black.size();
+    else
+        return white.size();
 }
 
 
@@ -235,7 +238,8 @@ ChessBoard::ChessBoard(){
             Role role = static_cast<Role>(initial_roles[i][j]);
             shared_ptr<ChessPiece> toAdd = newPiece(i, j, side, role);
             chessBoard[i][j] = toAdd;
-            addToPieceList(toAdd, side);
+            if(toAdd->getRole() != Role::dummy)
+                addToPieceList(toAdd, side);
         }
     }
 }
