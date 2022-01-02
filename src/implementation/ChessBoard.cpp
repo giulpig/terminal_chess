@@ -2,8 +2,6 @@
 #define CHESSBOARD_CPP
 
 #include "ChessBoard.h"
-//temp
-#include <iostream>
 
 //TODO: modificare tutti i new a make_shared
 
@@ -13,7 +11,7 @@
             ~ move()
             ~ doMove()              [private]
             ~ addToPieceList()      [private]
-            ~ removeFromPieceList() [private]
+            ~ removeFromPieceList() [private
             ~ nOfPieces()
             ~ notToString()
             ~ getPossiblemovements()
@@ -220,14 +218,14 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
             return std::make_shared<Pawn>(dynamic_cast<Pawn&>(*toCopy));
 
         case Role::dummy:
-            return std::make_shared<Dummy>(new Dummy());
+            return std::make_shared<Dummy>();
 
         default:
             ;       //Exception?
 
     }
 
-    return std::make_shared<ChessPiece>(nullptr);
+    return shared_ptr<ChessPiece>(nullptr);
 }
 
 
@@ -260,7 +258,7 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
 
     }
 
-    return std::make_shared<ChessPiece>(nullptr);
+    return shared_ptr<ChessPiece>(nullptr);
 }
 
 
