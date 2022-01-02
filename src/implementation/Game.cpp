@@ -2,6 +2,7 @@
 #define GAME_CPP
 
 #include"Game.h"
+#include<stdlib.h>
 
 Game::Game(GameType gType) {
 
@@ -27,7 +28,6 @@ void Game::play() {
     int playerTurn = 0;
 
     printChessBoard();
-
     while(!endGame) {
 
         //for(int i = 0; i < 2; ++i) {
@@ -58,8 +58,9 @@ void Game::play() {
         //}
 
         //that function is totally usefull 
+        system("clear");
         printChessBoard();
-
+        
         playerTurn++;
         if(playerTurn >= 2)
             playerTurn = 0;

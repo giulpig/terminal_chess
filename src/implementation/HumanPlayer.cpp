@@ -20,6 +20,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
   bool rightInput = true;
   
   do {
+    pos = vector<string>{3};
 
     if(!rightInput)
       std::cout << "Wrong Input" <<std::endl;
