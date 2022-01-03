@@ -3,28 +3,27 @@
 
 #include "ChessBoard.h"
 bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<int,int> p) const{
+    if(!mat){
+        mat = chessBoard;
+    }
     shared_ptr<ChessPiece> k;
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
         v = black;
-        for(int i = 0; i < white.size(); i ++){
-            if(white[i]->getRole() == Role::king){
-                k = white[i];
-                break;
-            }
-        }
     }
     if(s == Side::black){
         v = white;
-        for(int i = 0; i < black.size(); i ++){
-            if(black[i]->getRole() == Role::king){
-                k = black[i];
-                break;
+    }
+    int r, c;
+    //in the case of possible moves the king might not be in the position given by the object, this isn't important as the pieces of the opposite party only have to know the disposition of the chessBoard
+    for(int i = 0; i < 8; i ++){
+        for(int j = 0; j < 8; j ++){
+            if(mat[i][j]->getRole() == Role::king && mat[i][j]->getSide() == s){
+                r = i;
+                j = j;
             }
         }
     }
-    int r = k->getRow();
-    int c = k->getCol();
     for(shared_ptr<ChessPiece> i : v){
         if(i->getRow() == p.first && i->getCol() == p.second){
             continue;

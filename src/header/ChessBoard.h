@@ -120,10 +120,10 @@ public:
     void doMove(pair<int, int>, pair<int, int>);
 
     //argument 1: which side to check if the king is in check
-    //argument 2: chessboard to use for the check
+    //argument 2: chessboard to use for the check, if not given it's the class member board
     //argument 3: needed if the board is a possible board and it signals where's the piece that was moved.
     //            used for check for possible moves
-    bool isCheck(Side, const shared_ptr<ChessPiece>[8][8], pair<int,int> p = pair<int,int>{-1, -1}) const;
+    bool isCheck(Side, const shared_ptr<ChessPiece>[8][8] = nullptr, pair<int,int> p = pair<int,int>{-1, -1}) const;
     //argument: which side to check if it has possible moves
     bool ArePossibleMoves(Side) const;
     //argument: which side to check if it's in stalemate
