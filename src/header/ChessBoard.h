@@ -17,14 +17,14 @@
 #include <memory>
 #include <utility>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 using std::list;
 using std::pair;
 using std::shared_ptr;
 using std::vector;
 using std::string;
-using std::map;
+using std::unordered_map;
 
 
 //--------------------constants----------------------
@@ -69,10 +69,9 @@ class ChessBoard
 private:
     //attributes
     shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
-    //why list?? because yes
-    vector<shared_ptr<ChessPiece>> black, white; //le liste e la matrice devono puntare agli stessi oggetti, questa è la soluzione meno peggiore che mi è venuta in mente ma si può fare di meglio
-    shared_ptr<ChessPiece> toPromote;                  //pawn to promote
+    vector<shared_ptr<ChessPiece>> black, white;        //piece lists
     shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
+    shared_ptr<ChessPiece> toPromote;   //pawn to promote
 
     //utility functions
     static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
@@ -80,11 +79,10 @@ private:
     void removeFromPieceList(const shared_ptr<ChessPiece>);
     static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
 
-    //TODO Giulio:
     //counts moves since last capture or movement of a pawn
     int finalCountDown = 0;
     //string representing the chessBoard and the number of times it has been repeated
-    map<string, int> chessBoards;
+    unordered_map<string, int> repeatedBoards;
     //true if a single configuration has been repeated three times
     bool threeRep = false;
 

@@ -3,15 +3,13 @@
 
 #include "ChessBoard.h"
 
-//TODO: modificare tutti i new a make_shared
-
 /*
     Index of contents:
         > Section 1 - Utility methods---------------
             ~ move()
             ~ doMove()              [private]
             ~ addToPieceList()      [private]
-            ~ removeFromPieceList() [private
+            ~ removeFromPieceList() [private]
             ~ nOfPieces()
             ~ notToString()
             ~ getPossiblemovements()
@@ -39,35 +37,81 @@
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
 Moves ChessBoard::move(pair<int, int> from, pair<int, int> to, Side side){
-    
-    if(chessBoard[from.first][from.second] -> getSide() != side)
+
+    //TODO: Arrocco?
+
+    Side fromSide = chessBoard[from.first][from.second]->getSide();
+    Side toSide   = chessBoard[to.first][to.second]    ->getSide();
+
+    //You can't move other player's pieces
+    if(fromSide != side)
         return Moves::NaM;
 
+    //You can't eat your own pieces
+    if(toSide == side)
+        return Moves::NaM;
+
+    //Control if move is legal
+    set<pair<int, int>> legalMoves = chessBoard[from.first][from.second]->getLegalMoves(chessBoard);
+    if(legalMoves.find(to) == legalMoves.end())
+        return Moves::NaM;
+    
+
     doMove(from, to);
+
+    if(threeRep){
+        ;////////////////PATTTTTTTTTAAAAA
+    }
+
     return Moves::movement;
 }
 
 
 //changes pointers and returns the type of move that was done
 void ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
-    //TODO: Arrocco?
-    //TODO: should we have a "eaten" container?
 
-    //SBAGLIATOOOO
-    if((from.first==0 || from.first==SIZE-1) && chessBoard[from.first][from.second]->getRole() == Role::pawn){
-        toPromote = chessBoard[from.first][from.second];
+    Role fromRole = chessBoard[from.first][from.second]->getRole();
+    Side fromSide = chessBoard[from.first][from.second]->getSide();
+
+    //pawn spiecial cases, promotion and repeated moves (you can't go back)
+    if(fromRole == Role::pawn){
+        if(from.first==0 && fromSide == Side::black || from.first==SIZE-1 && fromSide == Side::white)
+            toPromote = chessBoard[from.first][from.second];
+        
+        finalCountDown = 0;
+        repeatedBoards.clear();
     }
-    
-    //update piece information
-    chessBoard[from.first][from.second] -> setPosition(to.first, to.second);
 
-    if(chessBoard[to.first][to.second]->getRole() != Role::dummy)
-        removeFromPieceList(chessBoard[to.first][to.second]);
+    //if there's a capture, you can't go back
+    if(chessBoard[to.first][to.second]->getRole() != Role::dummy){
+        finalCountDown = 0;
+        repeatedBoards.clear();
+    }
+
+    //update piece information
+    chessBoard[from.first][from.second]->setPosition(to.first, to.second);
 
     //actually swap pointers
     chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
     chessBoard[from.first][from.second] = oneDummyToRuleThemAll;
 
+    //remove from piece list
+    if(fromRole != Role::dummy)
+        removeFromPieceList(chessBoard[to.first][to.second]);
+
+    //update repeated board history
+    string key = this->notToString();
+    if(repeatedBoards.find(key) != repeatedBoards.end())
+        repeatedBoards[key]++;
+    else
+        repeatedBoards[key] = 1;
+
+    finalCountDown++;   //repeatble moves counter
+
+
+    //PATTA if there are repeated moves
+    if(finalCountDown>=50 || repeatedBoards[key]>=3)
+        threeRep = true;
 }
 
 
@@ -363,25 +407,12 @@ bool ChessBoard::isStaleMate() const{
 */
 
 //does a promotion
-void ChessBoard::promotion(Role role){         //sould I get the position also?
-    for(int i=0; i<SIZE; i++){
-        char xcoord = -1;
-        if(chessBoard[0][i]->getRole() == Role::pawn){
-            xcoord = 0;
-        }
-        else if(chessBoard[SIZE-1][i]->getRole() == Role::pawn){
-            xcoord = SIZE-1;
-        }
-
-        if(xcoord != -1){
-            removeFromPieceList(chessBoard[xcoord][i]);
-            chessBoard[xcoord][i] = newPiece(0, i, chessBoard[xcoord][i]->getSide(), role);
-            break;
-        }
-        else{
-            ;   //eccezzzzzzzzzione
-        }
+void ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
+    
+    if(toPromote->getRole() == Role::pawn){     //maybe unecessary check
+        chessBoard[toPromote->getRow()][toPromote->getCol()] = newPiece(toPromote->getRow(), toPromote->getCol(), toPromote->getSide(), role);
     }
+
 }
 
 

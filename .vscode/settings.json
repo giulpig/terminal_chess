@@ -1,6 +1,21 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}/src",
     "files.associations": {
-        "deque": "cpp"
+        "deque": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "memory_resource": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp"
     }
 }
