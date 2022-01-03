@@ -54,7 +54,7 @@ set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     */
     //eating
     for(int i = -1; i <= 1; i += 2){
-        if(getRow() + dir >= 0 && getRow() + dir < 8 && getCol() + i >= 0 && getCol() + 1 < 8 && ((*(mat[getRow() + dir][getCol() - i])).getRole() != Role::dummy)){
+        if(getRow() + dir >= 0 && getRow() + dir < 8 && getCol() + i >= 0 && getCol() + i < 8 && ((*(mat[getRow() + dir][getCol() + i])).getRole() != Role::dummy)){
             if((*(mat[getRow() + dir][getCol() + i])).getSide() != getSide()){
                 m.insert({getRow() + dir, getCol() + i});
             }
