@@ -7,10 +7,10 @@ This is a chess game board program developed by the team *C++ mi +* = {Giulio_Co
 ## TODO list
 
 - [x] Initial steps
-  - [ ] Init Repo
-  - [ ] Main structure of the program
-  - [ ] Program headers
-  - [ ] BASIC and minimal functioning program
+  - [x] Init Repo
+  - [x] Main structure of the program
+  - [x] Program headers
+  - [x] BASIC and minimal functioning program
 - [ ] Full functioning game
   - [ ] Check check
   - [ ] ChechMate check
