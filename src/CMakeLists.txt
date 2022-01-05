@@ -76,7 +76,9 @@ add_library(PcPlayer
 add_executable(Main
     ../main.cpp
 )
-
+add_executable(Replay
+    ../Replay.cpp
+)
 target_link_libraries(ChessBoard
     Tower 
     Bishop
