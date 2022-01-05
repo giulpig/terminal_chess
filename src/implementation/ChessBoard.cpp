@@ -28,7 +28,8 @@
             ~ isCheck()
             ~ isCheckMate()
             ~ isStaleMate()
-            ~ promotion()
+            ~ promotion()   [private]
+            ~ enpassant()   [private]
 */
 
 
@@ -36,26 +37,32 @@
 
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
-Moves ChessBoard::move(pair<int, int> from, pair<int, int> to, Side side){
+Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Side side){
 
-    //TODO: Arrocco?
-
-    Side fromSide = chessBoard[from.first][from.second]->getSide();
-    Side toSide   = chessBoard[to.first][to.second]    ->getSide();
+    shared_ptr<ChessPiece>& fromPiece = chessBoard[from.first][from.second];    //reference just to not screw...
+    shared_ptr<ChessPiece>& toPiece = chessBoard[to.first][to.second];          //...internal shared_ptr counter
 
     //You can't move other player's pieces
-    if(fromSide != side)
+    if(fromPiece->getSide() != side)
         return Moves::NaM;
 
-    //You can't eat your own pieces
-    if(toSide == side)
+    //You can't eat a king
+    if(toPiece->getRole() == Role::king)
         return Moves::NaM;
 
-    //Control if move is legal
-    set<pair<int, int>> legalMoves = chessBoard[from.first][from.second]->getLegalMoves(chessBoard);
-    if(legalMoves.find(to) == legalMoves.end())
-        return Moves::NaM;
-    
+    //Check for special moves
+    switch(fromPiece->moveType(to.first, to.second, chessBoard)){
+
+        case Moves::castling:
+            
+        break;
+        case Moves::promotion:
+            toPromote = chessBoard[from.first][from.second];
+        break;
+        case Moves::enpassant:
+            enpassant(from);
+        break;
+    }
 
     doMove(from, to);
 
@@ -68,36 +75,27 @@ Moves ChessBoard::move(pair<int, int> from, pair<int, int> to, Side side){
 
 
 //changes pointers and returns the type of move that was done
-void ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
+void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
 
-    Role fromRole = chessBoard[from.first][from.second]->getRole();
-    Side fromSide = chessBoard[from.first][from.second]->getSide();
+    shared_ptr<ChessPiece>& fromPiece = chessBoard[from.first][from.second];    //reference just to not screw...
+    shared_ptr<ChessPiece>& toPiece = chessBoard[to.first][to.second];          //...internal shared_ptr counter
 
-    //pawn spiecial cases, promotion and repeated moves (you can't go back)
-    if(fromRole == Role::pawn){
-        if(from.first==0 && fromSide == Side::black || from.first==SIZE-1 && fromSide == Side::white)
-            toPromote = chessBoard[from.first][from.second];
-        
-        finalCountDown = 0;
-        repeatedBoards.clear();
-    }
-
-    //if there's a capture, you can't go back
-    if(chessBoard[to.first][to.second]->getRole() != Role::dummy){
+    ////if there's a capture or you move a pawn, you can't go back
+    if(fromPiece->getRole() == Role::pawn || toPiece->getRole() != Role::dummy){        
         finalCountDown = 0;
         repeatedBoards.clear();
     }
 
     //update piece information
-    chessBoard[from.first][from.second]->setPosition(to.first, to.second);
+    fromPiece->setPosition(to.first, to.second);
 
     //actually swap pointers
-    chessBoard[to.first][to.second] = chessBoard[from.first][from.second];
-    chessBoard[from.first][from.second] = oneDummyToRuleThemAll;
+    toPiece = fromPiece;
+    fromPiece = oneDummyToRuleThemAll;
 
     //remove from piece list
-    if(fromRole != Role::dummy)
-        removeFromPieceList(chessBoard[to.first][to.second]);
+    if(fromPiece->getRole() != Role::dummy)
+        removeFromPieceList(toPiece);
 
     //update repeated board history
     string key = this->notToString();
@@ -106,17 +104,21 @@ void ChessBoard::doMove(pair<int, int> from, pair<int, int> to){
     else
         repeatedBoards[key] = 1;
 
-    finalCountDown++;   //repeatble moves counter
+    finalCountDown++;   //unrepeatable moves counter
 
-
-    //PATTA if there are repeated moves
-    if(finalCountDown>=50 || repeatedBoards[key]>=3)
+    //PATTA if there are repeated moves (finalCountDown is checked by ...)
+    if(repeatedBoards[key]>=3)
         threeRep = true;
+
+    //apply promotion
+    if(toPromote != nullptr)        //OOOKKKKKIOOOIOIOIO
+        promotion(Role::queen);     //how do I know promotion Role???
+
 }
 
 
 //adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece){
+void ChessBoard::addToPieceList(const shared_ptr<ChessPiece>& piece){
     if(piece->getSide() == Side::black){
         black.push_back(piece);
         return;
@@ -129,20 +131,20 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece> piece){
 }
 
 
-//adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece> piece){
+//remove piece from the corresponding (black or white) list of pieces
+void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece>& piece){
 
-    if(chessBoard[piece->getRow()][piece->getCol()]->getSide() == Side::black){
+    if(piece->getSide() == Side::black){
         for(auto it=black.begin(); it!=black.end(); it++){
-            if(*it == chessBoard[piece->getRow()][piece->getCol()])
+            if(*it == piece)
                 black.erase(it);
                 return;
         }
     }
 
-   if(chessBoard[piece->getRow()][piece->getCol()]->getSide() == Side::white){
+   if(piece->getSide() == Side::white){
         for(auto it=white.begin(); it!=white.end(); it++){
-            if(*it == chessBoard[piece->getRow()][piece->getCol()])
+            if(*it == piece)
                 white.erase(it);
                 return;
         }
@@ -197,7 +199,7 @@ std::string ChessBoard::notToString() const{
         }
         res += "\n";
     }
-    res += "  ";
+    res += "\n";
     for(int i=0; i<SIZE; i++){
         res += 'A'+i;
     }
@@ -212,11 +214,11 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) cons
 
     std::set<std::pair<int, int>> ret = chessBoard[row][col]->getLegalMoves(chessBoard);
 
-    for(auto &i: ret){
+    for(auto it = ret.begin(); it!=ret.end(); it++){
         //OKKIO: not possible remove pair from ret, maybe create a new set
         //TODO: you can't put yourself in a check position
         if(false){
-            ret.erase(i);
+            ret.erase(it);
         }
     }
 
@@ -241,7 +243,7 @@ set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side
 
 
 //static method to get copy of a piece
-shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy){
+shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece>& toCopy){
     switch(toCopy->getRole()){
         case Role::king:
             return std::make_shared<King>(dynamic_cast<King&>(*toCopy));
@@ -263,13 +265,10 @@ shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece> toCopy
 
         case Role::dummy:
             return std::make_shared<Dummy>();
-
-        default:
-            ;       //Exception?
-
     }
 
-    return shared_ptr<ChessPiece>(nullptr);
+    //it's not possible to reach this
+    return nullptr;
 }
 
 
@@ -296,13 +295,10 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
 
         case Role::dummy:
             return std::make_shared<Dummy>();
-
-        default:
-            ;       //Exception?
-
     }
 
-    return shared_ptr<ChessPiece>(nullptr);
+    //it's not possible to reach this
+    return nullptr;
 }
 
 
@@ -408,13 +404,41 @@ bool ChessBoard::isStaleMate() const{
 
 //does a promotion
 void ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
-    
-    if(toPromote->getRole() == Role::pawn){     //maybe unecessary check
-        chessBoard[toPromote->getRow()][toPromote->getCol()] = newPiece(toPromote->getRow(), toPromote->getCol(), toPromote->getSide(), role);
-    }
 
+    int row = toPromote->getRow();
+    int col = toPromote->getCol();
+    Side side = toPromote->getSide();
+
+    removeFromPieceList(toPromote);
+
+    //Place new piece on chessBoard
+    chessBoard[row][col] = newPiece(row, col, side, role);
+
+    addToPieceList(chessBoard[row][col]);
+
+    toPromote = nullptr;
 }
 
+
+void ChessBoard::enpassant(const pair<int, int>& pos){
+    shared_ptr<ChessPiece>& piece = chessBoard[pos.first][pos.second];
+
+    switch(piece->getSide()){
+        case(Side::black):
+            removeFromPieceList(chessBoard[pos.first+1][pos.second]);
+            chessBoard[pos.first+1][pos.second] = oneDummyToRuleThemAll;
+        break;
+        case(Side::white):
+            removeFromPieceList(chessBoard[pos.first-1][pos.second]);
+            chessBoard[pos.first-1][pos.second] = oneDummyToRuleThemAll;
+        break;
+        default:
+            ;//exception?????????
+        break;
+    }
+
+    return;
+}
 
 
 

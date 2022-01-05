@@ -67,17 +67,12 @@ class ChessBoard
 {
 
 private:
-    //attributes
-    shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];
+    //---attributes---
+    shared_ptr<ChessPiece> chessBoard[SIZE][SIZE];      //actual board
     vector<shared_ptr<ChessPiece>> black, white;        //piece lists
-    shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
-    shared_ptr<ChessPiece> toPromote;   //pawn to promote
+    shared_ptr<ChessPiece> toPromote = nullptr;         //pawn to promote
 
-    //utility functions
-    static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
-    void addToPieceList(const shared_ptr<ChessPiece>);
-    void removeFromPieceList(const shared_ptr<ChessPiece>);
-    static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>);
+    shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
 
     //counts moves since last capture or movement of a pawn
     int finalCountDown = 0;
@@ -86,14 +81,27 @@ private:
     //true if a single configuration has been repeated three times
     bool threeRep = false;
 
+    //----utility methods----
+    static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
+    void addToPieceList(const shared_ptr<ChessPiece>&);
+    void removeFromPieceList(const shared_ptr<ChessPiece>&);
+    static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece>&);
+    void promotion(Role);
+    void enpassant(const pair<int, int>&);
+    //forced move (called from public move function)
+    void doMove(const pair<int, int>&, const pair<int, int>&);
+
+
 public:
+    //----constructors----
     ChessBoard();
     ChessBoard(const ChessBoard &); //copy
     ChessBoard(ChessBoard &&);      //move
 
+    //----operators----
     ChessBoard& operator=(const ChessBoard &); //does a copy
 
-
+    //----methods----
     //returns a string containing the board disposition
     std::string notToString() const;
 
@@ -112,10 +120,7 @@ public:
     set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side) const;
 
     //checks the move, calls doMove and returns the type of move that was done
-    Moves move(pair<int, int>, pair<int, int>, Side);
-    
-    //changes pointers and updates attributes
-    void doMove(pair<int, int>, pair<int, int>);
+    Moves move(const pair<int, int>&, const pair<int, int>&, Side);
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check, if not given it's the class member board
@@ -127,8 +132,6 @@ public:
     //argument: which side to check if it's in stalemate
     bool isStaleMate(Side) const;
 
-    //does a promotion
-    void promotion(Role);
 
 };
 #endif

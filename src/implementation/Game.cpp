@@ -9,7 +9,8 @@ Game::Game(GameType _gType) : gType{_gType}{
     //bard = ChessBoard{};
 
     // random 
-    srand(time(NULL));
+    srand(0);            //For debug, it's best to set a seed
+    
     int randomColor = rand() % 2;
     Side side1 = randomColor == 0 ? Side::white : Side::black;
     Side side2 = randomColor != 0 ? Side::white : Side::black;
