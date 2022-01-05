@@ -9,7 +9,7 @@ using std::vector;
 using std::getline;
 using std::stringstream;
 
-HumanPlayer::HumanPlayer(Side side) : Player{side} {};
+HumanPlayer::HumanPlayer(Side side) : Player{side, PlayerType::human} {};
 
 
 pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
@@ -23,12 +23,19 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
     pos = vector<string>{3};
 
     if(!rightInput)
-      std::cout << "Wrong Input" <<std::endl;
+      std::cout << "Invalid Input!" <<std::endl;
 
     getline(std::cin, line);
+
+    //check XX XX
+    if(line == "XX XX")
+      return {{-1, -1}, {-1, -1}};
+
     stringstream inStream (line);
     for(int i = 0; i < 2; i++) {
       inStream >> pos[i];
+      std::transform(pos[i].begin(), pos[i].end(), pos[i].begin(), ::toupper);
+
 
       if(!isValidInput(pos[i])) {
         rightInput = false;

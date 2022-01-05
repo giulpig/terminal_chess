@@ -7,7 +7,7 @@
 
 using std::pair;
 
-PcPlayer::PcPlayer(const ChessBoard& _board, Side _side) : board{_board}, Player{_side} {}
+PcPlayer::PcPlayer(const ChessBoard& _board, Side _side) : board{_board}, Player{_side, PlayerType::pc} {}
 
 pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
     bool findAMove = false;
@@ -30,11 +30,11 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
             //get the now position of the selected piece
             movement.first = board.getPosition(indexPlayer, side);
 
-            std::cout << "From piece" << movement.first.first << " " <<movement.first.second <<std::endl;
-            std::cout << "Possibili movimenti";
-            for(auto i : possMovement)
-                std::cout << i.first <<" " << i.second << " ";
-            std::cout <<std::endl;
+            //std::cout << "From piece" << movement.first.first << " " <<movement.first.second <<std::endl;
+            //std::cout << "Possibili movimenti";
+            //for(auto i : possMovement)
+                //std::cout << i.first <<" " << i.second << " ";
+            //std::cout <<std::endl;
             
             //select one movement from the set
             int randMov = rand() % possMovement.size();

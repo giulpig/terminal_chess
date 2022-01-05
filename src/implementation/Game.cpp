@@ -4,69 +4,103 @@
 #include"Game.h"
 #include<stdlib.h>
 
-Game::Game(GameType gType) {
+Game::Game(GameType _gType) : gType{_gType}{
 
     //bard = ChessBoard{};
 
+    // random 
+    srand(time(NULL));
+    int randomColor = rand() % 2;
+    Side side1 = randomColor == 0 ? Side::white : Side::black;
+    Side side2 = randomColor != 0 ? Side::white : Side::black;
+    
     switch(gType) {
         case GameType::HumanVsPc:
-            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(Side::white)};
+            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
             break;
         case GameType::PcVsPc:
-            players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, Side::white)};
+            players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side1)};
+
+            std::cout << "Imposta il numero massimo di mosse" <<std::endl;
+            //TODO CHECK IF IS A NUMBER
+            std::cin >> maxMovesPc;
             break;
     }
 
-    players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, Side::black)};
+    players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
 void Game::play() {
 
     bool endGame = false;
     pair<pair<int, int>, pair<int, int>> movement;
+    pair<pair<int, int>, pair<int, int>> printPair = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
     Moves moveType;
     int playerTurn = 0;
+    int countMoves = 0;
 
     printChessBoard();
-    while(!endGame) {
+    while(!endGame && countMoves <= maxMovesPc) {
 
-        //for(int i = 0; i < 2; ++i) {
+        do {
+            std::cout << "Type a movement player " << players[playerTurn] -> getSideStr() <<std::endl;
+            //maybe the PcPlayer could print the movement so seems like
+            //the human player (when it write the move remain on the screen)
 
-            do {
-                std::cout << "Type a movement player " << playerTurn << ": " <<std::endl;
-                //maybe the PcPlayer could print the movement so seems like
-                //the human player (when it write the move remain on the screen)
+            // ADD TODO keyword to give up
 
-                // ADD TODO keyword to give up
+            movement = players[playerTurn] -> getMove();
 
-                movement = players[playerTurn] -> getMove();
-                //moveType = board.move(movement.first, movement.second, );
-                moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
-
-            } while(moveType == Moves::NaM);
-    
-            switch(moveType) {
-                case Moves::promotion:
-                    break;
-                // TODO add this to the enums so we can finish the game
-                /*
-                case WIN:
-                   endGame = true; 
-                   break;
-                */
+            if( movement == printPair) {
+                printChessBoard();
+                moveType = Moves::NaM;
+                continue;
             }
-        //}
+
+            moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
+
+            if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
+                std::cout << "Illegal Movement!" << std::endl;
+            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc)
+                std::cout << reConvertPos(movement) << std::endl;
+
+        } while(moveType == Moves::NaM);
+    
+        switch(moveType) {
+            case Moves::promotion:
+                break;
+            // TODO add this to the enums so we can finish the game
+            case Moves::staleMate:
+                std::cout << "patta" <<std::endl;
+                break;
+            case Moves::checkMate:
+                std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
+                endGame = true; 
+                break;
+        }
+        
 
         //that function is totally usefull 
-        system("clear");
-        printChessBoard();
+        //system("clear");
+        //printChessBoard();
         
         playerTurn++;
         if(playerTurn >= 2)
             playerTurn = 0;
 
+        if(gType == GameType::PcVsPc){
+            countMoves++;        
+            //To be removed
+            printChessBoard();
+        }
+
         //TODO something for the log
     }
+
+    if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
+        std::cout << "Numero massimo di mosse raggiunta" <<std::endl;
+
+    std::cout << "Finito IL GAME" <<std::endl;
 }
 
 void Game::printChessBoard() {

@@ -11,10 +11,11 @@
 
 class Game {
     private:
-        //vector<Player*> players{2};
+        GameType gType;
         vector<std::unique_ptr<Player>> players{2};
         ChessBoard board;
         void printChessBoard();
+        int maxMovesPc = 1;
 
     public:
         Game(GameType);

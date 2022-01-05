@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<sstream>
+#include<algorithm>
 #include"Player.h"
 #include"Enums.h"
 

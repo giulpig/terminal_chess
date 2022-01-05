@@ -22,13 +22,21 @@ enum class Moves{
     movement,
     castling,
     promotion,
-    enpassant
+    enpassant,
+    staleMate,
+    checkMate
 };
 
 //for now add an enum for the type of play
 enum class GameType {
     HumanVsPc,
     PcVsPc
+};
+
+
+enum class PlayerType {
+    pc,
+    human
 };
 
 
