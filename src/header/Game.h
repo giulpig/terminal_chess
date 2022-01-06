@@ -26,3 +26,29 @@ class Game {
 };
 
 #endif
+
+// formato upgrade
+/*
+ * A2 A4
+ * 
+ * -promotion k B3 B7
+ * -castling
+ * -enpassant 
+ */
+
+/*
+ * Classe log 
+ *
+ *  private:
+ *      nameFile;
+ *
+ *  public:
+ *      log()
+ *      log(stirng)
+ *
+ *      stampo questo nel GAME
+ *      "Inserisci nome log (lascia vuoto per nome standard = 'logGame.txt')"
+ *
+ *      logMov(stirng);
+ *
+ */
