@@ -55,7 +55,7 @@ int main(void) {
     cout <<endl;
     */
 
-    Game game (GameType::PcVsPc);
+    Game game (GameType::HumanVsPc);
 
     game.play();
 }

@@ -68,4 +68,18 @@ bool HumanPlayer::isValidInput(string pos) const {
   return true; 
 }
 
+char HumanPlayer::getPromotion() const {  
+  string line;
+  std::cout << "Select a new Piece: \n T - Rook \n D - Queen\n P - Pawn (but you can't do this)\n C - Knight\n A - Bishop\n";
+
+  //check input
+  do {
+      getline(std::cin, line);
+  } while(line.size() != 1 && (line[0] != 'T' && line[0] != 'D' && line[0] != 'C' && line[0] != 'B'));
+
+  if(getSide() == Side::white)
+      line[0] += 32;
+
+  return side == Side::white ? line[0] + 32 : line[0];
+}
 #endif 

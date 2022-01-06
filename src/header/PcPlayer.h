@@ -4,6 +4,8 @@
 #include"Player.h"
 #include"ChessBoard.h"
 
+constexpr char possPromotion[] = {'T','D','C','A'};
+
 class PcPlayer : public Player {
     private:
       const ChessBoard& board;
@@ -12,6 +14,7 @@ class PcPlayer : public Player {
 
       PcPlayer(const ChessBoard&, Side);
       std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
+      char getPromotion() const;
 
 };
 

@@ -4,6 +4,7 @@
 #include"Game.h"
 #include<stdlib.h>
 
+
 Game::Game(GameType _gType) : gType{_gType}{
 
     //bard = ChessBoard{};
@@ -68,11 +69,16 @@ void Game::play() {
         } while(moveType == Moves::NaM);
     
         switch(moveType) {
-            case Moves::promotion:
+            case Moves::promotion: 
+
+                // maybe this not work
+                board.promotion(static_cast<Role>(players[playerTurn] -> getPromotion()));
+
                 break;
             // TODO add this to the enums so we can finish the game
             case Moves::staleMate:
                 std::cout << "patta" <<std::endl;
+                endGame = true; 
                 break;
             case Moves::checkMate:
                 std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;

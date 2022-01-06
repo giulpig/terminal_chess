@@ -2,6 +2,7 @@
 #define CHECKS_CPP
 
 #include "ChessBoard.h"
+
 bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<int,int> p) const{
     if(!mat){
         mat = chessBoard;
@@ -55,7 +56,7 @@ bool ChessBoard::isStaleMate(Side s) const{
     if(!isCheck(s, chessBoard) && !ArePossibleMoves(s)){
         return true;
     }
-    else if(threeRep || finalCountDown >= 50){
+    else if(threeRep || finalCountUp >= 50){
         return true;
     }
     else if(white.size() == 1 && black.size() == 1){
