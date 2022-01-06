@@ -202,7 +202,7 @@ std::string ChessBoard::notToString() const{
         }
         res += "\n";
     }
-    res += "\n";
+    res += "\n  ";
     for(int i=0; i<SIZE; i++){
         res += 'A'+i;
     }

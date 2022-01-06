@@ -72,7 +72,7 @@ void Game::play() {
             case Moves::promotion: 
 
                 // maybe this not work
-                board.setPromotion(players[playerTurn] -> getPromotion());
+                board.promotion(static_cast<Role>(players[playerTurn] -> getPromotion()));
 
                 break;
             // TODO add this to the enums so we can finish the game
