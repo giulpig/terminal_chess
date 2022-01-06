@@ -42,18 +42,89 @@ int main(int argc, char** argv){
     while(std::getline(in, line)){
         std::istringstream temp{line};
         std::string from, to;
-        temp >>from >>to;
-        std::pair<int,int> fromp, top;
-        if(isValidInput(from) && isValidInput(to)){
-            fromp = convertPos(from);
-            top = convertPos(to);
+        temp >>from;
+        if(from[0] == '-'){
+            if(from == "-promotion"){
+                std::string s;
+                temp >> s;
+                if(s.size() != 1){
+                std::cout << "invalid file format";
+                return 0;
+                }
+                temp>>from>>to;
+                std::pair<int,int> fromp, top;
+                if(isValidInput(from) && isValidInput(to)){
+                    fromp = convertPos(from);
+                    top = convertPos(to);
+                }
+                else{
+                    std::cout << "invalid file format";
+                    return 0;
+                }
+                chess[top.first][top.second] = s[0];
+                chess[fromp.first][fromp.second] = ' ';
+            }
+            else if(from == "-castling"){
+                temp>>from>>to;
+                std::pair<int,int> fromp, top;
+                if(isValidInput(from) && isValidInput(to)){
+                    fromp = convertPos(from);
+                    top = convertPos(to);
+                }
+                else{
+                    std::cout << "invalid file format";
+                    return 0;
+                }
+                chess[top.first][top.second] = chess[fromp.first][fromp.second];
+                chess[fromp.first][fromp.second] = ' ';
+                if(fromp.second < top.second){
+                    chess[fromp.first][fromp.second + 1] = chess[fromp.first][7];
+                    chess[fromp.first][7] = ' ';
+                }
+                else{
+                    chess[fromp.first][fromp.second - 1] = chess[fromp.first][7];
+                    chess[fromp.first][0] = ' ';
+                }
+            }
+            else if(from == "-enpassant"){
+                temp>>from>>to;
+                std::pair<int,int> fromp, top;
+                if(isValidInput(from) && isValidInput(to)){
+                    fromp = convertPos(from);
+                    top = convertPos(to);
+                }
+                else{
+                    std::cout << "invalid file format";
+                    return 0;
+                }
+                chess[top.first][top.second] = chess[fromp.first][fromp.second];
+                chess[fromp.first][fromp.second] = ' ';
+                if(fromp.second < top.second){
+                    chess[fromp.first][fromp.second + 1] = ' ';
+                }
+                else{
+                    chess[fromp.first][fromp.second - 1] = ' ';
+                }
+            }
+            else{
+                std::cout << "invalid file format";
+                return 0;
+            }
         }
         else{
-            std::cout << "invalid file format";
-            return 0;
+            temp >>to;
+            std::pair<int,int> fromp, top;
+            if(isValidInput(from) && isValidInput(to)){
+                fromp = convertPos(from);
+                top = convertPos(to);
+            }
+            else{
+                std::cout << "invalid file format";
+                return 0;
+            }
+            chess[top.first][top.second] = chess[fromp.first][fromp.second];
+            chess[fromp.first][fromp.second] = ' ';
         }
-        chess[top.first][top.second] = chess[fromp.first][fromp.second];
-        chess[fromp.first][fromp.second] = ' ';
         vec.push_back(print());
     }
 
