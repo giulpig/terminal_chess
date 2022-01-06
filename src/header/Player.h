@@ -21,7 +21,7 @@ class Player {
         std::string getSideStr() const;
         PlayerType getType() const;
         //virtual set<pair<int, int>>getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const = 0;
-        virtual char getPromotion();
+        virtual char getPromotion() const = 0;
 
 };
 

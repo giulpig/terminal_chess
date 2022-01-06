@@ -68,7 +68,7 @@ bool HumanPlayer::isValidInput(string pos) const {
   return true; 
 }
 
-char HumanPlayer::getPromotion() {  
+char HumanPlayer::getPromotion() const {  
   string line;
   std::cout << "Select a new Piece: \n T - Rook \n D - Queen\n P - Pawn (but you can't do this)\n C - Knight\n A - Bishop\n";
 

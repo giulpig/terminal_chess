@@ -53,7 +53,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
     return movement;
 }
 
-char PcPlayer::getPromotion() {
+char PcPlayer::getPromotion() const {
     char c = possPromotion[rand() % 4];
     return side == Side::white ? c + 32 : c;
 }

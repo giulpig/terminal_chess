@@ -14,7 +14,7 @@ class PcPlayer : public Player {
 
       PcPlayer(const ChessBoard&, Side);
       std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
-      char getPromotion();
+      char getPromotion() const;
 
 };
 

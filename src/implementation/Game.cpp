@@ -69,17 +69,16 @@ void Game::play() {
         } while(moveType == Moves::NaM);
     
         switch(moveType) {
-            //case Moves::promotion:
-
-                //char promot = players[playerTurn] -> getPromotion();
+            case Moves::promotion: 
 
                 // maybe this not work
-                //board.setPromotion(promot);
+                board.setPromotion(players[playerTurn] -> getPromotion());
 
-                //break;
+                break;
             // TODO add this to the enums so we can finish the game
             case Moves::staleMate:
                 std::cout << "patta" <<std::endl;
+                endGame = true; 
                 break;
             case Moves::checkMate:
                 std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
