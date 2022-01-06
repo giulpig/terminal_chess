@@ -5,15 +5,15 @@
 
 bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<int,int> p) const{
     if(!mat){
-        mat = chessBoard;
+        mat = _chessBoard;
     }
     shared_ptr<ChessPiece> k;
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
-        v = black;
+        v = _black;
     }
     if(s == Side::black){
-        v = white;
+        v = _white;
     }
     int r, c;
     //in the case of possible moves the king might not be in the position given by the object, this isn't important as the pieces of the opposite party only have to know the disposition of the chessBoard
@@ -36,13 +36,13 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
     return false;
 }
 
-bool ChessBoard::ArePossibleMoves(Side s) const{
+bool ChessBoard::ArePossibleMoves(Side s){
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
-        v = white;
+        v = _white;
     }
     else{
-        v = black;
+        v = _black;
     }
     for(shared_ptr<ChessPiece> i : v){
         if(!getPossiblemovements(i->getRow(), i->getCol()).empty()){
@@ -52,26 +52,26 @@ bool ChessBoard::ArePossibleMoves(Side s) const{
     return false;
 }
 
-bool ChessBoard::isStaleMate(Side s) const{
-    if(!isCheck(s, chessBoard) && !ArePossibleMoves(s)){
+bool ChessBoard::isStaleMate(Side s){
+    if(!isCheck(s, _chessBoard) && !ArePossibleMoves(s)){
         return true;
     }
-    else if(threeRep || finalCountUp >= 50){
+    else if(_threeRep || _finalCountUp >= 50){
         return true;
     }
-    else if(white.size() == 1 && black.size() == 1){
+    else if(_white.size() == 1 && _black.size() == 1){
         return true;
     }
-    else if(white.size() == 1 && black.size() == 2){
-        for(shared_ptr<ChessPiece> c : black){
+    else if(_white.size() == 1 && _black.size() == 2){
+        for(shared_ptr<ChessPiece> c : _black){
             Role r = c->getRole();
             if(r != Role::king && (r == Role::bishop ||  r == Role::knight)){
                 return true;
             }
         }
     }
-    else if(white.size() == 2 && black.size() == 1){
-        for(shared_ptr<ChessPiece> c : white){
+    else if(_white.size() == 2 && _black.size() == 1){
+        for(shared_ptr<ChessPiece> c : _white){
             Role r = c->getRole();
             if(r != Role::king && (r == Role::bishop ||  r == Role::knight)){
                 return true;

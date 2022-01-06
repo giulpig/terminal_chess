@@ -7,9 +7,9 @@
 
 using std::pair;
 
-PcPlayer::PcPlayer(const ChessBoard& _board, Side _side) : board{_board}, Player{_side, PlayerType::pc} {}
+PcPlayer::PcPlayer(ChessBoard& _board, Side _side) : board{_board}, Player{_side, PlayerType::pc} {}
 
-pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() const {
+pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() {
     bool findAMove = false;
     pair<pair<int, int>, pair<int, int>> movement;
 

@@ -22,6 +22,7 @@ enum class Moves{
     movement,
     castling,
     promotion,
+    doublePawn,
     enpassant,
     staleMate,
     checkMate

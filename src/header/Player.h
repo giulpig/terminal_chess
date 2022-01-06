@@ -16,7 +16,7 @@ class Player {
     public:
 
         Player(Side, PlayerType);  
-        virtual std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const = 0;
+        virtual std::pair<std::pair<int, int>, std::pair<int, int>> getMove() = 0;
         Side getSide() const;
         std::string getSideStr() const;
         PlayerType getType() const;

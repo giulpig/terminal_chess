@@ -24,6 +24,10 @@ int ChessPiece::getCol() const{
     return location.second;
 }
 
+pair<int, int> ChessPiece::getPosition() const{
+    return {location.first, location.second};
+}
+
 void ChessPiece::setPosition(int _row, int _col){
     location.first = _row;
     location.second = _col;

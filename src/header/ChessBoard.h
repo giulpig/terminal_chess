@@ -78,12 +78,16 @@ private:
 
     //----utility methods----
     static shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role);
+    static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece> &);
+    static Side otherSide(Side);
     void addToPieceList(const shared_ptr<ChessPiece> &);
     void removeFromPieceList(const shared_ptr<ChessPiece> &);
-    static shared_ptr<ChessPiece> copyPiece(const shared_ptr<ChessPiece> &);
-    void doEnpassant(const pair<int, int> &);
-    //forced move (called from public move function)
+    vector<shared_ptr<ChessPiece>>& getPieceList(Side);
+    //forced moves (called from public move function)
     void doMove(const pair<int, int> &, const pair<int, int> &);
+    void doEnpassant(const pair<int, int> &);
+    void swapPieces(const pair<int, int> &, const pair<int, int> &);
+
 
 public:
     //----constructors----
@@ -106,11 +110,14 @@ public:
 
     //returns possible movements from a specific chesspiece,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>> getPossiblemovements(int row, int col) const;
+    set<std::pair<int, int>> getPossiblemovements(int row, int col);
 
     //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side) const;
+    set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side);
+
+    //checks if a legal move is actually possible to do
+    bool isPossibleMove(const pair<int, int> &, const pair<int, int> &, Side);
 
     //checks the move, calls doMove and returns the type of move that was done
     Moves move(const pair<int, int> &, const pair<int, int> &, Side);
@@ -124,8 +131,8 @@ public:
     //            used for check for possible moves
     bool isCheck(Side, const shared_ptr<ChessPiece>[8][8] = nullptr, pair<int, int> p = pair<int, int>{-1, -1}) const;
     //argument: which side to check if it has possible moves
-    bool ArePossibleMoves(Side) const;
+    bool ArePossibleMoves(Side);
     //argument: which side to check if it's in stalemate
-    bool isStaleMate(Side) const;
+    bool isStaleMate(Side);
 };
 #endif

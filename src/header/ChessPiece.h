@@ -33,6 +33,7 @@ public:
     Role getRole() const;
     bool isMoved() const;
     Side getSide() const;
+    pair<int, int> getPosition() const;
 
     //moves without validating the move
     virtual void setPosition(int _row, int _col) = 0;

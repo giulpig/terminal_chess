@@ -12,7 +12,7 @@ using std::stringstream;
 HumanPlayer::HumanPlayer(Side side) : Player{side, PlayerType::human} {};
 
 
-pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() const {
+pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
 
   pair<pair<int, int>, pair<int, int>> movement;
   string line;

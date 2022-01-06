@@ -14,7 +14,7 @@ class HumanPlayer : public Player {
         
     public:
       HumanPlayer(Side);
-      std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
+      std::pair<std::pair<int, int>, std::pair<int, int>> getMove() override;
       char getPromotion() const;
 
 };

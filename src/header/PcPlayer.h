@@ -8,12 +8,12 @@ constexpr char possPromotion[] = {'T','D','C','A'};
 
 class PcPlayer : public Player {
     private:
-      const ChessBoard& board;
+      ChessBoard& board;
 
     public:
 
-      PcPlayer(const ChessBoard&, Side);
-      std::pair<std::pair<int, int>, std::pair<int, int>> getMove() const override;
+      PcPlayer(ChessBoard&, Side);
+      std::pair<std::pair<int, int>, std::pair<int, int>> getMove() override;
       char getPromotion() const;
 
 };

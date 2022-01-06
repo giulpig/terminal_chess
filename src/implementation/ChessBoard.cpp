@@ -10,13 +10,16 @@
             ~ doMove()              [private]
             ~ addToPieceList()      [private]
             ~ removeFromPieceList() [private]
+            ~ getPieceList()        [private]
             ~ nOfPieces()
             ~ notToString()
             ~ getPossiblemovements()
             ~ getPossiblemovementsByIndex()
+            ~ isPossibleMove()
             ~ getPosition()
-            ~ copyPiece()   [static]
-            ~ newPiece()    [static]
+            ~ copyPiece()      [static]
+            ~ newPiece()       [static]
+            ~ otherSide()      [static]
 
         > Section 2 - Constructors & operators------
             ~ ChessBoard() [constructor]
@@ -29,7 +32,8 @@
             ~ isCheckMate()
             ~ isStaleMate()
             ~ promotion()
-            ~ doEnpassant()   [private]
+            ~ doEnpassant()    [private]
+            ~ swapPieces()     [private]
 */
 
 
@@ -42,25 +46,25 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
 
-    //You can't move other player's pieces
-    if(fromPiece->getSide() != side)
+    if(!isPossibleMove(from, to, fromPiece->getSide())){
         return Moves::NaM;
-
-    //You can't eat a king
-    if(toPiece->getRole() == Role::king)
-        return Moves::NaM;
+    }
 
     //Check for special moves
     switch(fromPiece->moveType(to.first, to.second, _chessBoard)){
 
         case Moves::castling:
-            
-        break;
+            swapPieces(from, to);
+            fromPiece->setPosition(to.first, to.second);
+            toPiece->setPosition(from.first, from.second);
+            return Moves::castling;
+
         case Moves::promotion:
             _toPromote = _chessBoard[from.first][from.second];
         break;
+
         case Moves::enpassant:
-            doEnpassant(from);
+            doEnpassant(from);  //doEmpassant just removes the other pawn, the move is done in doMove
         break;
     }
 
@@ -68,14 +72,44 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     doMove(from, to);
 
     //staleMate if board is repeated 3 times
-    if(_threeRep)
+    if(isStaleMate(toPiece->getSide()))
         return Moves::staleMate;
 
     if(_toPromote != nullptr)
         return Moves::promotion;
-    
-    if(false)
-        ;       //checkMate
+
+
+    //checkMate check, do-undo strategy for all pieces and all moves
+    Side oppositeSide = otherSide(toPiece->getSide());
+    vector<shared_ptr<ChessPiece>>& pieceList = getPieceList(oppositeSide);
+
+    if(isCheck(oppositeSide, _chessBoard, from)){
+        for(const auto &piece: pieceList){
+            set<pair<int, int>> movements = piece->getLegalMoves(_chessBoard);
+            pair<int, int> pos = piece->getPosition();
+
+            for(const auto &movement: movements){
+                shared_ptr<ChessPiece>& toPiece = _chessBoard[movement.first][movement.second];
+
+                swapPieces(piece->getPosition(), movement);     //move
+                piece->setPosition(movement.first, movement.second);
+                toPiece->setPosition(pos.first, pos.second);
+
+                bool goodMove = false;
+
+                if(!isCheck(oppositeSide, _chessBoard, to))     //IDK WHAT GIO MEANS FOR PIECE THAT WAS MOVED!!!
+                    goodMove = true;
+
+                swapPieces(movement, piece->getPosition());     //go back
+                toPiece->setPosition(movement.first, movement.second);
+                piece->setPosition(pos.first, pos.second);
+
+                if(goodMove)
+                    return Moves::movement;
+            }
+        }
+        return Moves::checkMate;
+    }
 
     return Moves::movement;
 }
@@ -122,14 +156,7 @@ void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
 
 //adds piece at the end of the corresponding (black or white) list of pieces
 void ChessBoard::addToPieceList(const shared_ptr<ChessPiece>& piece){
-    if(piece->getSide() == Side::black){
-        _black.push_back(piece);
-        return;
-    }
-
-    if(piece->getSide() == Side::white)
-        _white.push_back(piece);
-    
+    getPieceList(piece->getSide()).push_back(piece);
     return;
 }
 
@@ -137,33 +164,34 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece>& piece){
 //remove piece from the corresponding (black or white) list of pieces
 void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece>& piece){
 
-    if(piece->getSide() == Side::black){
-        for(auto it=_black.begin(); it!=_black.end(); it++){
-            if(*it == piece)
-                _black.erase(it);
-                return;
-        }
-    }
-
-   if(piece->getSide() == Side::white){
-        for(auto it=_white.begin(); it!=_white.end(); it++){
-            if(*it == piece)
-                _white.erase(it);
-                return;
+    vector<shared_ptr<ChessPiece>> pieceList = getPieceList(piece->getSide());
+    for(auto it=pieceList.begin(); it!=pieceList.end(); it++){
+        if(*it == piece){
+            pieceList.erase(it);
+            return;
         }
     }
 }
 
 
-//returns the number of piece on the chessboard, -1 if re
-int ChessBoard::nOfPieces(Side side) const{
-    if(side == Side::black)
-        return _black.size();
+vector<shared_ptr<ChessPiece>>& ChessBoard::getPieceList(Side s){
+    if(s == Side::black)
+        return _black;
+    if(s == Side::white)
+        return _white;
 
-    else if(side == Side::white)
+    //eccezione
+}
+
+
+//returns the number of piece on the chessboard, -1 if re
+int ChessBoard::nOfPieces(Side s) const{
+    if(s == Side::black)
+        return _black.size();
+    if(s == Side::white)
         return _white.size();
     
-    return -1;
+    //eccezione
 }
 
 
@@ -186,6 +214,40 @@ pair<int, int> ChessBoard::getPosition(int index, Side side) const{
     }
     return {-1, -1};
 }
+
+
+//checks if a legal move is actually possible to do
+bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int> &to, Side s){
+    
+    const shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
+    const shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
+
+    //You can't move other player's pieces
+    if(fromPiece->getSide() != s)
+        return false;
+
+    //You can't eat a king
+    if(toPiece->getRole() == Role::king)
+        return false;
+
+    //you can't check yourself, do-undo strategy
+    swapPieces(from, to);
+    fromPiece->setPosition(to.first, to.second);
+    toPiece->setPosition(from.first, from.second);
+
+    bool goodMove = true;
+
+    if(isCheck(fromPiece->getSide(), _chessBoard, to)){
+        goodMove = false;
+    }
+
+    swapPieces(to, from);                           //go back
+    toPiece->setPosition(to.first, to.second);
+    fromPiece->setPosition(from.first, from.second);
+
+    return goodMove;
+}
+
 
 
 //returns a string containing the board disposition
@@ -213,16 +275,15 @@ std::string ChessBoard::notToString() const{
 
 //returns possible movements from a specific chesspiece,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) const{
+set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
 
-    std::set<std::pair<int, int>> ret = _chessBoard[row][col]->getLegalMoves(_chessBoard);
+    shared_ptr<ChessPiece> piece = _chessBoard[row][col];
+
+    std::set<std::pair<int, int>> ret = piece->getLegalMoves(_chessBoard);
 
     for(auto it = ret.begin(); it!=ret.end(); it++){
-        //OKKIO: not possible remove pair from ret, maybe create a new set
-        //TODO: you can't put yourself in a check position
-        if(false){
+        if(!isPossibleMove({row,col}, *it, piece->getSide()))
             ret.erase(it);
-        }
     }
 
     return ret;
@@ -231,7 +292,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col) cons
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side) const{
+set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side){
     switch(side){
         case Side::black:
             return getPossiblemovements(_black[index]->getRow(), _black[index]->getCol());
@@ -302,6 +363,15 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
 
     //it's not possible to reach this
     return nullptr;
+}
+
+
+Side ChessBoard::otherSide(Side s){
+    if(s==Side::white)
+        return Side::black;
+    if(s==Side::black)
+        return Side::white;
+    return Side::noSide;
 }
 
 
@@ -433,14 +503,17 @@ void ChessBoard::doEnpassant(const pair<int, int>& pos){
     shared_ptr<ChessPiece>& piece = _chessBoard[pos.first][pos.second];
 
     switch(piece->getSide()){
+
         case(Side::black):
             removeFromPieceList(_chessBoard[pos.first+1][pos.second]);
             _chessBoard[pos.first+1][pos.second] = _oneDummyToRuleThemAll;
         break;
+
         case(Side::white):
             removeFromPieceList(_chessBoard[pos.first-1][pos.second]);
             _chessBoard[pos.first-1][pos.second] = _oneDummyToRuleThemAll;
         break;
+
         default:
             ;//exception?????????
         break;
@@ -450,9 +523,15 @@ void ChessBoard::doEnpassant(const pair<int, int>& pos){
 }
 
 
+//forced castling, just swap pointers
+void ChessBoard::swapPieces(const pair<int, int>& from, const pair<int,int>& to){
+    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];
+    shared_ptr<ChessPiece>& toPiece   = _chessBoard[to.first][to.second];
 
+    std::swap(fromPiece, toPiece);
 
-
+    return;
+}
 
 
 #endif
