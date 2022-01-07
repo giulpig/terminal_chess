@@ -230,6 +230,11 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     if(toPiece->getRole() == Role::king)
         return false;
 
+    //Check for legal moves
+    set<pair<int,int>> legalMoves = fromPiece->getLegalMoves(_chessBoard);
+    if(legalMoves.find(to) == legalMoves.end())
+        return false;
+
     //you can't check yourself, do-undo strategy
     swapPieces(from, to);
     fromPiece->setPosition(to.first, to.second);
