@@ -8,12 +8,16 @@
 #include"HumanPlayer.h"
 #include"PcPlayer.h"
 #include"ChessBoard.h"
+#include"Log.h"
+
+ std::string reConvertPos(std::pair<std::pair<int, int>, std::pair<int, int>>);
 
 class Game {
     private:
         GameType gType;
         vector<std::unique_ptr<Player>> players{2};
         ChessBoard board;
+        Log log;
         void printChessBoard();
         int maxMovesPc = 1;
 

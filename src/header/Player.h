@@ -25,6 +25,5 @@ class Player {
 
 };
 
-std::string reConvertPos(std::pair<std::pair<int, int>, std::pair<int, int>>);
 
 #endif 

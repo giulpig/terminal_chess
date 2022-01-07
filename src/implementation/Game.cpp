@@ -7,7 +7,14 @@
 
 Game::Game(GameType _gType) : gType{_gType}{
 
-    //bard = ChessBoard{};
+    //maybe this could go in a separate function
+
+    std::string nameF;
+    std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
+    std::cin >> nameF;
+
+    log = nameF.empty() ? Log() : Log(nameF);
+
 
     // random 
     srand(0);            //For debug, it's best to set a seed
@@ -40,6 +47,7 @@ void Game::play() {
     Moves moveType;
     int playerTurn = 0;
     int countMoves = 0;
+    char promotioChar;
 
     printChessBoard();
     while(!endGame && countMoves <= maxMovesPc) {
@@ -72,7 +80,8 @@ void Game::play() {
             case Moves::promotion: 
 
                 // maybe this not work
-                board.promotion(static_cast<Role>(players[playerTurn] -> getPromotion()));
+                promotioChar = players[playerTurn] -> getPromotion();
+                board.promotion(static_cast<Role>(promotioChar));
 
                 break;
             // TODO add this to the enums so we can finish the game
@@ -86,11 +95,6 @@ void Game::play() {
                 break;
         }
         
-
-        //that function is totally usefull 
-        //system("clear");
-        //printChessBoard();
-        
         playerTurn++;
         if(playerTurn >= 2)
             playerTurn = 0;
@@ -102,6 +106,21 @@ void Game::play() {
         }
 
         //TODO something for the log
+        // how can I manage better the promotion char?
+
+        //I have two possibilites
+
+        // with default values in the method
+        /*
+        if(moveType == Moves::promotion)
+            log.logMove(moveType, movement, promotioChar);
+        else 
+            log.logMove(moveType, movement);
+        */
+
+        //or this one where a pass all the time the promotionChar even if it is usefull
+        //bit alot cleaner
+        log.logMove(moveType, movement, promotioChar);
     }
 
     if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
@@ -116,6 +135,19 @@ void Game::printChessBoard() {
     std::cout << std::endl;
     std::cout << board.notToString() << std::endl;
     std::cout << std::endl;
+}
+
+ std::string reConvertPos(pair<pair<int, int>, pair<int, int>> mov) {
+
+    string st;
+    st += (char) mov.first.second + 65;
+    st += (char) mov.first.first + 48;
+    st += ' ';
+    st += (char) mov.second.second + 65;
+    st += (char) mov.second.first + 48;
+
+    return st;
+
 }
 
 #endif

@@ -31,17 +31,6 @@ string Player::getSideStr() const {
     return side == Side::white ? "white " : "black";
 }
 
-std::string reConvertPos(pair<pair<int, int>, pair<int, int>> mov) {
 
-    string st;
-    st += (char) mov.first.second + 65;
-    st += (char) mov.first.first + 48;
-    st += ' ';
-    st += (char) mov.second.second + 65;
-    st += (char) mov.second.first + 48;
-
-    return st;
-
-}
 
 #endif 

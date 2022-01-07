@@ -74,6 +74,11 @@ add_library(PcPlayer
     header/PcPlayer.h
 )
 
+add_library(Log
+    implementation/Log.cpp
+    header/Log.h
+)
+
 add_executable(Main
     ../main.cpp
 )
@@ -96,6 +101,7 @@ target_link_libraries(Game
     Player
     HumanPlayer
     PcPlayer
+    Log
 )
 
 target_link_libraries(HumanPlayer

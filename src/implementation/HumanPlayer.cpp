@@ -62,7 +62,7 @@ bool HumanPlayer::isValidInput(string pos) const {
   if(pos.size() != 2)
     return false;
 
-  if(pos[0] < 65 || pos[0] > 73 || pos[1] < 48 || pos[1]> 56)
+  if(pos[0] < 65 || pos[0] > 73 || pos[1] < 49 || pos[1]> 56)
     return false;
 
   return true; 
