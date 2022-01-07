@@ -5,7 +5,7 @@
 #include<utility>
 #include"Enums.h"
 //TODO: Solve this, where put the reconverPos function
-#include"Game.h"
+#include"ManagePosition.h"
 
 class Log {
 
@@ -24,9 +24,10 @@ class Log {
         * This constuctor create the file,
         * if the file already exist add a sequence integer to the end
         */
-        Log(std::string _nameFile = "gameLog");
+        Log();
+        Log(std::string _nameFile);
         //void logMove(Moves, std::pair<char, int>, std::pair<char, int>, char);
-        void logMove(Moves, std::pair<pair<int, int>, pair<int, int>>, char);
+        void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, char);
 };
 
 

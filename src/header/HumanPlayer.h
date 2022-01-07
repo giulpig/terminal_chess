@@ -10,7 +10,6 @@
 class HumanPlayer : public Player {
 
     private:
-        bool isValidInput(std::string) const;
         
     public:
       HumanPlayer(Side);

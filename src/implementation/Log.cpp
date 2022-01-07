@@ -5,8 +5,11 @@
 
 using std::string;
 using std::pair;
+using namespace mPos;
 
-Log::Log(string _nameFile = "gameLog") {
+Log::Log() {}
+
+Log::Log(string _nameFile) {
     nameFile = getName(_nameFile);
     fileStream = std::ofstream (nameFile);
 }
@@ -18,7 +21,7 @@ bool Log::exist(string fname) const {
 }
 
 string Log::getName(string str) {
-    bool found = false;
+    
     int cp = 0;   
     string cmpFileName;
 
@@ -30,13 +33,16 @@ string Log::getName(string str) {
     return cmpFileName;
 }
 
-std::string Log::createFormatName(string& name, int cp) {
+string Log::createFormatName(string& name, int cp) {
+
+    string newName = name;
 
     if(cp != 0) 
-        name += (char)(cp + 48); // set a offset to correclty convert the integer to the relative character
+        newName += (char)(cp + 48); // set a offset to correclty convert the integer to the relative character
 
-    name += ".txt";
+    newName += ".txt";
 
+    return newName;
 }
 
 string Log::getStrMov(Moves mov, char up) const {
@@ -73,7 +79,7 @@ string Log::getStrMov(Moves mov, char up) const {
 //void Log::logMove(Moves mov, std::pair<char, int> from, std::pair<char, int> to, char prom = '0') {
 void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement, char prom) {
     
-    fileStream << getStrMov(mov, prom) << reConverPos(movement);
+    fileStream << getStrMov(mov, prom) << reConvertPos(movement) <<std::endl;
 
 }
 

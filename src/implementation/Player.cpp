@@ -8,16 +8,6 @@ using std::string;
 
 Player::Player(Side _side, PlayerType _plType) : side{_side}, plType{_plType} {}
 
-pair<int, int> Player::convertPos(std::string toConvert) const {
-
-    pair<int, int> convertedPos;
-    convertedPos.second = toConvert[0] - 65;
-    convertedPos.first = 8 - (toConvert[1] - 48);
-
-    return convertedPos;
-
-}
-
 Side Player::getSide() const {
     return side;
 }

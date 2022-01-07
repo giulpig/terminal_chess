@@ -9,6 +9,8 @@ using std::vector;
 using std::getline;
 using std::stringstream;
 
+using namespace mPos;
+
 HumanPlayer::HumanPlayer(Side side) : Player{side, PlayerType::human} {};
 
 
@@ -58,15 +60,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
   return movement;
 }
 
-bool HumanPlayer::isValidInput(string pos) const {
-  if(pos.size() != 2)
-    return false;
 
-  if(pos[0] < 65 || pos[0] > 73 || pos[1] < 49 || pos[1]> 56)
-    return false;
-
-  return true; 
-}
 
 char HumanPlayer::getPromotion() const {  
   string line;

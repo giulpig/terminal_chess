@@ -4,17 +4,17 @@
 #include"Game.h"
 #include<stdlib.h>
 
+using namespace mPos;
 
-Game::Game(GameType _gType) : gType{_gType}{
+Game::Game(GameType _gType) : gType{_gType} {
 
     //maybe this could go in a separate function
 
     std::string nameF;
     std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
-    std::cin >> nameF;
+    std::getline(std::cin, nameF);
 
-    log = nameF.empty() ? Log() : Log(nameF);
-
+    log = nameF.empty() ? Log("gameLog") : Log(nameF);
 
     // random 
     srand(0);            //For debug, it's best to set a seed
@@ -44,6 +44,7 @@ void Game::play() {
     bool endGame = false;
     pair<pair<int, int>, pair<int, int>> movement;
     pair<pair<int, int>, pair<int, int>> printPair = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
+    pair<pair<int, int>, pair<int, int>> endGamePair = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
     Moves moveType;
     int playerTurn = 0;
     int countMoves = 0;
@@ -61,10 +62,17 @@ void Game::play() {
 
             movement = players[playerTurn] -> getMove();
 
+            std::cout << movement.first.first << " " <<movement.first.second << std::endl;
+            std::cout << movement.second.first << " " <<movement.second.second << std::endl;
+
             if( movement == printPair) {
                 printChessBoard();
                 moveType = Moves::NaM;
                 continue;
+            } else if(movement == endGamePair) {
+                moveType = Moves::NaM;
+                endGame = true; 
+                break;
             }
 
             moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
@@ -135,19 +143,6 @@ void Game::printChessBoard() {
     std::cout << std::endl;
     std::cout << board.notToString() << std::endl;
     std::cout << std::endl;
-}
-
- std::string reConvertPos(pair<pair<int, int>, pair<int, int>> mov) {
-
-    string st;
-    st += (char) mov.first.second + 65;
-    st += (char) mov.first.first + 48;
-    st += ' ';
-    st += (char) mov.second.second + 65;
-    st += (char) mov.second.first + 48;
-
-    return st;
-
 }
 
 #endif

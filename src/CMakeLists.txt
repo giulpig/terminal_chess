@@ -52,6 +52,11 @@ add_library(ChessBoard
     header/ChessBoard.h
 )
 
+add_library(ManagePosition
+    implementation/ManagePosition.cpp
+    header/ManagePosition.h
+)
+
 # Game libraries
 add_library(Game
     header/Enums.h
@@ -102,6 +107,11 @@ target_link_libraries(Game
     HumanPlayer
     PcPlayer
     Log
+    ManagePosition
+)
+
+target_link_libraries(Player
+    ManagePosition
 )
 
 target_link_libraries(HumanPlayer
@@ -115,4 +125,8 @@ target_link_libraries(PcPlayer
 target_link_libraries(Main
     ChessBoard
     Game
+)
+
+target_link_libraries(Replay
+    ManagePosition
 )

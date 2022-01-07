@@ -10,7 +10,6 @@
 #include"ChessBoard.h"
 #include"Log.h"
 
- std::string reConvertPos(std::pair<std::pair<int, int>, std::pair<int, int>>);
 
 class Game {
     private:
@@ -26,7 +25,7 @@ class Game {
 
         // do not know if I have to return something for the main
         void play();
-
+ 
 };
 
 #endif

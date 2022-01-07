@@ -5,13 +5,13 @@
 #include<vector>
 #include<string>
 #include"Enums.h"
+#include"ManagePosition.h"
 
 class Player {
 
     protected:
         Side side;
         PlayerType plType;
-        std::pair<int, int> convertPos(std::string) const;
         
     public:
 
