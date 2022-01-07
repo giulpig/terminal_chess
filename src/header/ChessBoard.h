@@ -131,7 +131,7 @@ public:
     //            used for check for possible moves
     bool isCheck(Side, const shared_ptr<ChessPiece>[8][8] = nullptr, pair<int, int> p = pair<int, int>{-1, -1}) const;
     //argument: which side to check if it has possible moves
-    bool ArePossibleMoves(Side);
+    bool arePossibleMoves(Side);
     //argument: which side to check if it's in stalemate
     bool isStaleMate(Side);
 };

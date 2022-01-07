@@ -36,7 +36,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
     return false;
 }
 
-bool ChessBoard::ArePossibleMoves(Side s){
+bool ChessBoard::arePossibleMoves(Side s){
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
         v = _white;
@@ -53,7 +53,7 @@ bool ChessBoard::ArePossibleMoves(Side s){
 }
 
 bool ChessBoard::isStaleMate(Side s){
-    if(!isCheck(s, _chessBoard) && !ArePossibleMoves(s)){
+    if(!isCheck(s, _chessBoard) && !arePossibleMoves(s)){
         return true;
     }
     else if(_threeRep || _finalCountUp >= 50){
