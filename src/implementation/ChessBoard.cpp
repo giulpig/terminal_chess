@@ -28,9 +28,6 @@
             ~ operator=()
 
         > Section 3 - Special moves & situations----
-            ~ isCheck()
-            ~ isCheckMate()
-            ~ isStaleMate()
             ~ promotion()
             ~ doEnpassant()    [private]
             ~ swapPieces()     [private]
@@ -45,18 +42,22 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 
     shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
-
-    if(!isPossibleMove(from, to, fromPiece->getSide())){
+    Side oppositeSide = otherSide(fromPiece->getSide());
+    
+    if(!isPossibleMove(from, to, side)){
         return Moves::NaM;
     }
 
     //Check for special moves
     switch(fromPiece->moveType(to.first, to.second, _chessBoard)){
 
-        case Moves::castling:
+        case Moves::castling:       //TODO: check for check
             swapPieces(from, to);
             fromPiece->setPosition(to.first, to.second);
             toPiece->setPosition(from.first, from.second);
+
+            //TODO: check for checkmate
+
             return Moves::castling;
 
         case Moves::promotion:
@@ -72,44 +73,16 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     doMove(from, to);
 
     //staleMate if board is repeated 3 times
-    if(isStaleMate(toPiece->getSide()))
+    if(isStaleMate(side))
         return Moves::staleMate;
+
+    //checkMate check, do-undo strategy for all pieces and all moves
+    if(isCheck(oppositeSide, _chessBoard, from) && arePossibleMoves(oppositeSide)){
+        return Moves::checkMate;
+    }
 
     if(_toPromote != nullptr)
         return Moves::promotion;
-
-
-    //checkMate check, do-undo strategy for all pieces and all moves
-    Side oppositeSide = otherSide(toPiece->getSide());
-    vector<shared_ptr<ChessPiece>>& pieceList = getPieceList(oppositeSide);
-
-    if(isCheck(oppositeSide, _chessBoard, from)){
-        for(const auto &piece: pieceList){
-            set<pair<int, int>> movements = piece->getLegalMoves(_chessBoard);
-            pair<int, int> pos = piece->getPosition();
-
-            for(const auto &movement: movements){
-                shared_ptr<ChessPiece>& toPiece = _chessBoard[movement.first][movement.second];
-
-                swapPieces(piece->getPosition(), movement);     //move
-                piece->setPosition(movement.first, movement.second);
-                toPiece->setPosition(pos.first, pos.second);
-
-                bool goodMove = false;
-
-                if(!isCheck(oppositeSide, _chessBoard, to))     //IDK WHAT GIO MEANS FOR PIECE THAT WAS MOVED!!!
-                    goodMove = true;
-
-                swapPieces(movement, piece->getPosition());     //go back
-                toPiece->setPosition(movement.first, movement.second);
-                piece->setPosition(pos.first, pos.second);
-
-                if(goodMove)
-                    return Moves::movement;
-            }
-        }
-        return Moves::checkMate;
-    }
 
     return Moves::movement;
 }
@@ -236,19 +209,12 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
         return false;
 
     //you can't check yourself, do-undo strategy
-    swapPieces(from, to);
-    fromPiece->setPosition(to.first, to.second);
-    toPiece->setPosition(from.first, from.second);
-
     bool goodMove = true;
-
+    swapPieces(from, to);
     if(isCheck(fromPiece->getSide(), _chessBoard, to)){
         goodMove = false;
     }
-
     swapPieces(to, from);                           //go back
-    toPiece->setPosition(to.first, to.second);
-    fromPiece->setPosition(from.first, from.second);
 
     return goodMove;
 }
@@ -465,21 +431,6 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
 /*--------------------------- Section 3 - Special moves & situations --------------------------------------*/
 
 
-/*
-TODO
-bool ChessBoard::isCheck() const{
-
-}
-
-bool ChessBoard::isCheckMate() const{
-
-}
-
-bool ChessBoard::isStaleMate() const{
-
-}
-*/
-
 //does a promotion
 void ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
 
@@ -501,6 +452,8 @@ void ChessBoard::promotion(Role role){          //I can get info from toPromote 
     addToPieceList(_chessBoard[row][col]);
 
     _toPromote = nullptr;
+
+    //TODO: check for checkmate
 }
 
 
