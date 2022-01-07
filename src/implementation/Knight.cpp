@@ -15,8 +15,8 @@ set<pair<int, int>> Knight::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]
         for(int j = -2; j <= 2; j ++){
             if(i != 0 && j != 0){
                 if(((i == -2 || i == 2) && (j == - 1 || j == 1)) || ((j == -2 || j == 2) && (i == - 1 || i == 1))){
-                    if(getRow() + i < 8 && getRow() + i >= 0 && getCol() + j < 8 && getCol() + j >= 0){
-                        if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide() || (*(mat[getRow() + i][getCol() + j])).getRole() == Role::dummy){
+                    if(checkBoundaries(getRow() + i, getCol() + j)){
+                        if(isOppositeSide(mat, getRow() + i, getCol() + j) || isDummy(mat, getRow() + i, getCol() + j)){
                             s.insert({getRow() + i, getCol() + j});
                         }
                     }

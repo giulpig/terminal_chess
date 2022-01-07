@@ -9,8 +9,9 @@
 #include <chrono>
 #include <thread>
 
+#include "ManagePosition.h"
 #include "Enums.h"
-
+using namespace mPos;
 /*
 the format for the log is:
     the movement is represented by two coordinates(in letter(upper-case)-number format)
@@ -32,10 +33,8 @@ char chess[8][8] = {
     {'t', 'c', 'a', 'd', 'r', 'a', 'c', 't'}
 };
 
-
-std::pair<int, int> convertPos(std::string s);
-bool isValidInput(std::string pos);
 std::string print();
+void Clear();
 
 class NoFileGiven{};
 class WrongFormat{};
@@ -163,29 +162,9 @@ int main(int argc, char** argv){
             std::cout << vec[i];
             std::chrono::milliseconds timespan(5000);
             std::this_thread::sleep_for(timespan);
-            std::system("CLS");
+            Clear();
         } 
     }
-}
-
-std::pair<int, int> convertPos(std::string toConvert){
-
-    std::pair<int, int> convertedPos;
-    convertedPos.second = toConvert[0] - 65;
-    convertedPos.first = 8 - (toConvert[1] - 48);
-
-    return convertedPos;
-
-}
-
-bool isValidInput(std::string pos){
-  if(pos.size() != 2)
-    return false;
-
-  if(pos[0] < 65 || pos[0] > 73 || pos[1] < 49 || pos[1]> 56)
-    return false;
-
-  return true; 
 }
 
 std::string print(){
@@ -200,6 +179,15 @@ std::string print(){
     }
     ret += "\n  ABCDEFGH\n";
     return ret;
+}
+void Clear()
+{
+#if  defined(__linux__) || defined(__gnu_linux__) || defined (__LINUX__)
+    //system("clear");
+    std::cout<< u8"\033[2J\033[1;1H"; //using ANSI Escape Sequences 
+#elif defined _WIN32
+    std::system("cls");
+#endif
 }
 
 #endif

@@ -15,11 +15,11 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     //around the king
     for(int i = -1; i <= 1; i ++){
         for(int j = -1; j <= 1; j ++){
-            if((j == 0 && i == 0) || getCol() + j < 0 || getCol() + j >= 8 || getRow() + i < 0 || getRow() + i >= 8){
+            if((j == 0 && i == 0) || !checkBoundaries(getRow() + i, getCol() + j)){
                 continue;
             }
             else{
-                if((*(mat[getRow() + i][getCol() + j])).getSide() != getSide() || (*(mat[getRow() + i][getCol() + j])).getRole() == Role::dummy){
+                if(isOppositeSide(mat, getRow() + i, getCol() + j) || isDummy(mat, getRow() + i, getCol() + j)){
                     s.insert({getRow() + i, getCol() + j});
                 }
             }
@@ -27,10 +27,10 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     //left castling
     if(!isMoved()){
-        if(!(*(mat[getRow()][0])).isMoved() && (*(mat[getRow()][0])).getRole() == Role::tower){
+        if(!mat[getRow()][0]->isMoved() && mat[getRow()][0]->getRole() == Role::tower){
             bool free = true;
             for(int i = getCol() - 1; i > 0; i --){
-                if((*(mat[getRow()][i])).getRole() != Role::dummy){
+                if(!isDummy(mat, getRow(), i)){
                     free = false;
                     break;
                 }
@@ -42,10 +42,10 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     //right castling
     if(!isMoved()){
-        if(!(*(mat[getRow()][7])).isMoved() && (*(mat[getRow()][7])).getRole() == Role::tower){
+        if(!mat[getRow()][7]->isMoved() && mat[getRow()][7]->getRole() == Role::tower){
             bool free = true;
             for(int i = getCol() + 1; i < 7; i ++){
-                if((*(mat[getRow()][i])).getRole() != Role::dummy){
+                if(!isDummy(mat, getRow(), i)){
                     free = false;
                     break;
                 }

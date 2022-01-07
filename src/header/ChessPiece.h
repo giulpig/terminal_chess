@@ -23,7 +23,10 @@ private:
 protected:
     Role rol;
     ChessPiece(int _row, int _col, Side s);
-
+    //utility functions
+    bool checkBoundaries(int, int) const;
+    bool isDummy(const shared_ptr<ChessPiece>[8][8], int , int) const;
+    bool isOppositeSide(const shared_ptr<ChessPiece>[8][8], int , int) const;
 public:
 
     ChessPiece(const ChessPiece&);
