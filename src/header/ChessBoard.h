@@ -43,7 +43,6 @@ constexpr char initial_roles[8][8] = {
 
 constexpr char initial_colors[8][8] = {
 
-    //dummy chesspieces are black
     {0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0},
     {-1, -1, -1, -1, -1, -1, -1, -1},
@@ -53,6 +52,10 @@ constexpr char initial_colors[8][8] = {
     {1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1},
 };
+
+const static shared_ptr<Dummy> _oneDummyToRuleThemAll = std::make_shared<Dummy>();
+
+
 
 //--------------------ChessBoard class----------------------
 
@@ -67,7 +70,6 @@ private:
     shared_ptr<ChessPiece> _toPromote = nullptr;    //pawn to promote
     shared_ptr<ChessPiece> _empassed = nullptr;     //last pawn that moves by two
 
-    shared_ptr<Dummy> _oneDummyToRuleThemAll = std::make_shared<Dummy>();
 
     //counts moves since last capture or movement of a pawn
     int _finalCountUp = 0;

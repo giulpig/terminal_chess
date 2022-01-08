@@ -282,31 +282,7 @@ set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side
 
 //static method to get copy of a piece
 shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece>& toCopy){
-    switch(toCopy->getRole()){
-        case Role::king:
-            return std::make_shared<King>(dynamic_cast<King&>(*toCopy));
-
-        case Role::queen:
-            return std::make_shared<Queen>(dynamic_cast<Queen&>(*toCopy));
-
-        case Role::bishop:
-            return std::make_shared<Bishop>(dynamic_cast<Bishop&>(*toCopy));
-
-        case Role::knight:
-            return std::make_shared<Knight>(dynamic_cast<Knight&>(*toCopy));
-
-        case Role::tower:
-            return std::make_shared<Tower>(dynamic_cast<Tower&>(*toCopy));
-
-        case Role::pawn:
-            return std::make_shared<Pawn>(dynamic_cast<Pawn&>(*toCopy));
-
-        case Role::dummy:
-            return std::make_shared<Dummy>();
-    }
-
-    //it's not possible to reach this
-    return nullptr;
+    return newPiece(toCopy->getRow(), toCopy->getCol(), toCopy->getSide(), toCopy->getRole());
 }
 
 
@@ -332,7 +308,7 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
             return std::make_shared<Pawn>(row, col, side);
 
         case Role::dummy:
-            return std::make_shared<Dummy>();
+            return _oneDummyToRuleThemAll;
     }
 
     //it's not possible to reach this
@@ -373,18 +349,8 @@ ChessBoard::ChessBoard(){
 
 //copy constructor
 ChessBoard::ChessBoard(const ChessBoard& o){
-
-    for(int i=0; i<SIZE; i++){
-        for(int j=0; j<SIZE; j++){
-            _chessBoard[i][j] = copyPiece(o._chessBoard[i][j]);
-        }
-    }
-    for(const auto &i: o._black){
-        _black.push_back(i);
-    }
-    for(const auto &i: o._white){
-        _white.push_back(i);
-    }
+    
+    *this = o;      //call equal operator
 }
 
 
@@ -414,17 +380,27 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     
     if(this == &o)
         return *this;
+
+    //copy local variables
+    _toPromote = o._toPromote;
+    _empassed = o._empassed;
+    _finalCountUp = o._finalCountUp;
+    _repeatedBoards = o._repeatedBoards;
+    _threeRep = o._threeRep;
     
     for(int i=0; i<SIZE; i++){
         for(int j=0; j<SIZE; j++){
-            _chessBoard[i][j] = copyPiece(o._chessBoard[i][j]);
+            _chessBoard[i][j] = _oneDummyToRuleThemAll;
         }
     }
+
     for(const auto &i: o._black){
-        _black.push_back(i);
+        _black.push_back(copyPiece(i));
+        _chessBoard[i->getCol()][i->getRow()];
     }
     for(const auto &i: o._white){
-        _white.push_back(i);
+        _white.push_back(copyPiece(i));
+        _chessBoard[i->getCol()][i->getRow()];
     }
 
     return *this;
