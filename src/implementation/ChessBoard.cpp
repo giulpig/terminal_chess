@@ -395,12 +395,14 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     }
 
     for(const auto &i: o._black){
-        _black.push_back(copyPiece(i));
-        _chessBoard[i->getCol()][i->getRow()];
+        shared_ptr<ChessPiece> newPiece = copyPiece(i);
+        _black.push_back(newPiece);
+        _chessBoard[i->getCol()][i->getRow()] = newPiece;
     }
     for(const auto &i: o._white){
-        _white.push_back(copyPiece(i));
-        _chessBoard[i->getCol()][i->getRow()];
+        shared_ptr<ChessPiece> newPiece = copyPiece(i);
+        _white.push_back(newPiece);
+        _chessBoard[i->getCol()][i->getRow()] = newPiece;
     }
 
     return *this;
