@@ -252,9 +252,12 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
 
     std::set<std::pair<int, int>> ret = piece->getLegalMoves(_chessBoard);
 
-    for(auto it = ret.begin(); it!=ret.end(); it++){
+    for(auto it = ret.begin(); it!=ret.end(); ){
         if(!isPossibleMove({row,col}, *it, piece->getSide()))
-            ret.erase(it);
+            it = ret.erase(it);
+        else{
+            ++it;
+        }
     }
 
     return ret;

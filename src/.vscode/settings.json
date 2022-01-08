@@ -1,3 +1,4 @@
+/*
 {
     "files.associations": {
         "array": "cpp",
@@ -47,4 +48,12 @@
         "thread": "cpp",
         "typeinfo": "cpp"
     }
+}
+*/
+{
+    "cmake.debugConfig": {
+            "args": [
+                "cc"
+            ]
+        }
 }
