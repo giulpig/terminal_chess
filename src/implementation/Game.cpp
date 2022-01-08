@@ -10,11 +10,11 @@ Game::Game(GameType _gType) : gType{_gType} {
 
     //maybe this could go in a separate function
 
-    std::string nameF;
+    std::string inputs;
     std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
-    std::getline(std::cin, nameF);
+    std::getline(std::cin, inputs);
 
-    log = nameF.empty() ? Log("gameLog") : Log(nameF);
+    log = inputs.empty() ? Log("gameLog") : Log(inputs);
 
     // random 
     srand(0);            //For debug, it's best to set a seed
@@ -30,14 +30,37 @@ Game::Game(GameType _gType) : gType{_gType} {
         case GameType::PcVsPc:
             players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side1)};
 
-            std::cout << "Imposta il numero massimo di mosse" <<std::endl;
+            std::cout << "Imposta il numero massimo di mosse (lascia vuoto per 50 mosse)" <<std::endl;
             //TODO CHECK IF IS A NUMBER
-            std::cin >> maxMovesPc;
+            bool validInput; 
+            do {
+                std::getline(std::cin, inputs);
+
+                try {
+                    maxMovesPc = inputs.empty() ? 50 : stoi(inputs);
+                    validInput = true;
+                } catch(std::invalid_argument e) {
+                    validInput = false;
+                }
+
+            } while(!validInput);
+
             break;
     }
 
     players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
+
+/*
+Game& Game::operator=(const Game& g) {
+    gType = g.gType;
+    // do not need to copy stuff, the vector will do everyting
+    players = g.players;
+    board = g.board;
+    log = g.log();
+    return *this;
+}
+*/
 
 void Game::play() {
 
@@ -62,9 +85,6 @@ void Game::play() {
 
             movement = players[playerTurn] -> getMove();
 
-            std::cout << movement.first.first << " " <<movement.first.second << std::endl;
-            std::cout << movement.second.first << " " <<movement.second.second << std::endl;
-
             if( movement == printPair) {
                 printChessBoard();
                 moveType = Moves::NaM;
@@ -78,9 +98,9 @@ void Game::play() {
             moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
 
             if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
-                std::cout << "Illegal Movement!" << std::endl;
+                std::cout << "Illegal Movement! \n\n";
             else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc)
-                std::cout << reConvertPos(movement) << std::endl;
+                std::cout << reConvertPos(movement) << "\n\n";
 
         } while(moveType == Moves::NaM);
     

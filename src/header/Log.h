@@ -26,6 +26,8 @@ class Log {
         */
         Log();
         Log(std::string _nameFile);
+
+        //Log& operator=(const Log& l);
         //void logMove(Moves, std::pair<char, int>, std::pair<char, int>, char);
         void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, char);
 };

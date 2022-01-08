@@ -21,7 +21,10 @@ class Game {
         int maxMovesPc = 1;
 
     public:
+        Game() {};
         Game(GameType);
+
+        //Game& operator=(const Game& g);
 
         // do not know if I have to return something for the main
         void play();

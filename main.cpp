@@ -6,7 +6,34 @@
 
 using namespace std;
 
-int main(void) {
+int main(int argc, char** argv) {
+    
+    if(argc < 2) {
+        std::cout << "Missing arguments\n";
+        return 0;
+    }
+    else if(argc > 2) {
+        std::cout << "Too many arguments\n";
+        return 0;
+    }
+
+    string argument = argv[1];
+    
+    Game game;
+
+    if(argument.compare("pc") == 0)
+       game = Game(GameType::HumanVsPc);
+    else if(argument.compare("cc") == 0)
+       game = Game (GameType::PcVsPc);
+    else {
+        std::cout << "Wrong argument\n";
+        return 0;
+    }
+
+    game.play();
+}
+
+// TEST CODE, NOW USEFULL
     /*
     ChessBoard cb {};
 
@@ -55,7 +82,3 @@ int main(void) {
     cout <<endl;
     */
 
-    Game game (GameType::HumanVsPc);
-
-    game.play();
-}
