@@ -107,7 +107,7 @@ void Game::play() {
         switch(moveType) {
             case Moves::promotion: 
 
-                // maybe this not work
+                // maybe this not work//indeed it doesn't
                 promotioChar = players[playerTurn] -> getPromotion();
                 board.promotion(static_cast<Role>(promotioChar));
 

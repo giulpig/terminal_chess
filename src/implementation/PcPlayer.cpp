@@ -55,7 +55,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() {
 
 char PcPlayer::getPromotion() const {
     char c = possPromotion[rand() % 4];
-    return side == Side::white ? c + 32 : c;
+    return c;
 }
 
 #endif 
