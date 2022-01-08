@@ -17,7 +17,7 @@ Game::Game(GameType _gType) : gType{_gType} {
     log = inputs.empty() ? Log("gameLog") : Log(inputs);
 
     // random 
-    srand(0);            //For debug, it's best to set a seed
+    //srand(0);            //For debug, it's best to set a seed
     
     int randomColor = rand() % 2;
     Side side1 = randomColor == 0 ? Side::white : Side::black;

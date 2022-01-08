@@ -53,7 +53,7 @@ constexpr char initial_colors[8][8] = {
     {1, 1, 1, 1, 1, 1, 1, 1},
 };
 
-const static shared_ptr<Dummy> _oneDummyToRuleThemAll = std::make_shared<Dummy>();
+const static shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
 
 
 
@@ -137,5 +137,15 @@ public:
     bool arePossibleMoves(Side);
     //argument: which side to check if it's in stalemate
     bool isStaleMate(Side);
+
+
+
+
+
+    void printPositions();
+
+
+
+
 };
 #endif

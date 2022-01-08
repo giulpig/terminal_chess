@@ -9,7 +9,7 @@ using namespace std;
 int main(int argc, char** argv) {
     
     
-    if(argc < 2) {
+    /*if(argc < 2) {
         std::cout << "Missing arguments\n";
         return 0;
     }
@@ -18,7 +18,10 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    string argument = argv[1];
+    string argument = argv[1];*/
+
+    //TOREMOVE
+    string argument = "cc";
     
     GameType type;
     if(argument.compare("pc") == 0)

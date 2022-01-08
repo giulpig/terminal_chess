@@ -1,8 +1,10 @@
 #ifndef EXCEPTION_CPP
 #define EXCEPTION_CPP
 
-class IllegalMove{};
+class IllegalMoveException{};
 
-class NoPossibleMoveSet{};
+class NoPossibleMoveSetException{};
+
+class NoSideException{};
 
 #endif
