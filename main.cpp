@@ -8,6 +8,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
     
+    
     if(argc < 2) {
         std::cout << "Missing arguments\n";
         return 0;
@@ -28,7 +29,19 @@ int main(int argc, char** argv) {
         std::cout << "Wrong argument\n";
         return 0;
     }
-    Game game{type};
+    //Game game{type};
+
+    Game game;
+    /*
+    if(argument.compare("pc") == 0)
+       game = Game(GameType::HumanVsPc);
+    else if(argument.compare("cc") == 0)
+       game = Game(GameType::PcVsPc);
+    else {
+        std::cout << "Wrong argument\n";
+        return 0;
+    }*/
+    game = Game(GameType::PcVsPc);
 
     game.play();
 }

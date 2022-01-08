@@ -17,8 +17,9 @@
             ~ getPossiblemovementsByIndex()
             ~ isPossibleMove()
             ~ getPosition()
-            ~ copyPiece()      [static]
-            ~ newPiece()       [static]
+            ~ copyPiece()      [static][private]
+            ~ newPiece()       [static][private]
+            ~ swapPieces()     [static][private]
             ~ otherSide()      [static]
 
         > Section 2 - Constructors & operators------
@@ -29,8 +30,8 @@
 
         > Section 3 - Special moves & situations----
             ~ promotion()
-            ~ doEnpassant()    [private]
-            ~ swapPieces()     [private]
+            ~ doEnpassant()     [private]
+            ~ doCastling()      [private]
 */
 
 
@@ -51,12 +52,18 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     //Check for special moves
     switch(fromPiece->moveType(to.first, to.second, _chessBoard)){
 
-        case Moves::castling:       //TODO: check for check
-            swapPieces(from, to);
-            fromPiece->setPosition(to.first, to.second);
-            toPiece->setPosition(from.first, from.second);
+        case Moves::castling:
+            if(!doCastling(to))
+                return Moves::NaM;
+            
+            //staleMate check
+            if(isStaleMate(side))
+                return Moves::staleMate;
 
-            //TODO: check for checkmate
+            //checkMate check, do-undo strategy for all pieces and all moves
+            if(isCheck(oppositeSide, _chessBoard, from) && !arePossibleMoves(oppositeSide)){
+                return Moves::checkMate;
+            }
 
             return Moves::castling;
 
@@ -72,12 +79,12 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 
     doMove(from, to);
 
-    //staleMate if board is repeated 3 times
+    //staleMate check
     if(isStaleMate(side))
         return Moves::staleMate;
 
     //checkMate check, do-undo strategy for all pieces and all moves
-    if(isCheck(oppositeSide, _chessBoard, from) && arePossibleMoves(oppositeSide)){
+    if(isCheck(oppositeSide, _chessBoard, from) && !arePossibleMoves(oppositeSide)){
         return Moves::checkMate;
     }
 
@@ -157,7 +164,7 @@ vector<shared_ptr<ChessPiece>>& ChessBoard::getPieceList(Side s){
 }
 
 
-//returns the number of piece on the chessboard, -1 if re
+//returns the number of piece on the chessboard
 int ChessBoard::nOfPieces(Side s) const{
     if(s == Side::black)
         return _black.size();
@@ -166,6 +173,7 @@ int ChessBoard::nOfPieces(Side s) const{
     
     //eccezione
 }
+
 
 
 //get position of the piece with index in the piece list of specific side
@@ -316,6 +324,17 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
 }
 
 
+//foreced swap between two pieces
+void ChessBoard::swapPieces(const pair<int, int>& from, const pair<int,int>& to){
+    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];
+    shared_ptr<ChessPiece>& toPiece   = _chessBoard[to.first][to.second];
+
+    std::swap(fromPiece, toPiece);
+
+    return;
+}
+
+
 Side ChessBoard::otherSide(Side s){
     if(s==Side::white)
         return Side::black;
@@ -323,7 +342,6 @@ Side ChessBoard::otherSide(Side s){
         return Side::white;
     return Side::noSide;
 }
-
 
 
 
@@ -397,12 +415,12 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     for(const auto &i: o._black){
         shared_ptr<ChessPiece> newPiece = copyPiece(i);
         _black.push_back(newPiece);
-        _chessBoard[i->getCol()][i->getRow()] = newPiece;
+        _chessBoard[i->getRow()][i->getCol()] = newPiece;
     }
     for(const auto &i: o._white){
         shared_ptr<ChessPiece> newPiece = copyPiece(i);
         _white.push_back(newPiece);
-        _chessBoard[i->getCol()][i->getRow()] = newPiece;
+        _chessBoard[i->getRow()][i->getCol()] = newPiece;
     }
 
     return *this;
@@ -413,7 +431,7 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
 
 
 //does a promotion
-void ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
+Moves ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
 
     class Fuck{};                           //TOREMOVE!!!
                                             //TOREMOVE!!!
@@ -434,7 +452,16 @@ void ChessBoard::promotion(Role role){          //I can get info from toPromote 
 
     _toPromote = nullptr;
 
-    //TODO: check for checkmate
+    //staleMate check
+    if(isStaleMate(side))
+        return Moves::staleMate;
+
+    //checkMate check, do-undo strategy for all pieces and all moves
+    if(isCheck(otherSide(side), _chessBoard, {row, col}) && !arePossibleMoves(otherSide(side))){
+        return Moves::checkMate;
+    }
+
+    return Moves::movement;
 }
 
 
@@ -462,15 +489,37 @@ void ChessBoard::doEnpassant(const pair<int, int>& pos){
 }
 
 
-//forced castling, just swap pointers
-void ChessBoard::swapPieces(const pair<int, int>& from, const pair<int,int>& to){
-    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];
-    shared_ptr<ChessPiece>& toPiece   = _chessBoard[to.first][to.second];
+bool ChessBoard::doCastling(const pair<int, int> &rookPos){
 
-    std::swap(fromPiece, toPiece);
+    const int& rookCol = rookPos.first;
+    constexpr int kingCol = 4;
+    shared_ptr<ChessPiece>& kingPiece = _chessBoard[rookPos.first][kingCol];
+    shared_ptr<ChessPiece>& rookPiece = _chessBoard[rookPos.first][rookPos.second];
 
-    return;
+
+    if(rookCol < kingCol && !isCheck()){     //left~long castling
+
+        //move king
+        swapPieces({rookPos.first, kingCol}, {rookPos.first, rookCol+2});
+        kingPiece->setPosition(rookPos.first, rookCol+2);
+
+        //move rook
+        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, kingCol-1});
+        kingPiece->setPosition(rookPos.first, kingCol-1);
+
+        return true;
+    }
+
+    if(){
+        
+
+        return true;
+    }
+
+
+    return false;
 }
+
 
 
 #endif

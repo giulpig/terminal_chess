@@ -88,6 +88,7 @@ private:
     //forced moves (called from public move function)
     void doMove(const pair<int, int> &, const pair<int, int> &);
     void doEnpassant(const pair<int, int> &);
+    bool doCastling(const pair<int, int> &);    //returns false if not legal castling
     void swapPieces(const pair<int, int> &, const pair<int, int> &);
 
 
@@ -124,8 +125,8 @@ public:
     //checks the move, calls doMove and returns the type of move that was done
     Moves move(const pair<int, int> &, const pair<int, int> &, Side);
 
-    //does a promotion
-    void promotion(Role);
+    //does a promotion, returns true if checkmate
+    Moves promotion(Role);
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check, if not given it's the class member board
