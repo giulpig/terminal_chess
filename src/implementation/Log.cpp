@@ -55,7 +55,7 @@ string Log::getStrMov(Moves mov, char up) const {
         return "-castling ";
         break;
     case Moves::promotion:
-        return ("-promotion " + up + ' ');
+        return ("-promotion " + std::to_string(up) + std::to_string(' '));
         break;
     case Moves::enpassant:
         return "-enpassant ";
