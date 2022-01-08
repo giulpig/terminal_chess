@@ -36,7 +36,10 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
     stringstream inStream (line);
     for(int i = 0; i < 2; i++) {
       inStream >> pos[i];
-      std::transform(pos[i].begin(), pos[i].end(), pos[i].begin(), ::toupper);
+      //std::transform(pos[i].begin(), pos[i].end(), pos[i].begin(), ::toupper);
+
+      for(char& c : pos[i])
+        c = std::toupper(c);
 
 
       if(!isValidInput(pos[i])) {
@@ -71,9 +74,10 @@ char HumanPlayer::getPromotion() const {
       getline(std::cin, line);
   } while(line.size() != 1 && (line[0] != 'T' && line[0] != 'D' && line[0] != 'C' && line[0] != 'B'));
 
-  if(getSide() == Side::white)
-      line[0] += 32;
+  //if(getSide() == Side::white)
+      //line[0] += 32;
 
-  return side == Side::white ? line[0] + 32 : line[0];
+  //return side == Side::white ? line[0] + 32 : line[0];
+  return line[0];
 }
 #endif 

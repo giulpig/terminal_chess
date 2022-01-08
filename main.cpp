@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 
     string argument = argv[1];
     
-    /*GameType type;
+    GameType type;
     if(argument.compare("pc") == 0)
        type = GameType::HumanVsPc;
     else if(argument.compare("cc") == 0)
@@ -27,17 +27,9 @@ int main(int argc, char** argv) {
     else {
         std::cout << "Wrong argument\n";
         return 0;
-    }*/
-    //Game game{type};
-    Game game;
-    if(argument.compare("pc") == 0)
-       game = Game(GameType::HumanVsPc);
-    else if(argument.compare("cc") == 0)
-       game = Game(GameType::PcVsPc);
-    else {
-        std::cout << "Wrong argument\n";
-        return 0;
     }
+    Game game{type};
+
     game.play();
 }
 

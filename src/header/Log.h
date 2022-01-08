@@ -3,6 +3,7 @@
 
 #include<fstream>
 #include<utility>
+#include<iostream>
 #include"Enums.h"
 //TODO: Solve this, where put the reconverPos function
 #include"ManagePosition.h"
@@ -16,7 +17,7 @@ class Log {
         bool exist(std::string) const;
         std::string getName(std::string);
         std::string createFormatName(std::string&, int);
-        std::string getStrMov(Moves, char) const;
+        std::string getStrMov(Moves, std::string) const;
 
     public:
 
@@ -29,7 +30,7 @@ class Log {
 
         //Log& operator=(const Log& l);
         //void logMove(Moves, std::pair<char, int>, std::pair<char, int>, char);
-        void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, char);
+        void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, std::string);
 };
 
 

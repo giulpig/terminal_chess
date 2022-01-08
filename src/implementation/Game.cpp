@@ -148,7 +148,7 @@ void Game::play() {
 
         //or this one where a pass all the time the promotionChar even if it is usefull
         //bit alot cleaner
-        log.logMove(moveType, movement, promotioChar);
+        log.logMove(moveType, movement, {1, promotioChar});
     }
 
     if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)

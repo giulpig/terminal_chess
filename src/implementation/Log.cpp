@@ -45,40 +45,40 @@ string Log::createFormatName(string& name, int cp) {
     return newName;
 }
 
-string Log::getStrMov(Moves mov, char up) const {
+string Log::getStrMov(Moves mov, string up) const {
     switch (mov) {
 
-    case Moves::movement:
-        return "";
-        break;
-    case Moves::castling:
-        return "-castling ";
-        break;
-    case Moves::promotion:
-        return ("-promotion " + std::to_string(up) + std::to_string(' '));
-        break;
-    case Moves::enpassant:
-        return "-enpassant ";
-        break;
+        case Moves::movement:
+            return "";
+            break;
+        case Moves::castling:
+            return "-castling ";
+            break;
+        case Moves::promotion:
+            return "-promotion " + up + " ";
+            break;
+        case Moves::enpassant:
+            return "-enpassant ";
+            break;
 
-    //those are usefull I think
-    /*
-    case Moves::staleMate:
-        return "-staleMate";
-        break;
-    case Moves::checkMate:
-        return "";
-        break;
-    */
-    default:
-        return "";
-        break;
+        //those are usefull I think
+        /*
+        case Moves::staleMate:
+            return "-staleMate";
+            break;
+        case Moves::checkMate:
+            return "";
+            break;
+        */
+        default:
+            return "";
+            break;
     }
 }
 
 //void Log::logMove(Moves mov, std::pair<char, int> from, std::pair<char, int> to, char prom = '0') {
-void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement, char prom) {
-    
+void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement, string prom) {
+
     fileStream << getStrMov(mov, prom) << reConvertPos(movement) <<std::endl;
 
 }

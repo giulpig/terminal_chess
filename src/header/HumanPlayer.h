@@ -4,6 +4,7 @@
 #include<iostream>
 #include<sstream>
 #include<algorithm>
+#include<cctype>
 #include"Player.h"
 #include"Enums.h"
 
