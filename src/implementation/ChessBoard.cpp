@@ -131,7 +131,7 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
 
     //you can't check yourself, do-undo strategy
     swapPieces(from, to);
-    if(isCheck(fromPiece->getSide())){
+    if(isCheck(s, _chessBoard, to)){
         swapPieces(from, to); //go back
         return false;
     }
@@ -383,10 +383,10 @@ ChessBoard::ChessBoard(){
 
 
 //copy constructor
-ChessBoard::ChessBoard(const ChessBoard& o){
+/*ChessBoard::ChessBoard(const ChessBoard& o){
     
     *this = o;      //call equal operator
-}
+}*/
 
 
 //move constructor
@@ -411,7 +411,7 @@ ChessBoard::ChessBoard(ChessBoard&& o){
 
 
 //assignment operator, does a copy of the chessPiece objects
-ChessBoard& ChessBoard::operator=(const ChessBoard& o){
+/*ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     
     if(this == &o)
         return *this;
@@ -439,7 +439,7 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     }
 
     return *this;
-}
+}*/
 
 
 /*--------------------------- Section 3 - Special moves & situations --------------------------------------*/
@@ -470,6 +470,10 @@ Moves ChessBoard::promotion(Role role){          //I can get info from toPromote
     //staleMate check
     if(isStaleMate(side))
         return Moves::staleMate;
+
+    if(isCheck(otherSide(side))){
+        ;
+    }
 
     //checkMate check, do-undo strategy for all pieces and all moves
     if(isCheck(otherSide(side), _chessBoard, {row, col}) && !arePossibleMoves(otherSide(side))){
@@ -510,6 +514,7 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
     constexpr int kingCol = 4;
     shared_ptr<ChessPiece>& kingPiece = _chessBoard[rookPos.first][kingCol];
     shared_ptr<ChessPiece>& rookPiece = _chessBoard[rookPos.first][rookPos.second];
+    Side side = kingPiece->getSide();
 
 
     if(rookCol < kingCol){     //left~long castling
@@ -517,7 +522,7 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
             //move king to the left one by one
             swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol-i});
             //check for check situation --> (invalid castling)
-            if(isCheck(kingPiece->getSide())){
+            if(isCheck(side)){
                 //go back
                 swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol-i});
                 return false;
@@ -540,7 +545,7 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
             swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol+i});
             
             //check for check situation --> (invalid castling)
-            if(isCheck(kingPiece->getSide())){
+            if(isCheck(side)){
                 //go back
                 swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol+i});
                 return false;
