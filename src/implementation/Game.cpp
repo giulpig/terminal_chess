@@ -46,9 +46,16 @@ Game::Game(GameType _gType) : gType{_gType} {
             } while(!validInput);
 
             break;
+        //To be removed
+        case GameType::HumanVsHuman:
+            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
+            players[1] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
+            break;
     }
 
-    players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
+    //to be removede this if
+    if(gType != GameType::HumanVsHuman)
+        players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
 /*
@@ -77,7 +84,10 @@ void Game::play() {
     while(!endGame && countMoves <= maxMovesPc) {
 
         do {
-            std::cout << "Type a movement player " << players[playerTurn] -> getSideStr() <<std::endl;
+
+            if(players[playerTurn] -> getType() == PlayerType::human)
+                std::cout << "Type a movement player " << players[playerTurn] -> getSideStr() <<std::endl;
+
             //maybe the PcPlayer could print the movement so seems like
             //the human player (when it write the move remain on the screen)
 
