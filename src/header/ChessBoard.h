@@ -95,11 +95,11 @@ private:
 public:
     //----constructors----
     ChessBoard();
-    ChessBoard(const ChessBoard &); //copy
+    ChessBoard(const ChessBoard &) = delete; //copy
     ChessBoard(ChessBoard &&);      //move
 
     //----operators----
-    ChessBoard &operator=(const ChessBoard &); //does a copy
+    ChessBoard &operator=(const ChessBoard &) = delete; //does a copy
 
     //----methods----
     //returns a string containing the board disposition

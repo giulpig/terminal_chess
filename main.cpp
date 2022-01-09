@@ -32,9 +32,8 @@ int main(int argc, char** argv) {
         std::cout << "Wrong argument\n";
         return 0;
     }
-    //Game game{type};
+    Game game{type};
 
-    Game game;
     /*
     if(argument.compare("pc") == 0)
        game = Game(GameType::HumanVsPc);
@@ -44,7 +43,7 @@ int main(int argc, char** argv) {
         std::cout << "Wrong argument\n";
         return 0;
     }*/
-    game = Game(GameType::PcVsPc);
+    //game = Game(GameType::PcVsPc);
 
     game.play();
 }
