@@ -410,7 +410,7 @@ ChessBoard::ChessBoard(ChessBoard&& o){
 }
 
 
-//equals operator, does a copy of the chessPiece objects
+//assignment operator, does a copy of the chessPiece objects
 ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     
     if(this == &o)
@@ -430,14 +430,12 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
     }
 
     for(const auto &i: o._black){
-        shared_ptr<ChessPiece> newPiece = copyPiece(i);
-        _black.push_back(newPiece);
-        _chessBoard[i->getRow()][i->getCol()] = newPiece;
+        _chessBoard[i->getRow()][i->getCol()] = copyPiece(i);
+        _black.push_back(_chessBoard[i->getRow()][i->getCol()]);
     }
     for(const auto &i: o._white){
-        shared_ptr<ChessPiece> newPiece = copyPiece(i);
-        _white.push_back(newPiece);
-        _chessBoard[i->getRow()][i->getCol()] = newPiece;
+        _chessBoard[i->getRow()][i->getCol()] = copyPiece(i);
+        _white.push_back(_chessBoard[i->getRow()][i->getCol()]);
     }
 
     return *this;
