@@ -21,7 +21,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
         for(int j = 0; j < 8; j ++){
             if(mat[i][j]->getRole() == Role::king && mat[i][j]->getSide() == s){
                 r = i;
-                j = j;
+                c = j;
             }
         }
     }

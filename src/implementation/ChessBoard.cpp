@@ -73,7 +73,7 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
             if(!doCastling(to))
                 return Moves::NaM;
             
-            if(isStaleMate(side))
+            if(isStaleMate(opponent))
                 return Moves::staleMate;
 
             //checkMate check, do-undo strategy for all pieces and all moves
@@ -552,12 +552,13 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
             }
         }
 
-        //move rook
-        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second-2});
-
         //update piece information
         kingPiece->setPosition(rookPos.first, kingCol+2);
         rookPiece->setPosition(rookPos.first, rookPos.second-2);
+
+        //move rook
+        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second-2});
+
         return true;
     }
 

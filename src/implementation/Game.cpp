@@ -113,7 +113,7 @@ void Game::play() {
                 std::cout << reConvertPos(movement) << "\n\n";
 
         } while(moveType == Moves::NaM);
-    
+        
         switch(moveType) {
             case Moves::promotion: 
 
