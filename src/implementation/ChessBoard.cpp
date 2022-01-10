@@ -129,13 +129,31 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     if(legalMoves.find(to) == legalMoves.end())
         return false;
 
-    //you can't check yourself, do-undo strategy
-    swapPieces(from, to);
-    if(isCheck(s, _chessBoard, to)){
-        swapPieces(from, to); //go back
-        return false;
+
+    if(toPiece->getRole() != Role::dummy){      //if there's an eating
+
+        shared_ptr<ChessPiece> temp = _chessBoard[to.first][to.second];
+        _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
+
+        swapPieces(from, to);
+        if(isCheck(s, _chessBoard, to)){
+            swapPieces(from, to); //go back
+            _chessBoard[to.first][to.second] = temp;
+            return false;
+        }
+        swapPieces(from, to);   //go back
+        _chessBoard[to.first][to.second] = temp;
     }
-    swapPieces(from, to);   //go back
+
+    else{       //no eating
+    
+        swapPieces(from, to);
+        if(isCheck(s, _chessBoard, to)){
+            swapPieces(from, to); //go back
+            return false;
+        }
+        swapPieces(from, to);   //go back
+    }
 
     return true;
 }
@@ -205,8 +223,10 @@ void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
 
 
     //remove from piece list
-    if(toPiece->getRole() != Role::dummy)
+    if(toPiece->getRole() != Role::dummy){
         removeFromPieceList(toPiece);
+        _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
+    }
 
     //update piece information
     fromPiece->setPosition(to.first, to.second);
