@@ -90,6 +90,10 @@ class ChessBoard
 {
 
 private:
+
+    //TOREMOVE
+    void checkFuck()const;
+
     //---attributes---
     shared_ptr<ChessPiece> _chessBoard[SIZE][SIZE]; //actual board
     vector<shared_ptr<ChessPiece>> _black, _white;  //piece lists

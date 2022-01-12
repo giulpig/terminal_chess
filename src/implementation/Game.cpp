@@ -27,6 +27,8 @@ Game::Game(GameType _gType) : gType{_gType} {
     gettimeofday(&time_now, nullptr);
     time_t msecs_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
 
+    //msecs_time = 1641986938575;
+    
     srand(msecs_time);
 
     std::stringstream ss;

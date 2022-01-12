@@ -45,7 +45,19 @@ TODO:
     >Same thing castling
 
 
-/*
+*/
+
+//TOREMOVE
+void ChessBoard::checkFuck() const{
+    for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            if(_chessBoard[i][j]->getRole() != Role::dummy && (_chessBoard[i][j]->getRow()!=i || _chessBoard[i][j]->getCol()!=j)){
+                std::cout << "Dio merdone ladro cane" << std::endl;
+                throw IllegalMoveException();
+            }
+        }
+    }
+}
 
 
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
@@ -319,10 +331,7 @@ std::string ChessBoard::notToString() const{
                 res += std::tolower(static_cast<char>(_chessBoard[i][j]->getRole()));
 
             //TOREMOVE
-            if(_chessBoard[i][j]->getRole() != Role::dummy && (_chessBoard[i][j]->getRow()!=i || _chessBoard[i][j]->getCol()!=j)){
-                std::cout << "Dio merdone ladro cane" << std::endl;
-                throw IllegalMoveException();
-            }
+            checkFuck();
 
         }
         res += "\n";
@@ -485,7 +494,7 @@ Moves ChessBoard::promotion(Role role){          //I can get info from toPromote
     if(_toPromote == nullptr){
         throw(Fuck());
     }
-
+    
     int row = _toPromote->getRow();
     int col = _toPromote->getCol();
     Side side = _toPromote->getSide();
