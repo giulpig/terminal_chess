@@ -57,7 +57,7 @@ bool ChessBoard::isStaleMate(Side s){
         return true;
     }
     else if(_threeRep || _finalCountUp >= 50){
-        return true;
+        //return true;
     }
     else if(_white.size() == 1 && _black.size() == 1){
         return true;

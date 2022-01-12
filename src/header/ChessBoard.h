@@ -94,7 +94,9 @@ private:
     shared_ptr<ChessPiece> _chessBoard[SIZE][SIZE]; //actual board
     vector<shared_ptr<ChessPiece>> _black, _white;  //piece lists
     shared_ptr<ChessPiece> _toPromote = nullptr;    //pawn to promote
-    shared_ptr<ChessPiece> _empassed = nullptr;     //last pawn that moves by two
+    shared_ptr<ChessPiece> _enpassedWhite = nullptr;     //last pawn that moved by two
+    shared_ptr<ChessPiece> _enpassedBlack = nullptr;
+
 
 
     //counts moves since last capture or movement of a pawn

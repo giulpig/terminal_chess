@@ -7,4 +7,6 @@ class NoPossibleMoveSetException{};
 
 class NoSideException{};
 
+class DioMerdosoException{};
+
 #endif

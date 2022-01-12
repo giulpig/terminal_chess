@@ -35,23 +35,17 @@
 */
 
 
+//TEMPPP
 #include <iostream>
-void ChessBoard::printPositions(){
-    std::cout << std::endl;
-    /*for(int i=0; i<8; i++){
-        for(int j=0; j<8; j++){
-            std::cout << _chessBoard[i][j]->getPosition().first << " " << _chessBoard[i][j]->getPosition().second << std::endl;
-        }
-    }*/
-    for(auto &i: _white){
-        std::cout << i->getPosition().first << " " << i->getPosition().second << std::endl;
-    }
-    for(auto &i: _black){
-        std::cout << i->getPosition().first << " " << i->getPosition().second << std::endl;
-    }
-    std::cout << std::endl;
-}
 
+/*
+TODO:
+
+    >Whatch promotion (swap instead of delete)
+    >Same thing castling
+
+
+/*
 
 
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
@@ -61,13 +55,16 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
     Side opponent = otherSide(fromPiece->getSide());
+    Moves moveType = fromPiece->moveType(to.first, to.second, _chessBoard);
+    shared_ptr<ChessPiece> newEnpassed = nullptr;
     
     if(!isPossibleMove(from, to, side)){
         return Moves::NaM;
     }
 
+
     //Check for special moves
-    switch(fromPiece->moveType(to.first, to.second, _chessBoard)){
+    switch(moveType){
 
         case Moves::castling:
             if(!doCastling(to))
@@ -90,8 +87,15 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
         case Moves::enpassant:
             doEnpassant(from);  //doEmpassant just removes the other pawn, the move is done in doMove
         break;
-    }
 
+        case Moves::doublePawn:
+            if(side == Side::black)
+                newEnpassed = fromPiece;
+            else
+                newEnpassed = fromPiece;
+        break;
+
+    }
 
     doMove(from, to);
 
@@ -106,6 +110,18 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     if(_toPromote != nullptr)
         return Moves::promotion;
 
+    //overwrite prev double-moved pawn
+    if(side == Side::black){
+        if(_enpassedBlack != nullptr)
+            std::dynamic_pointer_cast<Pawn>(_enpassedBlack)->cancelEnpassant();
+        _enpassedBlack = newEnpassed;
+    }
+    else{
+        if(_enpassedWhite != nullptr)
+            std::dynamic_pointer_cast<Pawn>(_enpassedWhite)->cancelEnpassant();
+        _enpassedWhite = newEnpassed;
+    }
+
     return Moves::movement;
 }
 
@@ -115,7 +131,8 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     
     const shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
     const shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
-
+    
+    
     //You can't move other player's pieces
     if(fromPiece->getSide() != s)
         return false;
@@ -129,31 +146,18 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     if(legalMoves.find(to) == legalMoves.end())
         return false;
 
+    //You can't check yourself
+    shared_ptr<ChessPiece> temp = _chessBoard[to.first][to.second];
+    _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
 
-    if(toPiece->getRole() != Role::dummy){      //if there's an eating
-
-        shared_ptr<ChessPiece> temp = _chessBoard[to.first][to.second];
-        _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
-
-        swapPieces(from, to);
-        if(isCheck(s, _chessBoard, to)){
-            swapPieces(from, to); //go back
-            _chessBoard[to.first][to.second] = temp;
-            return false;
-        }
-        swapPieces(from, to);   //go back
+    swapPieces(from, to);
+    if(isCheck(s, _chessBoard, to)){
+        swapPieces(from, to); //go back
         _chessBoard[to.first][to.second] = temp;
+        return false;
     }
-
-    else{       //no eating
-    
-        swapPieces(from, to);
-        if(isCheck(s, _chessBoard, to)){
-            swapPieces(from, to); //go back
-            return false;
-        }
-        swapPieces(from, to);   //go back
-    }
+    swapPieces(from, to);   //go back
+    _chessBoard[to.first][to.second] = temp;
 
     return true;
 }
@@ -247,7 +251,7 @@ void ChessBoard::addToPieceList(const shared_ptr<ChessPiece>& piece){
 //remove piece from the corresponding (black or white) list of pieces
 void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece>& piece){
 
-    vector<shared_ptr<ChessPiece>> pieceList = getPieceList(piece->getSide());
+    vector<shared_ptr<ChessPiece>>& pieceList = getPieceList(piece->getSide());
     for(auto it=pieceList.begin(); it!=pieceList.end(); it++){
         if(*it == piece){
             pieceList.erase(it);
@@ -313,9 +317,17 @@ std::string ChessBoard::notToString() const{
                 res += static_cast<char>(_chessBoard[i][j]->getRole());
             else
                 res += std::tolower(static_cast<char>(_chessBoard[i][j]->getRole()));
+
+            //TOREMOVE
+            if(_chessBoard[i][j]->getRole() != Role::dummy && (_chessBoard[i][j]->getRow()!=i || _chessBoard[i][j]->getCol()!=j)){
+                std::cout << "Dio merdone ladro cane" << std::endl;
+                throw IllegalMoveException();
+            }
+
         }
         res += "\n";
     }
+    
     res += "\n  ";
     for(int i=0; i<SIZE; i++){
         res += 'A'+i;
@@ -438,7 +450,7 @@ ChessBoard::ChessBoard(ChessBoard&& o){
 
     //copy local variables
     _toPromote = o._toPromote;
-    _empassed = o._empassed;
+    _enpassed = o._enpassed;
     _finalCountUp = o._finalCountUp;
     _repeatedBoards = o._repeatedBoards;
     _threeRep = o._threeRep;
@@ -491,10 +503,6 @@ Moves ChessBoard::promotion(Role role){          //I can get info from toPromote
     if(isStaleMate(side))
         return Moves::staleMate;
 
-    if(isCheck(otherSide(side))){
-        ;
-    }
-
     //checkMate check, do-undo strategy for all pieces and all moves
     if(isCheck(otherSide(side), _chessBoard, {row, col}) && !arePossibleMoves(otherSide(side))){
         return Moves::checkMate;
@@ -505,7 +513,7 @@ Moves ChessBoard::promotion(Role role){          //I can get info from toPromote
 
 
 void ChessBoard::doEnpassant(const pair<int, int>& pos){
-    shared_ptr<ChessPiece>& piece = _chessBoard[pos.first][pos.second];
+    shared_ptr<ChessPiece> piece = _chessBoard[pos.first][pos.second];
 
     switch(piece->getSide()){
 
@@ -531,16 +539,17 @@ void ChessBoard::doEnpassant(const pair<int, int>& pos){
 bool ChessBoard::doCastling(const pair<int, int> &rookPos){
 
     const int& rookCol = rookPos.first;
-    constexpr int kingCol = 4;
-    shared_ptr<ChessPiece>& kingPiece = _chessBoard[rookPos.first][kingCol];
-    shared_ptr<ChessPiece>& rookPiece = _chessBoard[rookPos.first][rookPos.second];
+    constexpr int kingCol = 4;              //king has not moved
+
+    shared_ptr<ChessPiece> kingPiece = _chessBoard[rookPos.first][kingCol];
+    shared_ptr<ChessPiece> rookPiece = _chessBoard[rookPos.first][rookPos.second];
     Side side = kingPiece->getSide();
 
 
     if(rookCol < kingCol){     //left~long castling
         for(int i=1; i<=2; i++){
             //move king to the left one by one
-            swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol-i});
+            swapPieces({rookPos.first, kingCol-i-1}, {rookPos.first, kingCol-i});
             //check for check situation --> (invalid castling)
             if(isCheck(side)){
                 //go back
@@ -559,10 +568,10 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
     }
 
 
-    if(rookCol < kingCol){     //left~long castling
+    if(rookCol < kingCol){     //right~short castling
         for(int i=1; i<=2; i++){
             //move king to the left one by one
-            swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol+i});
+            swapPieces({rookPos.first, kingCol+i-1}, {rookPos.first, kingCol+i});
             
             //check for check situation --> (invalid castling)
             if(isCheck(side)){
