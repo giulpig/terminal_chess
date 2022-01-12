@@ -4,21 +4,38 @@
 #include"Game.h"
 #include<stdlib.h>
 
+#include <chrono>
+#include <ctime>
+#include <sys/time.h>
+using namespace std::chrono;
+
+
 using namespace mPos;
 
 Game::Game(GameType _gType) : gType{_gType} {
 
     //maybe this could go in a separate function
 
-    std::string inputs;
-    std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
-    std::getline(std::cin, inputs);
+    //std::string inputs;
+    //std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
+    //std::getline(std::cin, inputs);
 
-    log = inputs.empty() ? Log("gameLog") : Log(inputs);
+    //log = inputs.empty() ? Log("gameLog") : Log(inputs);
 
-    // random 
-    srand(5);
-    
+    // random
+    struct timeval time_now{};
+    gettimeofday(&time_now, nullptr);
+    time_t msecs_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+
+    srand(msecs_time);
+
+    std::stringstream ss;
+    ss << "gameLog_" << msecs_time;
+    std::string ts = ss.str();
+
+    log = Log(ts);
+
+
     int randomColor = rand() % 2;
     Side side1 = randomColor == 0 ? Side::white : Side::black;
     Side side2 = randomColor != 0 ? Side::white : Side::black;
@@ -34,10 +51,11 @@ Game::Game(GameType _gType) : gType{_gType} {
             //TODO CHECK IF IS A NUMBER
             bool validInput; 
             do {
-                std::getline(std::cin, inputs);
+                //std::getline(std::cin, inputs);
 
                 try {
-                    maxMovesPc = inputs.empty() ? 50 : stoi(inputs);
+                    //maxMovesPc = inputs.empty() ? 50 : stoi(inputs);
+                    maxMovesPc = 5000;
                     validInput = true;
                 } catch(std::invalid_argument e) {
                     validInput = false;
@@ -96,7 +114,7 @@ void Game::play() {
             movement = players[playerTurn] -> getMove();
 
             if( movement == printPair) {
-                printChessBoard();
+                //printChessBoard();
                 moveType = Moves::NaM;
                 continue;
             } else if(movement == endGamePair) {
@@ -140,7 +158,7 @@ void Game::play() {
         if(gType == GameType::PcVsPc){
             countMoves++;        
             //To be removed
-            printChessBoard();
+            //printChessBoard();
         }
 
         //TODO something for the log
@@ -161,17 +179,27 @@ void Game::play() {
         log.logMove(moveType, movement, {1, promotioChar});
     }
 
-    if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
+    if(gType == GameType::PcVsPc && countMoves >= maxMovesPc){
         std::cout << "Numero massimo di mosse raggiunta" <<std::endl;
+        log.logMove(Moves::movement, {{0,0},{0,0}}, {0,0});
+    }
 
     std::cout << "Finito IL GAME" <<std::endl;
+    log.logMove(Moves::movement, {{0,0},{0,0}}, {0,0});
 }
 
 void Game::printChessBoard() {
     //space maybe usefull
     //but to make it clear they could be beautiful
     std::cout << std::endl;
-    std::cout << board.notToString() << std::endl;
+    try{
+        std::cout << board.notToString() << std::endl;
+    }
+    catch(DioMerdosoException){
+        log.logMove(Moves::movement, {{5, 5},{5, 5}}, {0,0});
+        throw DioMerdosoException{};
+    }
+
     std::cout << std::endl;
 }
 

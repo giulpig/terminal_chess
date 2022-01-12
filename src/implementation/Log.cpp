@@ -26,9 +26,11 @@ string Log::getName(string str) {
     string cmpFileName;
 
     //loop until proper name found
-    do {
-        cmpFileName = createFormatName(str, cp++);
-    } while(exist(cmpFileName));
+    //do {
+    //    cmpFileName = createFormatName(str, cp++);
+    //} while(exist(cmpFileName));
+
+    cmpFileName = createFormatName(str, cp++);
 
     return cmpFileName;
 }
@@ -37,8 +39,8 @@ string Log::createFormatName(string& name, int cp) {
 
     string newName = name;
 
-    if(cp != 0) 
-        newName += (char)(cp + 48); // set a offset to correclty convert the integer to the relative character
+    //if(cp != 0) 
+        //newName += (char)(cp + 48); // set a offset to correclty convert the integer to the relative character
 
     newName += ".txt";
 

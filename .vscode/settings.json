@@ -49,6 +49,7 @@
         "ostream": "cpp",
         "ranges": "cpp",
         "stdexcept": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "chrono": "cpp"
     }
 }
