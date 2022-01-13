@@ -162,6 +162,9 @@ void Game::play() {
                     endGame = true; 
                     done = true;
                     break;
+                default:
+                    done = true;
+                    break;
             }
         }
         
