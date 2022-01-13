@@ -513,7 +513,7 @@ Moves ChessBoard::promotion(Role role){          //I can get info from toPromote
         return Moves::staleMate;
 
     //checkMate check, do-undo strategy for all pieces and all moves
-    if(isCheck(otherSide(side), _chessBoard, {row, col}) && !arePossibleMoves(otherSide(side))){
+    if(isCheck(otherSide(side), _chessBoard) && !arePossibleMoves(otherSide(side))){
         return Moves::checkMate;
     }
 
