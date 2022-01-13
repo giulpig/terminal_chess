@@ -133,24 +133,36 @@ void Game::play() {
                 std::cout << reConvertPos(movement) << "\n\n";
 
         } while(moveType == Moves::NaM);
-        
-        switch(moveType) {
-            case Moves::promotion: 
 
-                // maybe this not work//indeed it doesn't
-                promotioChar = players[playerTurn] -> getPromotion();
-                board.promotion(static_cast<Role>(promotioChar));
+        bool done = false;
 
-                break;
-            // TODO add this to the enums so we can finish the game
-            case Moves::staleMate:
-                std::cout << "patta" <<std::endl;
-                endGame = true; 
-                break;
-            case Moves::checkMate:
-                std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
-                endGame = true; 
-                break;
+        while(!done) {
+            switch(moveType) {
+                case Moves::promotion: 
+
+                    // maybe this not work//indeed it doesn't
+                    promotioChar = players[playerTurn] -> getPromotion();
+
+                    moveType = board.promotion(static_cast<Role>(promotioChar));
+
+                    if(moveType != Moves::movement)
+                        done = false;
+                    else
+                        done = true;
+
+                    break;
+                // TODO add this to the enums so we can finish the game
+                case Moves::staleMate:
+                    std::cout << "patta" <<std::endl;
+                    endGame = true; 
+                    done = true;
+                    break;
+                case Moves::checkMate:
+                    std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
+                    endGame = true; 
+                    done = true;
+                    break;
+            }
         }
         
         playerTurn++;
