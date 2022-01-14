@@ -145,11 +145,11 @@ public:
 
     //returns possible movements from a specific chesspiece,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>> getPossiblemovements(int row, int col);
+    std::set<std::pair<int, int>> getPossiblemovements(int row, int col);
 
     //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
     //the returned set is empty if there isn't any piece or if there are no possible moves
-    set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side);
+    std::set<std::pair<int, int>> getPossiblemovementsByIndex(int index, Side);
 
     //checks if a legal move is actually possible to do
     bool isPossibleMove(const pair<int, int> &, const pair<int, int> &, Side);
@@ -162,7 +162,7 @@ public:
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check, if not given it's the class member board
-    //argument 3: needed if the board is a possible board and it signals where's the piece that was moved.
+    //argument 3: needed if the board is a possible board and it signals where's the piece that was eaten and therefore has to be ignored in the check.
     //            used for check for possible moves
     bool isCheck(Side, const shared_ptr<ChessPiece>[8][8] = nullptr, pair<int, int> p = pair<int, int>{-1, -1}) const;
     //argument: which side to check if it has possible moves

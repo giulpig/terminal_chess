@@ -9,9 +9,9 @@ Tower::Tower(int row, int column, Side sidePiece) : ChessPiece{row, column, side
     rol = Role::tower;
 }
 
-set<pair<int, int>> Tower::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
+std::set<std::pair<int, int>> Tower::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
 
-    set<pair<int, int>> legalMoves {};
+    std::set<std::pair<int, int>> legalMoves {};
     
     //dir up - 1
     //dir right - 2
@@ -24,9 +24,9 @@ set<pair<int, int>> Tower::getLegalMoves(const shared_ptr<ChessPiece> board[8][8
     return legalMoves;
 }
 
-void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
-    pair<int, int> pos = make_pair(getRow(), getCol());
-    pair<int, int> additiveMovemnt;
+void Tower::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, const std::shared_ptr<ChessPiece> board[8][8]) const {
+    std::pair<int, int> pos = make_pair(getRow(), getCol());
+    std::pair<int, int> additiveMovemnt;
 
     switch(dir) {
         case 1:
@@ -73,7 +73,7 @@ void Tower::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared
 
 }
 
-bool Tower::checkBounds(pair<int, int> pos) const {
+bool Tower::checkBounds(std::pair<int, int> pos) const {
     if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
         return true;
     return false;
@@ -87,9 +87,9 @@ void Tower::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-Moves Tower::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
+Moves Tower::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> board [8][8]) const {
 
-    set<pair<int, int>> legalMoves = getLegalMoves(board);
+    std::set<std::pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
         return Moves::movement;

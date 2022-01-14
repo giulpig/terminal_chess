@@ -22,7 +22,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() {
 
         //TODO get a set of possible movements for the player
 
-        set<pair<int, int>> possMovement = board.getPossiblemovementsByIndex(indexPlayer, side);
+        std::set<pair<int, int>> possMovement = board.getPossiblemovementsByIndex(indexPlayer, side);
 
         //if there is a possible movement for this player
         if(!possMovement.empty()) {

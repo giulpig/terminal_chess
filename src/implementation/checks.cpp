@@ -7,7 +7,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
     if(!mat){
         mat = _chessBoard;
     }
-    shared_ptr<ChessPiece> k;
+    //vector of the opposing side pieces
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
         v = _black;
@@ -15,6 +15,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
     if(s == Side::black){
         v = _white;
     }
+    //position of the king
     int r, c;
     //in the case of possible moves the king might not be in the position given by the object, this isn't important as the pieces of the opposite party only have to know the disposition of the chessBoard
     for(int i = 0; i < 8; i ++){
@@ -25,6 +26,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
             }
         }
     }
+    //for every piece of the opposing side checks if it threatens the king
     for(shared_ptr<ChessPiece> i : v){
         if(i->getRow() == p.first && i->getCol() == p.second){
             continue;
@@ -37,6 +39,7 @@ bool ChessBoard::isCheck(Side s, const shared_ptr<ChessPiece> mat[8][8], pair<in
 }
 
 bool ChessBoard::arePossibleMoves(Side s){
+    //vector of the side
     vector<shared_ptr<ChessPiece>> v;
     if(s == Side::white){
         v = _white;
@@ -44,6 +47,7 @@ bool ChessBoard::arePossibleMoves(Side s){
     else{
         v = _black;
     }
+    //checks if any of the piece has any legal moves
     for(shared_ptr<ChessPiece> i : v){
         if(!getPossiblemovements(i->getRow(), i->getCol()).empty()){
             return true;
@@ -53,15 +57,20 @@ bool ChessBoard::arePossibleMoves(Side s){
 }
 
 bool ChessBoard::isStaleMate(Side s){
+    //if the king isn't threatened and there aren't possible moves to do it's stalemate
     if(!isCheck(s, _chessBoard) && !arePossibleMoves(s)){
         return true;
     }
+    //if there are three repetitions of the same board or more than 50 moves where made
+    //without moving a pawn or a piece was eaten
     else if(_threeRep || _finalCountUp >= 50){
-        //return true;
+        return true;
     }
+    //only the kings are left
     else if(_white.size() == 1 && _black.size() == 1){
         return true;
     }
+    //if the only pieces left are the kings and knight or a bishop
     else if(_white.size() == 1 && _black.size() == 2){
         for(shared_ptr<ChessPiece> c : _black){
             Role r = c->getRole();

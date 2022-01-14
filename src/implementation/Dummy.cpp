@@ -9,12 +9,12 @@ Dummy::Dummy() : ChessPiece{-1, -1, Side::noSide} {
 
 void Dummy::setPosition(int _row, int _col){}
 
-set<pair<int, int>> Dummy::getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const{
-    set<pair<int,int>> s;
+std::set<std::pair<int, int>> Dummy::getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const{
+    std::set<std::pair<int,int>> s;
     return s;
 }
 
-Moves Dummy::moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const{
+Moves Dummy::moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const{
     return Moves::NaM;
 }
 

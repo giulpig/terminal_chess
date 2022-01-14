@@ -154,7 +154,7 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
         return false;
 
     //Check for legal moves
-    set<pair<int,int>> legalMoves = fromPiece->getLegalMoves(_chessBoard);
+    std::set<std::pair<int,int>> legalMoves = fromPiece->getLegalMoves(_chessBoard);
     if(legalMoves.find(to) == legalMoves.end())
         return false;
 
@@ -178,7 +178,7 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
 
 //returns possible movements from a specific chesspiece,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
+std::set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
 
     shared_ptr<ChessPiece> &piece = _chessBoard[row][col];
 
@@ -198,7 +198,7 @@ set<std::pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
 
 //returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
 //the returned set is empty if there isn't any piece or if there are no possible moves
-set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side){
+std::set<std::pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side){
     switch(side){
         case Side::black:
             return getPossiblemovements(_black[index]->getRow(), _black[index]->getCol());
@@ -207,7 +207,7 @@ set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side
             return getPossiblemovements(_white[index]->getRow(), _white[index]->getCol());
         break;
     }
-    return set<pair<int, int>>{};
+    return std::set<std::pair<int, int>>{};
 }
 
 

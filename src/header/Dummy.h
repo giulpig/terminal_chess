@@ -6,7 +6,7 @@ class Dummy : public ChessPiece{
     public:
     Dummy();
     void setPosition(int _row, int _col) override;
-    set<pair<int, int>> getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const override;
-    Moves moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const override;
+    std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
+    Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
 };
 #endif

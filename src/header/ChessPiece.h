@@ -8,14 +8,10 @@
 #include "Exceptions.h"
 #include <memory>
 
-using std::pair;
-using std::set;
-using std::shared_ptr;
-
 class ChessPiece{
 
 private:
-    pair<int, int> location;
+    std::pair<int, int> location;
     Side color;
     //used for special moves
     bool moved = false;
@@ -25,8 +21,8 @@ protected:
     ChessPiece(int _row, int _col, Side s);
     //utility functions
     bool checkBoundaries(int, int) const;
-    bool isDummy(const shared_ptr<ChessPiece>[8][8], int , int) const;
-    bool isOppositeSide(const shared_ptr<ChessPiece>[8][8], int , int) const;
+    bool isDummy(const std::shared_ptr<ChessPiece>[8][8], int , int) const;
+    bool isOppositeSide(const std::shared_ptr<ChessPiece>[8][8], int , int) const;
 public:
 
     ChessPiece(const ChessPiece&);
@@ -36,7 +32,7 @@ public:
     Role getRole() const;
     bool isMoved() const;
     Side getSide() const;
-    pair<int, int> getPosition() const;
+    std::pair<int, int> getPosition() const;
 
     //moves without validating the move
     virtual void setPosition(int _row, int _col) = 0;
@@ -50,10 +46,10 @@ public:
     */
 
     //returns legal moves not counting the possible autocheck
-    virtual set<pair<int, int>>getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual std::set<std::pair<int, int>>getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const = 0;
     
     //returns the type of move that they did
-    virtual Moves moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const = 0;
 };
 
 #endif

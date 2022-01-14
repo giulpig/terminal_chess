@@ -14,9 +14,9 @@ Queen::Queen(Queen& piece) : ChessPiece{piece.getRow(), piece.getCol(), piece.ge
 }
 */
 
-set<pair<int, int>> Queen::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
+std::set<std::pair<int, int>> Queen::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
 
-    set<pair<int, int>> legalMoves {};
+    std::set<std::pair<int, int>> legalMoves {};
     
     //dir up - 1
     //dir up - right - 2
@@ -33,9 +33,9 @@ set<pair<int, int>> Queen::getLegalMoves(const shared_ptr<ChessPiece> board[8][8
     return legalMoves;
 }
 
-void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
-    pair<int, int> pos = make_pair(getRow(), getCol());
-    pair<int, int> additiveMovemnt;
+void Queen::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, const std::shared_ptr<ChessPiece> board[8][8]) const {
+    std::pair<int, int> pos = make_pair(getRow(), getCol());
+    std::pair<int, int> additiveMovemnt;
 
 
     switch(dir) {
@@ -96,7 +96,7 @@ void Queen::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared
 
 }
 
-bool Queen::checkBounds(pair<int, int> pos) const {
+bool Queen::checkBounds(std::pair<int, int> pos) const {
     if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
         return true;
     return false;
@@ -110,9 +110,9 @@ void Queen::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-Moves Queen::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
+Moves Queen::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> board [8][8]) const {
 
-    set<pair<int, int>> legalMoves = getLegalMoves(board);
+    std::set<std::pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
         return Moves::movement;

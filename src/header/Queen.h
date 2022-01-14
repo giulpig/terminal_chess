@@ -9,15 +9,15 @@ class Queen : public ChessPiece{
 private:
     //Maybe usefull
     //But for now seems a good think to simplify the code
-    void addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece>[8][8]) const;
-    bool checkBounds(pair<int, int>) const;
+    void addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, const std::shared_ptr<ChessPiece>[8][8]) const;
+    bool checkBounds(std::pair<int, int>) const;
 public:
     Queen(int row, int column, Side sidePiece);
     //Queen(Queen&);
     void setPosition(int _row, int _col) override;
     //wht not &?
-    set<pair<int, int>> getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const override;
-    Moves moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const override;
+    std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
+    Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
 };
 
 #endif

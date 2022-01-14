@@ -24,7 +24,7 @@ int ChessPiece::getCol() const{
     return location.second;
 }
 
-pair<int, int> ChessPiece::getPosition() const{
+std::pair<int, int> ChessPiece::getPosition() const{
     return {location.first, location.second};
 }
 
@@ -47,10 +47,10 @@ Side ChessPiece::getSide() const{
 bool ChessPiece::checkBoundaries(int a, int b) const{
     return a < 8 && a >= 0 && b < 8 && b >= 0;
 }
-bool ChessPiece::isDummy(const shared_ptr<ChessPiece> mat[8][8], int a, int b) const{
+bool ChessPiece::isDummy(const std::shared_ptr<ChessPiece> mat[8][8], int a, int b) const{
     return mat[a][b]->getRole() == Role::dummy;
 }
-bool ChessPiece::isOppositeSide(const shared_ptr<ChessPiece> mat[8][8], int a, int b) const{
+bool ChessPiece::isOppositeSide(const std::shared_ptr<ChessPiece> mat[8][8], int a, int b) const{
     return mat[a][b]->getSide() != getSide();
 }
 #endif

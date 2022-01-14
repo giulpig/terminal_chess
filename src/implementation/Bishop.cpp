@@ -9,9 +9,9 @@ Bishop::Bishop(int row, int column, Side sidePiece) : ChessPiece{row, column, si
     rol = Role::bishop;
 }
 
-set<pair<int, int>> Bishop::getLegalMoves(const shared_ptr<ChessPiece> board[8][8]) const {
+std::set<std::pair<int, int>> Bishop::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
 
-    set<pair<int, int>> legalMoves {};
+    std::set<std::pair<int, int>> legalMoves {};
     
     //dir up - right - 1
     //dir down - right - 2
@@ -24,9 +24,9 @@ set<pair<int, int>> Bishop::getLegalMoves(const shared_ptr<ChessPiece> board[8][
     return legalMoves;
 }
 
-void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const shared_ptr<ChessPiece> board[8][8]) const {
-    pair<int, int> pos = make_pair(getRow(), getCol());
-    pair<int, int> additiveMovemnt;
+void Bishop::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, const std::shared_ptr<ChessPiece> board[8][8]) const {
+    std::pair<int, int> pos = std::make_pair(getRow(), getCol());
+    std::pair<int, int> additiveMovemnt;
 
 
     switch(dir) {
@@ -75,7 +75,7 @@ void Bishop::addLegalMoves(int dir, set<pair<int, int>>& legalMoves, const share
 
 }
 
-bool Bishop::checkBounds(pair<int, int> pos) const {
+bool Bishop::checkBounds(std::pair<int, int> pos) const {
     if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
         return true;
     return false;
@@ -89,9 +89,9 @@ void Bishop::setPosition(int _row, int _column) {
     ChessPiece::setPosition(_row, _column);
 }
 
-Moves Bishop::moveType(int _row, int _col, const shared_ptr<ChessPiece> board [8][8]) const {
+Moves Bishop::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> board [8][8]) const {
 
-    set<pair<int, int>> legalMoves = getLegalMoves(board);
+    std::set<std::pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
         return Moves::movement;

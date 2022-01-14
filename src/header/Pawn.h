@@ -3,8 +3,6 @@
 
 #include "ChessPiece.h"
 
-using std::unique_ptr;
-
 class Pawn : public ChessPiece{
 
 private:
@@ -13,8 +11,8 @@ private:
 public:
     Pawn(int _row, int _col, Side s);
     void setPosition(int _row, int _col) override;
-    set<pair<int, int>> getLegalMoves(const shared_ptr<ChessPiece>[8][8]) const override;
-    Moves moveType(int _row, int _col, const shared_ptr<ChessPiece>[8][8]) const override;
+    std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
+    Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
     void cancelEnpassant();
     bool getEnpassant() const;
 };

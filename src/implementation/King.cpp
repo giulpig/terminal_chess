@@ -10,9 +10,9 @@ King::King(int _row, int _col, Side s) : ChessPiece(_row, _col, s) {
 void King::setPosition(int _row, int _col){
     ChessPiece::setPosition(_row, _col);
 }
-set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) const{
-    set<pair<int, int>> s;
-    //around the king
+std::set<std::pair<int, int>> King::getLegalMoves(const std::shared_ptr<ChessPiece> mat[8][8]) const{
+    std::set<std::pair<int, int>> s;
+    //move by onw position
     for(int i = -1; i <= 1; i ++){
         for(int j = -1; j <= 1; j ++){
             if((j == 0 && i == 0) || !checkBoundaries(getRow() + i, getCol() + j)){
@@ -57,8 +57,8 @@ set<pair<int, int>> King::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     }
     return s;
 }
-Moves King::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
-    set<pair<int, int>> s = getLegalMoves(mat);
+Moves King::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
+    std::set<std::pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
         return Moves::NaM;
     }

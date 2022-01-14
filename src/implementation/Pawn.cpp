@@ -19,10 +19,10 @@ void Pawn::setPosition(int _row, int _col){
     }
 }
 
-set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) const{
-    set<pair<int, int>> m;
+std::set<std::pair<int, int>> Pawn::getLegalMoves(const std::shared_ptr<ChessPiece> mat[8][8]) const{
+    std::set<std::pair<int, int>> m;
     int dir;
-
+    //choosing the direction based off the side
     if(getSide() == Side::black){
         dir = 1;
     }
@@ -61,7 +61,7 @@ set<pair<int, int>> Pawn::getLegalMoves(const shared_ptr<ChessPiece> mat[8][8]) 
     return m;
 }
 
-Moves Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8]) const{
+Moves Pawn::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
     int dir;
     if(getSide() == Side::black){
         dir = 1;
@@ -69,7 +69,7 @@ Moves Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8])
     else{
         dir = -1;
     }
-    set<pair<int, int>> s = getLegalMoves(mat);
+    std::set<std::pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
         return Moves::NaM;
     }
@@ -80,9 +80,11 @@ Moves Pawn::moveType(int _row, int _col, const shared_ptr<ChessPiece> mat[8][8])
                 return Moves::enpassant;
             }
         }
+        //it got to the last row
         if(_row == 7 || _row == 0){
             return Moves::promotion;
         }
+        //double move
         else if(_row == getRow() + 2*dir){
             return Moves::doublePawn;
         }
