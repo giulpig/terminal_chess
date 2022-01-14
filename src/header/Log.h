@@ -4,6 +4,7 @@
 #include<fstream>
 #include<utility>
 #include<iostream>
+#include<sstream>
 #include"Enums.h"
 //TODO: Solve this, where put the reconverPos function
 #include"ManagePosition.h"
@@ -16,7 +17,7 @@ class Log {
         std::ofstream fileStream;
         bool exist(std::string) const;
         std::string getName(std::string);
-        std::string createFormatName(std::string&, int);
+        std::string createFormatName(const std::string&, int);
         std::string getStrMov(Moves, std::string) const;
 
     public:

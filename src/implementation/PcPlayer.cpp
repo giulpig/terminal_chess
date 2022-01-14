@@ -3,7 +3,7 @@
 
 #include"PcPlayer.h"
 //only for testing
-#include<iostream>
+//#include<iostream>
 
 using std::pair;
 
@@ -44,9 +44,7 @@ pair<pair<int, int>, pair<int, int>> PcPlayer::getMove() {
             movement.second = *it;
 
             findAMove = true;
-            
         }
-
 
     } while(!findAMove);
 

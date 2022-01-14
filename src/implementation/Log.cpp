@@ -26,25 +26,24 @@ string Log::getName(string str) {
     string cmpFileName;
 
     //loop until proper name found
-    //do {
-    //    cmpFileName = createFormatName(str, cp++);
-    //} while(exist(cmpFileName));
+    do {
+        cmpFileName = createFormatName(str, cp++);
+    } while(exist(cmpFileName));
 
-    cmpFileName = createFormatName(str, cp++);
+    //cmpFileName = createFormatName(str, cp++);
 
     return cmpFileName;
 }
 
-string Log::createFormatName(string& name, int cp) {
+string Log::createFormatName(const string& name, int cp) {
 
-    string newName = name;
+    if(cp == 0)
+        return string(name + ".txt");
 
-    //if(cp != 0) 
-        //newName += (char)(cp + 48); // set a offset to correclty convert the integer to the relative character
+    std::stringstream newName;
+    newName << name << cp << ".txt";
 
-    newName += ".txt";
-
-    return newName;
+    return newName.str();
 }
 
 string Log::getStrMov(Moves mov, string up) const {

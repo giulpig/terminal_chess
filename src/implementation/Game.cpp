@@ -16,27 +16,18 @@ Game::Game(GameType _gType) : gType{_gType} {
 
     //maybe this could go in a separate function
 
-    //std::string inputs;
-    //std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
-    //std::getline(std::cin, inputs);
+    std::string inputs;
+    std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
+    std::getline(std::cin, inputs);
 
-    //log = inputs.empty() ? Log("gameLog") : Log(inputs);
+    log = inputs.empty() ? Log("gameLog") : Log(inputs);
 
     // random
     struct timeval time_now{};
     gettimeofday(&time_now, nullptr);
     time_t msecs_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
-
-    //msecs_time = 1641986938575;
     
     srand(msecs_time);
-
-    std::stringstream ss;
-    ss << "gameLog_" << msecs_time;
-    std::string ts = ss.str();
-
-    log = Log(ts);
-
 
     int randomColor = rand() % 2;
     Side side1 = randomColor == 0 ? Side::white : Side::black;
@@ -50,14 +41,12 @@ Game::Game(GameType _gType) : gType{_gType} {
             players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side1)};
 
             std::cout << "Imposta il numero massimo di mosse (lascia vuoto per 50 mosse)" <<std::endl;
-            //TODO CHECK IF IS A NUMBER
             bool validInput; 
             do {
-                //std::getline(std::cin, inputs);
+                std::getline(std::cin, inputs);
 
                 try {
-                    //maxMovesPc = inputs.empty() ? 50 : stoi(inputs);
-                    maxMovesPc = 5000;
+                    maxMovesPc = inputs.empty() ? 50 : stoi(inputs);
                     validInput = true;
                 } catch(std::invalid_argument e) {
                     validInput = false;
@@ -94,7 +83,8 @@ void Game::play() {
     bool endGame = false;
     pair<pair<int, int>, pair<int, int>> movement;
     pair<pair<int, int>, pair<int, int>> printPair = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
-    pair<pair<int, int>, pair<int, int>> endGamePair = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
+    pair<pair<int, int>, pair<int, int>> quitGame = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
+    //pair<pair<int, int>, pair<int, int>> endGamePair = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
     Moves moveType;
     int playerTurn = 0;
     int countMoves = 0;
@@ -119,11 +109,11 @@ void Game::play() {
                 //printChessBoard();
                 moveType = Moves::NaM;
                 continue;
-            } else if(movement == endGamePair) {
+            } /*else if(movement == endGamePair) {
                 moveType = Moves::NaM;
                 endGame = true; 
                 break;
-            }
+            }*/
 
             moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
 
@@ -134,9 +124,8 @@ void Game::play() {
 
         } while(moveType == Moves::NaM);
 
-        bool done = false;
-
-        while(!done) {
+        bool promotionMovement = false;
+        while(!promotionMovement) {
             switch(moveType) {
                 case Moves::promotion: 
 
@@ -146,24 +135,23 @@ void Game::play() {
                     moveType = board.promotion(static_cast<Role>(promotioChar));
 
                     if(moveType != Moves::movement)
-                        done = false;
+                        promotionMovement = false;
                     else
-                        done = true;
+                        promotionMovement = true;
 
                     break;
-                // TODO add this to the enums so we can finish the game
                 case Moves::staleMate:
                     std::cout << "patta" <<std::endl;
                     endGame = true; 
-                    done = true;
+                    promotionMovement = true;
                     break;
                 case Moves::checkMate:
                     std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
                     endGame = true; 
-                    done = true;
+                    promotionMovement = true;
                     break;
                 default:
-                    done = true;
+                    promotionMovement = true;
                     break;
             }
         }
@@ -178,31 +166,14 @@ void Game::play() {
             //printChessBoard();
         }
 
-        //TODO something for the log
-        // how can I manage better the promotion char?
-
-        //I have two possibilites
-
-        // with default values in the method
-        /*
-        if(moveType == Moves::promotion)
-            log.logMove(moveType, movement, promotioChar);
-        else 
-            log.logMove(moveType, movement);
-        */
-
-        //or this one where a pass all the time the promotionChar even if it is usefull
-        //bit alot cleaner
+        //something for the log
         log.logMove(moveType, movement, {1, promotioChar});
     }
 
-    if(gType == GameType::PcVsPc && countMoves >= maxMovesPc){
+    if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
         std::cout << "Numero massimo di mosse raggiunta" <<std::endl;
-        log.logMove(Moves::movement, {{0,0},{0,0}}, {0,0});
-    }
 
     std::cout << "Finito IL GAME" <<std::endl;
-    log.logMove(Moves::movement, {{0,0},{0,0}}, {0,0});
 }
 
 void Game::printChessBoard() {
