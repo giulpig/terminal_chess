@@ -7,9 +7,10 @@ class NoPossibleMoveSetException{};
 
 class NoSideException{};
 
-class DioMerdosoException{};//Cancella dio maiale
-
 class NoFileGiven{};
 
 class WrongFormat{};
+
+class InvalidPromotion{};
+
 #endif

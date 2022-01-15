@@ -10,6 +10,8 @@
 using namespace std::chrono;
 
 
+using std::pair;
+using std::unique_ptr;
 using namespace mPos;
 
 Game::Game(GameType _gType) : gType{_gType} {
@@ -35,10 +37,10 @@ Game::Game(GameType _gType) : gType{_gType} {
     
     switch(gType) {
         case GameType::HumanVsPc:
-            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
+            players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
             break;
         case GameType::PcVsPc:
-            players[0] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side1)};
+            players[0] = unique_ptr<PcPlayer>{new PcPlayer(board, side1)};
 
             std::cout << "Imposta il numero massimo di mosse (lascia vuoto per 50 mosse)" <<std::endl;
             bool validInput; 
@@ -57,14 +59,14 @@ Game::Game(GameType _gType) : gType{_gType} {
             break;
         //To be removed
         case GameType::HumanVsHuman:
-            players[0] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
-            players[1] = std::unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
+            players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
+            players[1] = unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
             break;
     }
 
     //to be removede this if
     if(gType != GameType::HumanVsHuman)
-        players[1] = std::unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
+        players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
 /*
@@ -129,7 +131,6 @@ void Game::play() {
             switch(moveType) {
                 case Moves::promotion: 
 
-                    // maybe this not work//indeed it doesn't
                     promotioChar = players[playerTurn] -> getPromotion();
 
                     moveType = board.promotion(static_cast<Role>(promotioChar));
@@ -180,14 +181,7 @@ void Game::printChessBoard() {
     //space maybe usefull
     //but to make it clear they could be beautiful
     std::cout << std::endl;
-    try{
-        std::cout << board.notToString() << std::endl;
-    }
-    catch(DioMerdosoException){
-        log.logMove(Moves::movement, {{5, 5},{5, 5}}, {0,0});
-        throw DioMerdosoException{};
-    }
-
+    std::cout << board.notToString() << std::endl;
     std::cout << std::endl;
 }
 
