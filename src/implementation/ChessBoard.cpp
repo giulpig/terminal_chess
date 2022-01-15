@@ -7,31 +7,15 @@
     Index of contents:
         > Section 1 - Utility methods---------------
             ~ move()
+            ~ doMove()          [private]
             ~ isPossibleMove()
             ~ getPossiblemovements()
-            ~ getPossiblemovementsByIndex()
-            ~ doMove()              [private]
-            ~ addToPieceList()      [private]
-            ~ removeFromPieceList() [private]
-            ~ getPieceList()        [private]
-            ~ nOfPieces()
-            ~ notToString()
-            ~ getPosition()
-            ~ copyPiece()      [static][private]
-            ~ newPiece()       [static][private]
-            ~ swapPieces()     [static][private]
-            ~ otherSide()      [static]
 
         > Section 2 - Constructors & operators------
-            ~ ChessBoard() [constructor]
-            ~ ChessBoard() [copy constructor]
-            ~ ChessBoard() [move constructor]
+            ~ ChessBoard()  [constructor]
+            ~ ChessBoard()  [copy constructor]
+            ~ ChessBoard()  [move constructor]
             ~ operator=()
-
-        > Section 3 - Special moves & situations----
-            ~ promotion()
-            ~ doEnpassant()     [private]
-            ~ doCastling()      [private]
 */
 
 
@@ -115,6 +99,49 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 }
 
 
+
+//Does the move by swapping pointers and updating all information
+void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
+
+    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
+    shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
+
+    //if there's a capture or you move a pawn, you can't go back
+    if(fromPiece->getRole() == Role::pawn || toPiece->getRole() != Role::dummy){        
+        _finalCountUp = 0;
+        _repeatedBoards.clear();
+    }
+
+    //update repeated board history
+    std::string key = this->notToString();
+    if(_repeatedBoards.find(key) != _repeatedBoards.end())
+        _repeatedBoards[key]++;
+    else
+        _repeatedBoards[key] = 1;
+
+    _finalCountUp++;   //repeatable moves counter
+
+    //for staleMate by repeated moves (finalCountUp and threeRep are checked by isStaleMate)
+    if(_repeatedBoards[key]>=3)
+        _threeRep = true;
+
+
+    //remove from piece list
+    if(toPiece->getRole() != Role::dummy){
+        removeFromPieceList(toPiece);
+        _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
+    }
+
+    //update piece information
+    fromPiece->setPosition(to.first, to.second);
+
+    //actually swap pointers
+    swapPieces(from, to);
+
+}
+
+
+
 //checks if a legal move is actually possible to do
 bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int> &to, Side s){
     
@@ -175,217 +202,9 @@ std::set<pair<int, int>> ChessBoard::getPossiblemovements(int row, int col){
 }
 
 
-//returns possible movements for a specific chesspiece in the position of the list of pieces chosen by side,
-//the returned set is empty if there isn't any piece or if there are no possible moves
-std::set<pair<int, int>> ChessBoard::getPossiblemovementsByIndex(int index, Side side){
-    switch(side){
-        case Side::black:
-            return getPossiblemovements(_black[index]->getRow(), _black[index]->getCol());
-        break;
-        case Side::white:
-            return getPossiblemovements(_white[index]->getRow(), _white[index]->getCol());
-        break;
-    }
-    return std::set<pair<int, int>>{};
-}
-
-
-
-//just does the move by swapping pointers and updating all information
-void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
-
-    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
-    shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
-
-    //if there's a capture or you move a pawn, you can't go back
-    if(fromPiece->getRole() == Role::pawn || toPiece->getRole() != Role::dummy){        
-        _finalCountUp = 0;
-        _repeatedBoards.clear();
-    }
-
-    //update repeated board history
-    std::string key = this->notToString();
-    if(_repeatedBoards.find(key) != _repeatedBoards.end())
-        _repeatedBoards[key]++;
-    else
-        _repeatedBoards[key] = 1;
-
-    _finalCountUp++;   //repeatable moves counter
-
-    //for staleMate by repeated moves (finalCountUp and threeRep are checked by isStaleMate)
-    if(_repeatedBoards[key]>=3)
-        _threeRep = true;
-
-
-    //remove from piece list
-    if(toPiece->getRole() != Role::dummy){
-        removeFromPieceList(toPiece);
-        _chessBoard[to.first][to.second] = oneDummyToRuleThemAll;
-    }
-
-    //update piece information
-    fromPiece->setPosition(to.first, to.second);
-
-    //actually swap pointers
-    swapPieces(from, to);
-
-}
-
-
-//adds piece at the end of the corresponding (black or white) list of pieces
-void ChessBoard::addToPieceList(const shared_ptr<ChessPiece>& piece){
-    getPieceList(piece->getSide()).push_back(piece);
-    return;
-}
-
-
-//remove piece from the corresponding (black or white) list of pieces
-void ChessBoard::removeFromPieceList(const shared_ptr<ChessPiece>& piece){
-
-    std::vector<shared_ptr<ChessPiece>>& pieceList = getPieceList(piece->getSide());
-    for(auto it=pieceList.begin(); it!=pieceList.end(); it++){
-        if(*it == piece){
-            pieceList.erase(it);
-            return;
-        }
-    }
-}
-
-
-std::vector<shared_ptr<ChessPiece>>& ChessBoard::getPieceList(Side s){
-    if(s == Side::black)
-        return _black;
-    if(s == Side::white)
-        return _white;
-
-    throw NoSideException{};
-}
-
-
-//returns the number of piece on the chessboard
-int ChessBoard::nOfPieces(Side s) const{
-    if(s == Side::black)
-        return _black.size();
-    if(s == Side::white)
-        return _white.size();
-    
-    throw NoSideException{};
-}
-
-
-
-//get position of the piece with index in the piece list of specific side
-pair<int, int> ChessBoard::getPosition(int index, Side side) const{
-    switch(side){
-        case Side::black:
-            //invalid index
-            if(index >= _black.size())
-                return {-1, -1};
-
-            return {_black[index]->getRow(), _black[index]->getCol()};
-        break;
-
-        case Side::white:
-            //invalid index
-            if(index >= _white.size())
-                return {-1, -1};
-    
-            return {_white[index]->getRow(), _white[index]->getCol()};
-        break;
-    }
-
-    throw NoSideException{};
-}
-
-
-
-
-//returns a string containing the board disposition
-std::string ChessBoard::notToString() const{
-    std::string res;
-
-    for(int i=0; i<SIZE; i++){
-        res += std::to_string(SIZE-i) + " ";
-        for(int j=0; j<SIZE; j++){
-            if(_chessBoard[i][j]->getSide() == Side::black)
-                res += static_cast<char>(_chessBoard[i][j]->getRole());
-            else
-                res += std::tolower(static_cast<char>(_chessBoard[i][j]->getRole()));
-
-        }
-        res += "\n";
-    }
-    
-    res += "\n  ";
-    for(int i=0; i<SIZE; i++){
-        res += 'A'+i;
-    }
-    res += "\n";
-    return res;
-}
-
-
-//static method to get copy of a piece
-shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece>& toCopy){
-    return newPiece(toCopy->getRow(), toCopy->getCol(), toCopy->getSide(), toCopy->getRole());
-}
-
-
-//static method to get shared pointer of new ChessPiece
-shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role role){
-
-    switch(role){
-        case Role::king:
-            return std::make_shared<King>(row, col, side);
-
-        case Role::queen:
-            return std::make_shared<Queen>(row, col, side);
-
-        case Role::bishop:
-            return std::make_shared<Bishop>(row, col, side);
-
-        case Role::knight:
-            return std::make_shared<Knight>(row, col, side);
-
-        case Role::tower:
-            return std::make_shared<Tower>(row, col, side);
-
-        case Role::pawn:
-            return std::make_shared<Pawn>(row, col, side);
-
-        case Role::dummy:
-            return oneDummyToRuleThemAll;
-    }
-
-    //unreachable, yet necessary
-    throw NoSideException{};
-}
-
-
-//foreced swap between two pieces
-void ChessBoard::swapPieces(const pair<int, int>& from, const pair<int,int>& to){
-    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];
-    shared_ptr<ChessPiece>& toPiece   = _chessBoard[to.first][to.second];
-
-    std::swap(fromPiece, toPiece);
-
-    return;
-}
-
-
-Side ChessBoard::otherSide(Side s){
-    if(s==Side::white)
-        return Side::black;
-    if(s==Side::black)
-        return Side::white;
-    return Side::noSide;
-}
-
-
 
 
 /*--------------------------- Section 2 - Constructors & operators --------------------------------------*/
-
 
 //constructor
 ChessBoard::ChessBoard(){
@@ -468,120 +287,6 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& o){
 
     return *this;
 }
-
-
-/*--------------------------- Section 3 - Special moves & situations --------------------------------------*/
-
-
-//does a promotion
-Moves ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
-
-    if(_toPromote == nullptr){
-        throw InvalidPromotion{};
-    }
-    
-    int row = _toPromote->getRow();
-    int col = _toPromote->getCol();
-    Side side = _toPromote->getSide();
-
-    removeFromPieceList(_toPromote);
-
-    //Place new piece on chessBoard
-    _chessBoard[row][col] = newPiece(row, col, side, role);
-
-    addToPieceList(_chessBoard[row][col]);
-
-    _toPromote = nullptr;
-
-    //staleMate check
-    if(isStaleMate(side))
-        return Moves::staleMate;
-
-    //checkMate check, do-undo strategy for all pieces and all moves
-    if(isCheck(otherSide(side), _chessBoard) && !hasPossibleMoves(otherSide(side))){
-        return Moves::checkMate;
-    }
-
-    return Moves::movement;
-}
-
-
-//removes the piece that is supposed to be eaten in enpassant
-void ChessBoard::doEnpassant(const pair<int, int>& pos){
-    const shared_ptr<ChessPiece> &piece = _chessBoard[pos.first][pos.second];
-
-    switch(piece->getSide()){
-
-        case(Side::black):
-            removeFromPieceList(_chessBoard[pos.first+1][pos.second]);
-            _chessBoard[pos.first+1][pos.second] = oneDummyToRuleThemAll;
-            return;
-
-        case(Side::white):
-            removeFromPieceList(_chessBoard[pos.first-1][pos.second]);
-            _chessBoard[pos.first-1][pos.second] = oneDummyToRuleThemAll;
-            return;
-    }
-}
-
-
-bool ChessBoard::doCastling(const pair<int, int> &rookPos){
-
-    const int rookCol = rookPos.second;
-    constexpr int kingCol = 4;              //king surely has not moved
-
-    shared_ptr<ChessPiece> kingPiece = _chessBoard[rookPos.first][kingCol];
-    shared_ptr<ChessPiece> rookPiece = _chessBoard[rookPos.first][rookPos.second];
-    Side side = kingPiece->getSide();
-
-    if(rookCol==0){     //left~long castling
-        for(int i=1; i<=2; i++){
-            //move king to the left one by one
-            swapPieces({rookPos.first, kingCol-i+1}, {rookPos.first, kingCol-i});
-            //check for check situation --> (invalid castling)
-            if(isCheck(side, _chessBoard, {rookPos.first, kingCol-i})){
-                //go back
-                swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol-i});
-                return false;
-            }
-        }
-
-        //move rook
-        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second+3});
-
-        //update piece information
-        kingPiece->setPosition(rookPos.first, kingCol-2);
-        rookPiece->setPosition(rookPos.first, rookPos.second+3);
-        return true;
-    }
-
-
-    if(rookCol==7){     //right~short castling
-        for(int i=1; i<=2; i++){
-            //move king to the right one by one
-            swapPieces({rookPos.first, kingCol+i-1}, {rookPos.first, kingCol+i});
-            
-            //check for check situation --> (invalid castling)
-            if(isCheck(side, _chessBoard, {rookPos.first, kingCol+i})){
-                //go back
-                swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol+i});
-                return false;
-            }
-        }
-
-        //move rook
-        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second-2});
-
-        //update piece information
-        kingPiece->setPosition(rookPos.first, kingCol+2);
-        rookPiece->setPosition(rookPos.first, rookPos.second-2);
-
-        return true;
-    }
-
-    return false;
-}
-
 
 
 #endif

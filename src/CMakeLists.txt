@@ -49,6 +49,8 @@ add_library(Dummy
 add_library(ChessBoard
     implementation/ChessBoard.cpp
     implementation/checks.cpp
+    implementation/specialMoves.cpp
+    implementation/utilityChessBoard.cpp
     header/ChessBoard.h
 )
 
