@@ -49,22 +49,11 @@ add_library(Dummy
 add_library(ChessBoard
     header/ChessBoard.h
     implementation/ChessBoard.cpp
-)
-
-add_library(ChessBoardChecks
-    header/ChessBoard.h
     implementation/checks.cpp
-)
-
-add_library(ChessBoardSpecialMoves
-    header/ChessBoard.h
     implementation/specialMoves.cpp
-)
-
-add_library(ChessBoardUtility
-    header/ChessBoard.h
     implementation/utilityChessBoard.cpp
 )
+
 
 add_library(ManagePosition
     implementation/ManagePosition.cpp
@@ -106,9 +95,6 @@ add_executable(Replay
 )
 
 target_link_libraries(ChessBoard
-    ChessBoardChecks
-    ChessBoardSpecialMoves
-    ChessBoardUtility
 
     Tower 
     Bishop

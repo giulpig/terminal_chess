@@ -130,4 +130,62 @@ std::string ChessBoard::notToString() const{
 }
 
 
+
+//static method to get copy of a piece
+shared_ptr<ChessPiece> ChessBoard::copyPiece(const shared_ptr<ChessPiece>& toCopy){
+    return newPiece(toCopy->getRow(), toCopy->getCol(), toCopy->getSide(), toCopy->getRole());
+}
+
+
+//static method to get shared pointer of new ChessPiece
+shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role role){
+
+    switch(role){
+        case Role::king:
+            return std::make_shared<King>(row, col, side);
+
+        case Role::queen:
+            return std::make_shared<Queen>(row, col, side);
+
+        case Role::bishop:
+            return std::make_shared<Bishop>(row, col, side);
+
+        case Role::knight:
+            return std::make_shared<Knight>(row, col, side);
+
+        case Role::tower:
+            return std::make_shared<Tower>(row, col, side);
+
+        case Role::pawn:
+            return std::make_shared<Pawn>(row, col, side);
+
+        case Role::dummy:
+            return oneDummyToRuleThemAll;
+    }
+
+    //unreachable, yet necessary
+    throw NoSideException{};
+}
+
+
+//foreced swap between two pieces
+void ChessBoard::swapPieces(const pair<int, int>& from, const pair<int,int>& to){
+    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];
+    shared_ptr<ChessPiece>& toPiece   = _chessBoard[to.first][to.second];
+
+    std::swap(fromPiece, toPiece);
+
+    return;
+}
+
+
+Side ChessBoard::otherSide(Side s){
+    if(s==Side::white)
+        return Side::black;
+    if(s==Side::black)
+        return Side::white;
+    return Side::noSide;
+}
+
+
 #endif
