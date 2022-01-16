@@ -7,11 +7,11 @@
 #include <chrono>
 #include <ctime>
 #include <sys/time.h>
+
 using namespace std::chrono;
-
-
 using std::pair;
 using std::unique_ptr;
+using std::vector;
 using namespace mPos;
 
 Game::Game(GameType _gType) : gType{_gType} {

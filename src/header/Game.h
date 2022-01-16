@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<memory>
+#include<vector>
 #include"Enums.h"
 #include"Player.h"
 #include"HumanPlayer.h"
@@ -14,7 +15,7 @@
 class Game {
     private:
         GameType gType;
-        vector<std::unique_ptr<Player>> players{2};
+        std::vector<std::unique_ptr<Player>> players{2};
         ChessBoard board;
         Log log;
         void printChessBoard();
