@@ -28,7 +28,6 @@ void Bishop::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, c
     std::pair<int, int> pos = std::make_pair(getRow(), getCol());
     std::pair<int, int> additiveMovemnt;
 
-
     switch(dir) {
         case 1:
             additiveMovemnt = make_pair(-1, 1);
@@ -57,7 +56,7 @@ void Bishop::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, c
         //pos += additiveMovemnt;
 
         //check if the player has finished the board
-        if(checkBounds(pos)){
+        if(!checkBoundaries(pos)){
             isPossibleMove = false;
             continue;
         }
@@ -73,12 +72,6 @@ void Bishop::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, c
             legalMoves.insert(pos);
     }
 
-}
-
-bool Bishop::checkBounds(std::pair<int, int> pos) const {
-    if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
-        return true;
-    return false;
 }
 
 //MAYBE is not to override in this case, is better find a solution fot the PEDONE 

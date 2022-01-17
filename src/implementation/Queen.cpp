@@ -6,38 +6,34 @@
 using std::make_pair;
 
 Queen::Queen(int row, int column, Side sidePiece) : ChessPiece{row, column, sidePiece} {
+    // Set the role of the piece
     rol = Role::queen;
 }
-/*
-Queen::Queen(Queen& piece) : ChessPiece{piece.getRow(), piece.getCol(), piece.getSide()} {
-    rol = role::queen;
-}
-*/
+
 
 std::set<std::pair<int, int>> Queen::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
 
     std::set<std::pair<int, int>> legalMoves {};
+
     
-    //dir up - 1
-    //dir up - right - 2
-    //dir right - 3
-    //dir down - right - 4
-    //dir down - 5
-    //dir down - left - 6
-    //dir left - 7 
-    //dir up - left - 8
-    
+    // Iterate through each possible direction and foreach
+    // add all the possible moves that could be done to a set
     for(int i = 1; i < 9; ++i)
         addLegalMoves(i, legalMoves, board);
 
+    //now the set contains all the possible movements of the piece
     return legalMoves;
 }
 
 void Queen::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, const std::shared_ptr<ChessPiece> board[8][8]) const {
+    // Create a pair that is used to move in the board
+    // initially the position is where the piece is on the current board
     std::pair<int, int> pos = make_pair(getRow(), getCol());
+
+    // For each direction the movement is create adding always the same increment
     std::pair<int, int> additiveMovemnt;
 
-
+    // Depends on the selected dir this switch would select an appropiate increment
     switch(dir) {
         case 1:
             additiveMovemnt = make_pair(-1, 0);
@@ -68,38 +64,36 @@ void Queen::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, co
 
     bool isPossibleMove = true;
 
+    // Now start a loop and check all the boxes in the selected direction
     while(isPossibleMove) {
 
-        //do not know id this work
-        //otherwise have to sum 1 and 2
+        // Add the increment to the position
         pos.first += additiveMovemnt.first;
         pos.second += additiveMovemnt.second;
-        // WE HAVE TO MODIFY THE STD LIBRARY AND ADD THIS THING
-        //pos += additiveMovemnt;
 
         //check if the player has finished the board
-        if(checkBounds(pos)){
+        if(!checkBoundaries(pos)){
             isPossibleMove = false;
             continue;
         }
 
+        // Verity if the box is empty or not
+        // if it is the movement is ok
+        // otherwise in any case the piece can't go any further
         bool empty = false;
         if(board[pos.first][pos.second] -> getRole() != Role::dummy) 
             isPossibleMove = false;
         else
             empty = true;
 
-        //Add the control to the side of the player
+        // If the box is empty the movement is surely possible
+        // If the box contain a player there are two possibilities: 
+        //  - it contains a piece of the same side, i can't go on that
+        //  - the box contains an opposite side player, that's a possible movement
         if(empty || getSide() != board[pos.first][pos.second] -> getSide())
             legalMoves.insert(pos);
     }
 
-}
-
-bool Queen::checkBounds(std::pair<int, int> pos) const {
-    if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
-        return true;
-    return false;
 }
 
 //MAYBE is not to override in this case, is better find a solution fot the PEDONE 

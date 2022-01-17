@@ -55,7 +55,7 @@ void Tower::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, co
         //pos += additiveMovemnt;
 
         //check if the player has finished the board
-        if(checkBounds(pos)){
+        if(!checkBoundaries(pos)){
             isPossibleMove = false;
             continue;
         }
@@ -71,12 +71,6 @@ void Tower::addLegalMoves(int dir, std::set<std::pair<int, int>>& legalMoves, co
             legalMoves.insert(pos);
     }
 
-}
-
-bool Tower::checkBounds(std::pair<int, int> pos) const {
-    if(pos.first < 0 || pos.first >= 8 || pos.second < 0 || pos.second >= 8)
-        return true;
-    return false;
 }
 
 //MAYBE is not to override in this case, is better find a solution fot the PEDONE 
