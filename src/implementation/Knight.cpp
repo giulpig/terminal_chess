@@ -18,7 +18,7 @@ std::set<std::pair<int, int>> Knight::getLegalMoves(const std::shared_ptr<ChessP
             if(i != 0 && j != 0){
                 //the move can be done only if it moves by two positions in one direction and one in the other
                 if(((i == -2 || i == 2) && (j == - 1 || j == 1)) || ((j == -2 || j == 2) && (i == - 1 || i == 1))){
-                    if(checkBoundaries(getRow() + i, getCol() + j)){
+                    if(checkBoundaries({getRow() + i, getCol() + j})){
                         if(isOppositeSide(mat, getRow() + i, getCol() + j) || isDummy(mat, getRow() + i, getCol() + j)){
                             s.insert({getRow() + i, getCol() + j});
                         }

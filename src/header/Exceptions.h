@@ -13,4 +13,6 @@ class WrongFormat{};
 
 class InvalidPromotion{};
 
+class WrongArguments{};
+
 #endif

@@ -30,7 +30,7 @@ std::set<std::pair<int, int>> Pawn::getLegalMoves(const std::shared_ptr<ChessPie
         dir = -1;
     }
     //normal one move in the right direction
-    if(checkBoundaries(getRow() + dir, getCol()) && isDummy(mat, getRow() + dir, getCol())){
+    if(checkBoundaries({getRow() + dir, getCol()}) && isDummy(mat, getRow() + dir, getCol())){
         m.insert({getRow() + dir, getCol()});
         //double first move
         if(!isMoved()){
@@ -41,7 +41,7 @@ std::set<std::pair<int, int>> Pawn::getLegalMoves(const std::shared_ptr<ChessPie
     }
     //eating
     for(int i = -1; i <= 1; i += 2){
-        if(checkBoundaries(getRow() + dir, getCol() + i) && !isDummy(mat, getRow() + dir, getCol() + i)){
+        if(checkBoundaries({getRow() + dir, getCol() + i}) && !isDummy(mat, getRow() + dir, getCol() + i)){
             if(isOppositeSide(mat, getRow() + dir, getCol() + i)){
                 m.insert({getRow() + dir, getCol() + i});
             }
@@ -49,7 +49,7 @@ std::set<std::pair<int, int>> Pawn::getLegalMoves(const std::shared_ptr<ChessPie
     }
     //enpassant
     for(int i = -1; i <= 1; i += 2){
-        if(checkBoundaries(getRow() + dir, getCol() + i) && mat[getRow()][getCol() + i]->getRole() == Role::pawn){
+        if(checkBoundaries({getRow() + dir, getCol() + i}) && mat[getRow()][getCol() + i]->getRole() == Role::pawn){
             Pawn p = dynamic_cast<Pawn&>(*(mat[getRow()][getCol() + i]));
             if(p.getEnpassant()){
                 if(isDummy(mat, getRow() + dir, getCol() + i)){

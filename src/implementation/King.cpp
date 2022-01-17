@@ -15,7 +15,7 @@ std::set<std::pair<int, int>> King::getLegalMoves(const std::shared_ptr<ChessPie
     //move by onw position
     for(int i = -1; i <= 1; i ++){
         for(int j = -1; j <= 1; j ++){
-            if((j == 0 && i == 0) || !checkBoundaries(getRow() + i, getCol() + j)){
+            if((j == 0 && i == 0) || !checkBoundaries({getRow() + i, getCol() + j})){
                 continue;
             }
             else{

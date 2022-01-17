@@ -20,16 +20,15 @@ protected:
     Role rol;
     ChessPiece(int _row, int _col, Side s);
     //utility functions
-    //bool checkBoundaries(int, int) const;
-
     /*
     ** Check if the movement is inside of the board
     ** return true if it is, otherwise false
     */
     bool checkBoundaries(std::pair<int, int> pos) const;
-
-    bool isDummy(const std::shared_ptr<ChessPiece>[8][8], int , int) const;
-    bool isOppositeSide(const std::shared_ptr<ChessPiece>[8][8], int , int) const;
+    //Returns true if the space in [row_][col_] is free
+    bool isDummy(const std::shared_ptr<ChessPiece>[8][8], int row_, int col_) const;
+    //Returns true if the piece in [row_][col_] is of the opposite side;
+    bool isOppositeSide(const std::shared_ptr<ChessPiece>[8][8], int row_, int col_) const;
 public:
 
     ChessPiece(const ChessPiece&);
