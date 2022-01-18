@@ -12,6 +12,11 @@ add_library(ChessPiece
     implementation/ChessPiece.cpp
 )
 
+add_library(DirectionalPieces
+    header/DirectionalPieces.h
+    implementation/DirectionalPieces.cpp
+)
+
 add_library(Tower
     implementation/Tower.cpp
     header/Tower.h
@@ -95,7 +100,6 @@ add_executable(Replay
 )
 
 target_link_libraries(ChessBoard
-
     Tower 
     Bishop
     Dummy
@@ -104,6 +108,10 @@ target_link_libraries(ChessBoard
     Pawn 
     Queen 
     ChessPiece
+)
+
+target_link_libraries(Queen
+    DirectionalPieces
 )
 
 target_link_libraries(Game

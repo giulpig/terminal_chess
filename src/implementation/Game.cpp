@@ -108,7 +108,7 @@ void Game::play() {
             movement = players[playerTurn] -> getMove();
 
             if( movement == printPair) {
-                //printChessBoard();
+                printChessBoard();
                 moveType = Moves::NaM;
                 continue;
             } /*else if(movement == endGamePair) {

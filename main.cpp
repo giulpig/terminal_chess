@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
         std::cout << "Wrong argument\n";
         return 0;
     }
-    Game game{GameType::PcVsPc};
+    Game game{type};
 
     game.play();
 }
