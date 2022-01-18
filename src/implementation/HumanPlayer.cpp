@@ -13,7 +13,6 @@ using namespace mPos;
 
 HumanPlayer::HumanPlayer(Side side) : Player{side, PlayerType::human} {};
 
-
 pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
 
   pair<pair<int, int>, pair<int, int>> movement;
@@ -59,6 +58,8 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
 
   movement.first = convertPos(pos[0]);
   movement.second = convertPos(pos[1]);
+
+  std::cout <<std::endl;
 
   return movement;
 }

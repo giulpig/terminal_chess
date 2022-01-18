@@ -111,11 +111,11 @@ void Game::play() {
                 printChessBoard();
                 moveType = Moves::NaM;
                 continue;
-            } /*else if(movement == endGamePair) {
+            } else if(movement == quitGame) {
                 moveType = Moves::NaM;
                 endGame = true; 
                 break;
-            }*/
+            }
 
             moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
 
