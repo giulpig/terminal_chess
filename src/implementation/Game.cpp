@@ -145,14 +145,17 @@ void Game::play() {
 
         } while(moveType == Moves::NaM);
 
-        // TODO FINISH COMMEENTS
+        // Promotion could make a check so I have to redo the switch
         bool promotionMovement = false;
         while(!promotionMovement) {
+            // Manage the type of movement
             switch(moveType) {
                 case Moves::promotion: 
 
+                    // If promotion then I have to get the piece
                     promotioChar = players[playerTurn] -> getPromotion();
 
+                    // Make the promotion and then receive what the promotion did
                     moveType = board.promotion(static_cast<Role>(promotioChar));
 
                     if(moveType != Moves::movement)
@@ -177,13 +180,14 @@ void Game::play() {
             }
         }
         
-        playerTurn++;
-        if(playerTurn >= 2)
-            playerTurn = 0;
+        // Advance to the other player
+        playerTurn = playerTurn + 1 >= 2 ? 0 : playerTurn + 1;
+        //playerTurn++;
+        //if(playerTurn >= 2)
+            //playerTurn = 0;
 
-        if(gType == GameType::PcVsPc){
+        if(gType == GameType::PcVsPc)
             countMoves++;        
-        }
 
         // Log the movement
         log.logMove(moveType, movement, {1, promotioChar});
