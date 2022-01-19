@@ -4,6 +4,7 @@
 #include "DirectionalPieces.h"
 
 class Bishop : public DirectionalPieces{
+
     public:
 
         /*
@@ -18,4 +19,5 @@ class Bishop : public DirectionalPieces{
         */
         std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
 };
+
 #endif

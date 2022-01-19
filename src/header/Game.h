@@ -11,51 +11,53 @@
 #include"ChessBoard.h"
 #include"Log.h"
 
-
 class Game {
     private:
+        // Type of the game, used to undertand the type of the players
         GameType gType;
+
+        // Store a pointer to the base class of the players
         std::vector<std::unique_ptr<Player>> players{2};
+
         ChessBoard board;
         Log log;
+
+        /*
+        ** Print on screen the status of the board
+        ** with some spaces before and after
+        */
         void printChessBoard();
+
+        // Max moves in a pc vs pc game
         int maxMovesPc = 1;
 
+        /*
+        ** Get a desired name for the log, if empty use a default one
+        */
+        std::string getFileLogName();
+
+        /*
+        ** Get the max number of moves that a cc game could do 
+        */
+        void setMaxMoves();
+
     public:
+
+        // Default constructor
         Game() {};
+        // Constructor specifing the type of the game
         Game(GameType);
 
-        //Game& operator=(const Game& g);
+        //Game& operator=(const Game& g) = delete;
 
-        // do not know if I have to return something for the main
+        /* 
+        ** Main method that will manage an entire game between the player
+        ** specified in the constructor
+        */
         void play();
  
 };
 
 #endif
 
-// formato upgrade
-/*
- * A2 A4
- * 
- * -promotion k B3 B7
- * -castling
- * -enpassant 
- */
 
-/*
- * Classe log 
- *
- *  private:
- *      nameFile;
- *
- *  public:
- *      log()
- *      log(stirng)
- *
- *      stampo questo nel GAME
- *      "Inserisci nome log (lascia vuoto per nome standard = 'logGame.txt')"
- *
- *      logMov(stirng);
- *
- */

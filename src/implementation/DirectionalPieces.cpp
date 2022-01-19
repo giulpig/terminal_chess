@@ -13,10 +13,6 @@ void DirectionalPieces::addLegalMoves(std::pair<int, int> dir, std::set<std::pai
     // initially the position is where the piece is on the current board
     std::pair<int, int> pos = std::make_pair(getRow(), getCol());
 
-    // For each direction the movement is create adding always the same increment
-
-    // Depends on the selected dir this switch would select an appropiate increment
-
     bool isPossibleMove = true;
 
     // Now start a loop and check all the boxes in the selected direction

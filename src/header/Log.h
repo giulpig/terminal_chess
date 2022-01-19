@@ -9,6 +9,15 @@
 //TODO: Solve this, where put the reconverPos function
 #include"ManagePosition.h"
 
+/* Formato Log:
+ *
+ * A2 A4
+ * 
+ * -promotion k B3 B7
+ * -castling
+ * -enpassant 
+ */
+
 class Log {
 
     private:
