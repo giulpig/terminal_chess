@@ -22,24 +22,52 @@ class Log {
 
     private:
         std::string nameFile;
+
         //defaul distructor will close correctly the ofstrem
         std::ofstream fileStream;
+
+        /*
+        ** Check if the file exists already using file input stream
+        */
         bool exist(std::string) const;
+
+        /*
+        ** Test if the name of the file is avaiable and 
+        ** if it is not add a sequentially number to the end
+        */
         std::string getName(std::string);
+
+        /*
+        ** Adding the sequence number and the extension to the name
+        */
         std::string createFormatName(const std::string&, int);
+
+        /*
+        ** Get the string of movement from the enum type
+        */
         std::string getStrMov(Moves, std::string) const;
 
     public:
+
+        Log();
 
         /*
         * This constuctor create the file,
         * if the file already exist add a sequence integer to the end
         */
-        Log();
         Log(std::string _nameFile);
 
-        //Log& operator=(const Log& l);
-        //void logMove(Moves, std::pair<char, int>, std::pair<char, int>, char);
+        // Move Operator
+        Log& operator=(Log&&);
+
+        // Usefull copy the log
+        Log(Log&) = delete;
+        Log& operator=(const Log& l) = delete;
+
+        /*
+        ** Log the move to a specified file using a specified format,
+        ** log the movement and also special movements with the possible promotion piece
+        */
         void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, std::string);
 };
 

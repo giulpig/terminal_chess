@@ -14,6 +14,14 @@ Log::Log(string _nameFile) {
     fileStream = std::ofstream (nameFile);
 }
 
+Log& Log::operator=(Log&& l) {
+    nameFile = l.nameFile;
+    l.nameFile = "";
+    // Convert to rvalue reference
+    fileStream = std::move(l.fileStream);
+    return *this;
+}
+
 bool Log::exist(string fname) const {
     // distructor will automatically close the stream
     std::ifstream stream (fname);
@@ -83,8 +91,5 @@ void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement,
     fileStream << getStrMov(mov, prom) << reConvertPos(movement) <<std::endl;
 
 }
-
-
-
 
 #endif

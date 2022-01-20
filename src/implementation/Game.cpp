@@ -22,7 +22,7 @@ Game::Game(GameType _gType) : gType{_gType} {
 
     // Set the log
     std::string logName = getFileLogName();
-    log = Log(logName);
+    log = Log{logName};
 
     // Get a random seed for the srand fuction
     struct timeval time_now{};
