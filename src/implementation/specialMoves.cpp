@@ -1,3 +1,5 @@
+//Giulio Codutti 2008795
+
 #ifndef SPECIALMOVES_CPP
 #define SPECIALMOVES_CPP
 
@@ -8,7 +10,7 @@ using std::pair;
 
 
 //does a promotion
-Moves ChessBoard::promotion(Role role){          //I can get info from toPromote attribute
+Moves ChessBoard::promotion(Role role){
 
     if(_toPromote == nullptr){
         throw InvalidPromotion{};

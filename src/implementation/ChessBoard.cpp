@@ -57,7 +57,8 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 
         case Moves::promotion:
             _toPromote = _chessBoard[from.first][from.second];
-            //promotion is called by Game class
+
+            //promotion is then called by Game class
             return Moves::promotion;
 
         case Moves::enpassant:
