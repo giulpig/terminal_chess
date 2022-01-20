@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/src",
+    "cmake.sourceDirectory": "${workspaceFolder}/.",
     "files.associations": {
         "deque": "cpp",
         "array": "cpp",
