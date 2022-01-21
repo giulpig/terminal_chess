@@ -1,3 +1,5 @@
+//Giulio Codutti 2008795
+
 #ifndef BOARD_H
 #define BOARD_H
 
@@ -19,6 +21,7 @@
 #include <string>
 #include <unordered_map>
 
+
 //--------------------constants----------------------
 
 constexpr int SIZE = 8;
@@ -32,21 +35,25 @@ constexpr char initial_roles[8][8] = {
     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     {'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-    {'T', 'C', 'A', 'D', 'R', 'A', 'C', 'T'}};
+    {'T', 'C', 'A', 'D', 'R', 'A', 'C', 'T'}
+};
 
-constexpr char initial_colors[8][8] = {
 
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0},
+constexpr char initial_colors[8][8] = {     //1 for white, 0 for black and -1 for no side
+
+    { 0,  0,  0,  0,  0,  0,  0,  0},
+    { 0,  0,  0,  0,  0,  0,  0,  0},
     {-1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1},
-    {1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1},
+    { 1,  1,  1,  1,  1,  1,  1,  1},
+    { 1,  1,  1,  1,  1,  1,  1,  1},
 };
 
 const static std::shared_ptr<Dummy> oneDummyToRuleThemAll = std::make_shared<Dummy>();
+
+
 
 //--------------------ChessBoard class----------------------
 
@@ -55,10 +62,9 @@ class ChessBoard
 {
 
 private:
-    //TOREMOVE
-    void checkFuck() const;
 
-//------attributes------
+//-----------attributes-----------
+
     std::shared_ptr<ChessPiece> _chessBoard[SIZE][SIZE];         //actual board
 
     std::vector<std::shared_ptr<ChessPiece>> _black, _white;     //piece lists
@@ -77,7 +83,9 @@ private:
     //true if a single configuration has been repeated three times
     bool _threeRep = false;
 
-//------utility methods------
+
+//----------utility methods----------
+
     static std::shared_ptr<ChessPiece> newPiece(int row, int col, Side, Role); //can throw NoSideException
     static std::shared_ptr<ChessPiece> copyPiece(const std::shared_ptr<ChessPiece> &);
     static Side otherSide(Side);
@@ -92,15 +100,15 @@ private:
     void swapPieces(const std::pair<int, int> &, const std::pair<int, int> &);
 
 public:
-//----constructors----
+//--  --constructors----
     ChessBoard();
     ChessBoard(const ChessBoard &);          //copy
     ChessBoard(ChessBoard &&);               //move
 
-//----operators----
+//------operators-------
     ChessBoard &operator=(const ChessBoard &); //does a copy
 
-//----methods----
+//------methods---------
     //returns a string containing the board disposition
     std::string notToString() const;
 
@@ -129,8 +137,7 @@ public:
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check, if not given it's the class member board
-    //argument 3: needed if the board is a possible board and it signals where's the piece that was eaten and therefore has to be ignored in the check.
-    //            used for check for possible moves
+    //argument 3: where's the piece that was eaten => ignored in the check
     bool isCheck(Side, const std::shared_ptr<ChessPiece>[8][8] = nullptr, std::pair<int, int> p = std::pair<int, int>{-1, -1}) const;
     
     //argument: which side to check if it has possible moves
