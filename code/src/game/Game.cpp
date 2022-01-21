@@ -1,22 +1,18 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef GAME_CPP
 #define GAME_CPP
 
 #include"Game.h"
-#include<stdlib.h>
-
-#include <chrono>
-#include <ctime>
-#include <sys/time.h>
-
-//have to change this
-using namespace std::chrono;
 
 using std::pair;
 using std::unique_ptr;
 using std::vector;
 using namespace mPos;
-
-
 
 Game::Game(GameType _gType) : gType{_gType} {
 

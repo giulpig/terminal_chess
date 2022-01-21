@@ -1,3 +1,9 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef QUEEN_CPP
 #define QUEEN_CPP
 

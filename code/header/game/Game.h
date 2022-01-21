@@ -1,9 +1,16 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef GAME_H
 #define GAME_H
 
 #include<iostream>
 #include<memory>
 #include<vector>
+#include <sys/time.h>
 #include"Enums.h"
 #include"Player.h"
 #include"HumanPlayer.h"
@@ -43,11 +50,10 @@ class Game {
 
     public:
 
-        // Default constructor
-        Game() {};
         // Constructor specifing the type of the game
         Game(GameType);
 
+        //Game(Game&) = delete;
         //Game& operator=(const Game& g) = delete;
 
         /* 

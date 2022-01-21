@@ -1,3 +1,9 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef PLAYER_CPP
 #define PLAYER_CPP
 

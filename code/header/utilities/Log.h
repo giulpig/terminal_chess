@@ -1,3 +1,9 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef LOG_H
 #define LOG_H
 
@@ -48,7 +54,7 @@ class Log {
 
     public:
 
-        //Log();
+        Log();
 
         /*
         * This constuctor create the file,

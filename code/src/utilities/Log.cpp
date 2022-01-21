@@ -1,3 +1,9 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef LOG_CPP
 #define LOG_CPP
 
@@ -7,7 +13,7 @@ using std::string;
 using std::pair;
 using namespace mPos;
 
-//Log::Log() {}
+Log::Log() {}
 
 /**
  * Set the right nameFile using getName 

@@ -1,3 +1,9 @@
+/**
+ * Gabriele Miotti
+ * 
+ * N. Matricola : 2000165
+ */
+
 #ifndef MANAGEPOSITION_H
 #define MANAGEPOSITION_H
 
