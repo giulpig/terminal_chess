@@ -7,13 +7,20 @@ using std::string;
 using std::pair;
 using namespace mPos;
 
-Log::Log() {}
+//Log::Log() {}
 
+/**
+ * Set the right nameFile using getName 
+ * and open the output stream with a proper file name
+*/
 Log::Log(string _nameFile) {
     nameFile = getName(_nameFile);
     fileStream = std::ofstream (nameFile);
 }
 
+/**
+ * Move Constructor
+*/
 Log& Log::operator=(Log&& l) {
     nameFile = l.nameFile;
     l.nameFile = "";
@@ -37,8 +44,6 @@ string Log::getName(string str) {
     do {
         cmpFileName = createFormatName(str, cp++);
     } while(exist(cmpFileName));
-
-    //cmpFileName = createFormatName(str, cp++);
 
     return cmpFileName;
 }
@@ -69,27 +74,14 @@ string Log::getStrMov(Moves mov, string up) const {
         case Moves::enpassant:
             return "-enpassant ";
             break;
-
-        //those are usefull I think
-        /*
-        case Moves::staleMate:
-            return "-staleMate";
-            break;
-        case Moves::checkMate:
-            return "";
-            break;
-        */
         default:
             return "";
             break;
     }
 }
 
-//void Log::logMove(Moves mov, std::pair<char, int> from, std::pair<char, int> to, char prom = '0') {
 void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement, string prom) {
-
     fileStream << getStrMov(mov, prom) << reConvertPos(movement) <<std::endl;
-
 }
 
 #endif

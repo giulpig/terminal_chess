@@ -10,12 +10,23 @@
 class Player {
 
     protected:
+        // Store the side of the player
         Side side;
+
+        // Store his type, it could be Pc or Human
         PlayerType plType;
         
     public:
 
+        /**
+         * The constructor initially will only set the side and the type
+         */
         Player(Side, PlayerType);  
+
+        /**
+         * This funtion will return the movement selected from the player,
+         * it will be override 
+         */
         virtual std::pair<std::pair<int, int>, std::pair<int, int>> getMove() = 0;
         Side getSide() const;
         std::string getSideStr() const;

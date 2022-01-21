@@ -6,7 +6,6 @@
 #include<iostream>
 #include<sstream>
 #include"Enums.h"
-//TODO: Solve this, where put the reconverPos function
 #include"ManagePosition.h"
 
 /* Formato Log:
@@ -23,7 +22,7 @@ class Log {
     private:
         std::string nameFile;
 
-        //defaul distructor will close correctly the ofstrem
+        //defaul distructor will close correctly the ofstream
         std::ofstream fileStream;
 
         /*
@@ -49,7 +48,7 @@ class Log {
 
     public:
 
-        Log();
+        //Log();
 
         /*
         * This constuctor create the file,
@@ -60,7 +59,7 @@ class Log {
         // Move Operator
         Log& operator=(Log&&);
 
-        // Usefull copy the log
+        // copy the log is usefull
         Log(Log&) = delete;
         Log& operator=(const Log& l) = delete;
 
