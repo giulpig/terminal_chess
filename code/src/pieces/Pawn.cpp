@@ -1,3 +1,4 @@
+//Artico Giovanni n.matr. 2000178
 #ifndef PAWN_CPP
 #define PAWN_CPP
 
@@ -13,6 +14,7 @@ void Pawn::setPosition(int _row, int _col){
     if(_row == getRow() + 2 || _row == getRow() - 2){
         enpassant = true;
     }
+
     //if the en passant wasn't done
     if(enpassant){
         enpassant = false;
@@ -91,9 +93,11 @@ Moves Pawn::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8
         return Moves::movement;
     }
 }
+
 void Pawn::cancelEnpassant(){
     enpassant = false;
 }
+
 bool Pawn::getEnpassant() const{
     return enpassant;
 }

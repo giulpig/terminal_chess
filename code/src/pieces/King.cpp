@@ -1,3 +1,4 @@
+//Artico Giovanni n.matr. 2000178
 #ifndef KING_CPP
 #define KING_CPP
 

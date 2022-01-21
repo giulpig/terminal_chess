@@ -1,3 +1,4 @@
+//Artico Giovanni n.matr. 2000178
 #ifndef REPLAY_CPP
 #define REPLAY_CPP
 
@@ -32,9 +33,11 @@ char chess[8][8] = {
     {'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
     {'t', 'c', 'a', 'd', 'r', 'a', 'c', 't'}
 };
-
+//prints the board
 std::string print();
+//Clears the terminal
 void Clear();
+//moves the piece and returns the initial and final position in pair format
 std::pair<std::pair<int,int>, std::pair<int,int>> movePiece(std::string, std::string);
 
 int main(int argc, char** argv){
