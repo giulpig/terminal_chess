@@ -50,10 +50,10 @@ class Game {
 
     public:
 
-        // Constructor specifing the type of the game
+        // Constructor specifying the type of the game
         Game(GameType);
 
-        // Copy constructor and operator are usefull
+        // Copy constructor and operator are useless and might be dangerous
         Game(Game&) = delete;
         Game& operator=(const Game& g) = delete;
 

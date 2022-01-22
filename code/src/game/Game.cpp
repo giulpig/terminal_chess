@@ -106,7 +106,7 @@ void Game::play() {
     std::cout << "Scrivi 'XX XX' per stampare la tavola da gioco \n";
     std::cout << "Scrivi 'QQ QQ' per abbandonare la partita \n\n";
 
-    // Loop until there is a 'flap', someone win or the pc players have reached up the max moves
+    // Loop until there is a draw, someone win or the pc players have reached up the max moves
     while(!endGame && countMoves <= maxMovesPc) {
 
         // Loop until a right movement is selected
