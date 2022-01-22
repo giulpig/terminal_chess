@@ -13,11 +13,7 @@ void Pawn::setPosition(int _row, int _col){
     if(_row == getRow() + 2 || _row == getRow() - 2){
         enpassant = true;
     }
-<<<<<<< HEAD
     ChessPiece::setPosition(_row, _col);
-=======
-
->>>>>>> c720edbdd5513d7e353dbdae331cbff90873e4ce
     //if the en passant wasn't done
     /*
     if(enpassant){
