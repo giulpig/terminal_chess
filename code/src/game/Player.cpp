@@ -26,10 +26,10 @@ string Player::getSideStr() const {
 
     switch (side) {
         case Side::white:
-            return "white";
+            return "bianco";
             break;
         case Side::black:
-            return "black";
+            return "nero";
             break;
         default:
             return "";

@@ -15,7 +15,6 @@ int main(int argc, char** argv) {
 
     std::cout << "Gioco degli Scacchi \n\n";
     
-    /*
     if(argc < 2) {
         std::cout << "Missing arguments\n";
         return 0;
@@ -39,8 +38,6 @@ int main(int argc, char** argv) {
         return 0;
     }
     Game game{type};
-    */
-    Game game{GameType::HumanVsHuman};
 
     game.play();
 }

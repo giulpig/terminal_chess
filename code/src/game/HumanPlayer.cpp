@@ -32,7 +32,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
     pos = vector<string>{3};
 
     if(!rightInput)
-      std::cout << "\nInvalid Input!\n" <<std::endl;
+      std::cout << "\nInput Invalido!\n" <<std::endl;
 
     // Get all the line of the input
     getline(std::cin, line);
@@ -83,12 +83,22 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
 
 char HumanPlayer::getPromotion() const {  
   string line;
-  std::cout << "Select a new Piece: \n T - Rook \n D - Queen\n P - Pawn (but you can't do this)\n C - Knight\n A - Bishop\n";
 
   // Check input
   do {
+
+      std::cout << "Seleziona il pezzo: \n T - Torre \n D - Regina\n C - Cavallo\n A - Alfiere\n";
       getline(std::cin, line);
-  } while(line.size() != 1 && (line[0] != 'T' && line[0] != 'D' && line[0] != 'C' && line[0] != 'B'));
+
+      if(line.size() != 1)
+        continue;
+        
+      std::toupper(line[0]);
+
+      if(line[0] == 'P')
+        std::cout << "Veramente??\n";
+
+  } while(line[0] != 'T' && line[0] != 'D' && line[0] != 'C' && line[0] != 'B');
 
   return line[0];
 }

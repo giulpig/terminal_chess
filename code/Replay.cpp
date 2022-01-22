@@ -48,6 +48,11 @@ int main(int argc, char** argv){
     if(argv[1][0] != 'v' && argv[1][0] != 'f'){
         throw WrongArguments{};
     }
+
+    if(argc < 4 && argv[1][0] == 'f'){
+        throw WrongArguments{};
+    }
+
     std::ifstream in{argv[2]};
 
     std::vector<std::string> vec;//contains the boards
@@ -110,10 +115,10 @@ int main(int argc, char** argv){
     }
 
     //if the argument was given to print to file
-    if(argv[1] == "f"){
+    if(argv[1][0] == 'f'){
         std::ofstream out{argv[3]};
         for(int i = 0; i < vec.size(); i++){
-            out << vec[i];
+            out << vec[i] << std::endl;
         }
         out.close();
     }

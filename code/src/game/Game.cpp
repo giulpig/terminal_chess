@@ -113,7 +113,7 @@ void Game::play() {
 
             // Print that it's the turn of a player only if it is human
             if(players[playerTurn] -> getType() == PlayerType::human)
-                std::cout << "Type a movement player " << players[playerTurn] -> getSideStr() <<std::endl;
+                std::cout << "Seleziona una mossa giocatore: " << players[playerTurn] -> getSideStr() <<std::endl;
 
             // Get the movement from the player, the pointer of the player will manage id human or pc
             movement = players[playerTurn] -> getMove();
@@ -133,10 +133,10 @@ void Game::play() {
 
             // If NotAMovement and the player is human
             if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
-                std::cout << "Illegal Movement! \n\n";
+                std::cout << "Mossa Illegale! \n\n";
             // If the movement is ok and it is done by a computer than print the movement
             else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc) {
-                std::cout << players[playerTurn] -> getSideStr() << " moved: \n";
+                std::cout << players[playerTurn] -> getSideStr() << " ha mosso: \n";
                 std::cout << reConvertPos(movement) << "\n\n";
             }
 
@@ -144,10 +144,13 @@ void Game::play() {
 
         // Promotion could make a check so I have to redo the switch
         bool promotionMovement = false;
+        bool isPromotion = false;
         while(!promotionMovement) {
             // Manage the type of movement
             switch(moveType) {
                 case Moves::promotion: 
+
+                    isPromotion = true;
 
                     // If promotion then I have to get the piece
                     promotioChar = players[playerTurn] -> getPromotion();
@@ -162,12 +165,12 @@ void Game::play() {
 
                     break;
                 case Moves::staleMate:
-                    std::cout << "patta" <<std::endl;
+                    std::cout << "Patta" <<std::endl;
                     endGame = true; 
                     promotionMovement = true;
                     break;
                 case Moves::checkMate:
-                    std::cout << "Player " << players[playerTurn] -> getSideStr() << "you win" <<std::endl;
+                    std::cout << "Giocatore " << players[playerTurn] -> getSideStr() << " Hai Vinto!!" <<std::endl;
                     endGame = true; 
                     promotionMovement = true;
                     break;
@@ -184,7 +187,12 @@ void Game::play() {
             countMoves++;        
 
         // Log the movement
-        log.logMove(moveType, movement, {1, promotioChar});
+        promotioChar = players[playerTurn] -> getSide() == Side::white ? std::tolower(promotioChar) : promotioChar;
+
+        moveType = isPromotion ? Moves::promotion : moveType;
+
+        if(!endGame)
+            log.logMove(moveType, movement, {1, promotioChar});
     }
 
     if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
