@@ -84,6 +84,7 @@ void Game::setMaxMoves() {
 void Game::play() {
 
     bool endGame = false;
+    bool quitted = false;
     pair<pair<int, int>, pair<int, int>> movement;
     // Pair used to understand if the human player want to seen the board or quit the game
     pair<pair<int, int>, pair<int, int>> printPair = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
@@ -125,6 +126,7 @@ void Game::play() {
             } else if(movement == quitGame) {
                 moveType = Moves::NaM;
                 endGame = true; 
+                quitted = true;
                 break;
             }
 
@@ -185,7 +187,7 @@ void Game::play() {
 
         moveType = isPromotion ? Moves::promotion : moveType;
 
-        if(!endGame) {
+        if(!quitted) {
             char p[] = {promotioChar};
             //log.logMove(moveType, movement, {1, promotioChar});
             log.logMove(moveType, movement, p);
