@@ -155,8 +155,8 @@ shared_ptr<ChessPiece> ChessBoard::newPiece(int row, int col, Side side, Role ro
         case Role::knight:
             return std::make_shared<Knight>(row, col, side);
 
-        case Role::tower:
-            return std::make_shared<Tower>(row, col, side);
+        case Role::rook:
+            return std::make_shared<Rook>(row, col, side);
 
         case Role::pawn:
             return std::make_shared<Pawn>(row, col, side);

@@ -10,7 +10,7 @@
 #include "Queen.h"
 #include "Bishop.h"
 #include "Knight.h"
-#include "Tower.h"
+#include "Rook.h"
 #include "Pawn.h"
 #include "Dummy.h"
 

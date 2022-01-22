@@ -18,9 +18,9 @@ add_library(DirectionalPieces
     code/src/pieces/DirectionalPieces.cpp
 )
 
-add_library(Tower
-    code/src/pieces/Tower.cpp
-    code/header/pieces/Tower.h
+add_library(Rook
+    code/src/pieces/Rook.cpp
+    code/header/pieces/Rook.h
 )
 add_library(Knight
     code/src/pieces/Knight.cpp
@@ -101,7 +101,7 @@ add_executable(Replay
 )
 
 target_link_libraries(ChessBoard
-    Tower 
+    Rook 
     Bishop
     Dummy
     King

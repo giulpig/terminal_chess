@@ -7,13 +7,13 @@
 #ifndef TOWER_CPP
 #define TOWER_CPP
 
-#include "Tower.h"
+#include "Rook.h"
 
 using std::make_pair;
 
-Tower::Tower(int row, int column, Side sidePiece) : DirectionalPieces{row, column, sidePiece, Role::tower} {}
+Rook::Rook(int row, int column, Side sidePiece) : DirectionalPieces{row, column, sidePiece, Role::rook} {}
 
-std::set<std::pair<int, int>> Tower::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
+std::set<std::pair<int, int>> Rook::getLegalMoves(const std::shared_ptr<ChessPiece> board[8][8]) const {
 
     std::set<std::pair<int, int>> legalMoves {};
     std::pair<int, int> dir;

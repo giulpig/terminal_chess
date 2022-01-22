@@ -11,7 +11,7 @@ enum class Role: char{
     king   = 'R',
     queen  = 'D',
     bishop = 'A',
-    tower  = 'T',
+    rook  = 'T',
     knight = 'C',
     pawn   = 'P',
     dummy  = ' '

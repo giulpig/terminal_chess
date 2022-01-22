@@ -32,7 +32,7 @@ This is a chess game board program developed by the team *C++ mi +* = {Giulio_Co
   - King&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**R**
   - Queen&nbsp;&nbsp;**D**
   - Bishop&nbsp;&nbsp;**A**
-  - Tower&nbsp;&nbsp;&nbsp;**T**
+  - Rook&nbsp;&nbsp;&nbsp;**T**
   - Horse&nbsp;&nbsp;&nbsp;**C**
   - Pawn&nbsp;&nbsp;&nbsp;&nbsp;**P**
 - ChessBoard
@@ -59,7 +59,7 @@ This is a chess game board program developed by the team *C++ mi +* = {Giulio_Co
 - Study castling (arrocco) carachteristics
   - NOT if king is checked
   - NOT if king moved
-  - NOT if tower moved
+  - NOT if rook moved
   - NOT if king's travel path is under attack
 >
 - When promoting on promotion, give a choice between queen and horse

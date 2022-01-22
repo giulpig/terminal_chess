@@ -1,6 +1,4 @@
 #include<iostream>
-//#include"src/header/ChessBoard.h"
-//#include"ChessBoard.h"
 
 #include"Game.h"
 

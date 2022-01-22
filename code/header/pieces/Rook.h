@@ -9,7 +9,7 @@
 
 #include "DirectionalPieces.h"
 
-class Tower : public DirectionalPieces{
+class Rook : public DirectionalPieces{
 
     public:
 
@@ -17,7 +17,7 @@ class Tower : public DirectionalPieces{
         ** Constructor will call the base class, DirectionalPieces
         ** passing the right role
         */
-        Tower(int row, int column, Side sidePiece);
+        Rook(int row, int column, Side sidePiece);
 
         /* 
         ** Return all the possible movements of the piece
