@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS_RELEASE, "-O2")
+
 # set the project name
 project(Chess VERSION 1.0)
+
 
 include_directories("code/header/chessboard" "code/header/pieces" "code/header/utilities" "code/header/game"
                     "code/src/chessboard" "code/src/pieces" "code/src/utilities" "code/src/game")
@@ -66,7 +69,6 @@ add_library(ManagePosition
     code/header/utilities/ManagePosition.h
 )
 
-# Game libraries
 add_library(Game
     code/header/utilities/Enums.h
     code/src/game/Game.cpp
