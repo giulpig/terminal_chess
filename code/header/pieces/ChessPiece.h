@@ -50,7 +50,7 @@ public:
     virtual std::set<std::pair<int, int>>getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const = 0;
     
     //returns the type of move that they did
-    virtual Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const = 0;
+    virtual Move moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const = 0;
 };
 
 #endif

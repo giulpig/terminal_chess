@@ -37,7 +37,7 @@ class DirectionalPieces : public ChessPiece{
          * and simply return true if the piece can do this movement
          * otherwise if the piece is not allow to move in the specified position return false
          */
-        Moves moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
+        Move moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
 };
 
 #endif

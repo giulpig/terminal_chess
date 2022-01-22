@@ -58,17 +58,17 @@ std::set<std::pair<int, int>> King::getLegalMoves(const std::shared_ptr<ChessPie
     }
     return s;
 }
-Moves King::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
+Move King::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
     std::set<std::pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
-        return Moves::NaM;
+        return Move::NaM;
     }
     else{
         if(_row == getRow() && (_col == getCol() + 2 || _col == getCol() - 2)){
-            return Moves::castling;
+            return Move::castling;
         }
         else{
-            return Moves::movement;
+            return Move::movement;
         }
     }
 }

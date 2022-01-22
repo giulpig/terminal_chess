@@ -50,7 +50,7 @@ class Log {
         /*
         ** Get the string of movement from the enum type
         */
-        std::string getStrMov(Moves, std::string) const;
+        std::string getStrMov(Move, std::string) const;
 
     public:
 
@@ -73,7 +73,7 @@ class Log {
         ** Log the move to a specified file using a specified format,
         ** log the movement and also special movements with the possible promotion piece
         */
-        void logMove(Moves, std::pair<std::pair<int, int>, std::pair<int, int>>, std::string);
+        void logMove(Move, std::pair<std::pair<int, int>, std::pair<int, int>>, std::string);
 };
 
 

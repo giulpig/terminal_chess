@@ -31,13 +31,13 @@ std::set<std::pair<int, int>> Knight::getLegalMoves(const std::shared_ptr<ChessP
     return s;
 }
 
-Moves Knight::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
+Move Knight::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> mat[8][8]) const{
     std::set<std::pair<int, int>> s = getLegalMoves(mat);
     if(s.find({_row, _col}) == s.end()){
-        return Moves::NaM;
+        return Move::NaM;
     }
     else{
-        return Moves::movement;
+        return Move::movement;
     }
 }
 #endif

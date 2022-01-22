@@ -34,7 +34,7 @@ bool ChessBoard::isCheck(Side s, const std::shared_ptr<ChessPiece> mat[8][8], st
             continue;
         }
 
-        if(i->moveType(r, c, mat) != Moves::NaM){
+        if(i->moveType(r, c, mat) != Move::NaM){
             return true;
         }
     }

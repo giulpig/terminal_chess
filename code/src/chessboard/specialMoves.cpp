@@ -10,7 +10,7 @@ using std::pair;
 
 
 //does a promotion
-Moves ChessBoard::promotion(Role role){
+Move ChessBoard::promotion(Role role){
 
     if(_toPromote == nullptr){
         throw InvalidPromotion{};
@@ -31,14 +31,14 @@ Moves ChessBoard::promotion(Role role){
 
     //staleMate check
     if(isStaleMate(side))
-        return Moves::staleMate;
+        return Move::staleMate;
 
     //checkMate check, do-undo strategy for all pieces and all moves
     if(isCheck(otherSide(side), _chessBoard) && !hasPossibleMoves(otherSide(side))){
-        return Moves::checkMate;
+        return Move::checkMate;
     }
 
-    return Moves::movement;
+    return Move::movement;
 }
 
 

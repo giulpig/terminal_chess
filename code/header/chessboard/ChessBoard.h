@@ -131,10 +131,10 @@ public:
     bool isPossibleMove(const std::pair<int, int> &, const std::pair<int, int> &, Side);
 
     //checks the move, calls doMove and returns the type of move that was done
-    Moves move(const std::pair<int, int> &, const std::pair<int, int> &, Side);
+    Move move(const std::pair<int, int> &, const std::pair<int, int> &, Side);
 
     //does a promotion, returns true if checkmate, can throw InvalidPromotion
-    Moves promotion(Role);
+    Move promotion(Role);
 
     //argument 1: which side to check if the king is in check
     //argument 2: chessboard to use for the check, if not given it's the class member board

@@ -15,8 +15,8 @@ std::set<std::pair<int, int>> Dummy::getLegalMoves(const std::shared_ptr<ChessPi
     return s;
 }
 
-Moves Dummy::moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const{
-    return Moves::NaM;
+Move Dummy::moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const{
+    return Move::NaM;
 }
 
 #endif

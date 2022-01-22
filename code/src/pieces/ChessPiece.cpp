@@ -4,9 +4,6 @@
 
 #include "ChessPiece.h"
 
-//temp
-#include <iostream>
-
 ChessPiece::ChessPiece(int _row, int _col, Side s){
     location.first = _row;
     location.second = _col;

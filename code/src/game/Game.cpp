@@ -90,7 +90,7 @@ void Game::play() {
     pair<pair<int, int>, pair<int, int>> printPair = std::make_pair(std::make_pair(-1, -1), std::make_pair(-1, -1));
     pair<pair<int, int>, pair<int, int>> quitGame = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
 
-    Moves moveType;
+    Move moveType;
 
     int playerTurn = 0;
     // Check who is the white player
@@ -121,10 +121,10 @@ void Game::play() {
 
             if(movement == printPair) {
                 printChessBoard();
-                moveType = Moves::NaM;
+                moveType = Move::NaM;
                 continue;
             } else if(movement == quitGame) {
-                moveType = Moves::NaM;
+                moveType = Move::NaM;
                 endGame = true; 
                 quitted = true;
                 break;
@@ -134,15 +134,15 @@ void Game::play() {
             moveType = board.move(movement.first, movement.second, players[playerTurn] -> getSide());
 
             // If NotAMovement and the player is human
-            if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
+            if(moveType == Move::NaM && players[playerTurn] -> getType() == PlayerType::human)
                 std::cout << "Mossa Illegale! \n\n";
             // If the movement is ok and it is done by a computer than print the movement
-            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc) {
+            else if(moveType != Move::NaM  && players[playerTurn] -> getType() == PlayerType::pc) {
                 std::cout << players[playerTurn] -> getSideStr() << " ha mosso: \n";
                 std::cout << reConvertPos(movement) << "\n\n";
             }
 
-        } while(moveType == Moves::NaM);
+        } while(moveType == Move::NaM);
 
         // Promotion could make a check so I have to redo the switch
         bool promotionMovement = false;
@@ -150,7 +150,7 @@ void Game::play() {
         while(!promotionMovement) {
             // Manage the type of movement
             switch(moveType) {
-                case Moves::promotion: 
+                case Move::promotion: 
 
                     isPromotion = true;
 
@@ -160,18 +160,18 @@ void Game::play() {
                     // Make the promotion and then receive what the promotion did
                     moveType = board.promotion(static_cast<Role>(promotioChar));
 
-                    if(moveType != Moves::movement)
+                    if(moveType != Move::movement)
                         promotionMovement = false;
                     else
                         promotionMovement = true;
 
                     break;
-                case Moves::staleMate:
+                case Move::staleMate:
                     std::cout << "Patta" <<std::endl;
                     endGame = true; 
                     promotionMovement = true;
                     break;
-                case Moves::checkMate:
+                case Move::checkMate:
                     std::cout << "Giocatore " << players[playerTurn] -> getSideStr() << " Hai Vinto!!" <<std::endl;
                     endGame = true; 
                     promotionMovement = true;
@@ -185,7 +185,7 @@ void Game::play() {
         // Log the movement
         promotioChar = players[playerTurn] -> getSide() == Side::white ? std::tolower(promotioChar) : promotioChar;
 
-        moveType = isPromotion ? Moves::promotion : moveType;
+        moveType = isPromotion ? Move::promotion : moveType;
 
         if(!quitted) {
             char p[] = {promotioChar};

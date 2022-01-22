@@ -3,8 +3,8 @@
 #define ENUMS_CPP
 
 enum class Side: char{
-    black   = 0,
-    white   = 1,
+    black   =  0,
+    white   =  1,
     noSide  = -1
 };
 
@@ -12,13 +12,13 @@ enum class Role: char{
     king   = 'R',
     queen  = 'D',
     bishop = 'A',
-    rook  = 'T',
+    rook   = 'T',
     knight = 'C',
     pawn   = 'P',
     dummy  = ' '
 };
 
-enum class Moves{
+enum class Move{
     NaM,
     movement,
     castling,

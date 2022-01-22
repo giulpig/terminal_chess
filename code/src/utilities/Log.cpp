@@ -65,19 +65,19 @@ string Log::createFormatName(const string& name, int cp) {
     return newName.str();
 }
 
-string Log::getStrMov(Moves mov, string up) const {
+string Log::getStrMov(Move mov, string up) const {
     switch (mov) {
 
-        case Moves::movement:
+        case Move::movement:
             return "";
             break;
-        case Moves::castling:
+        case Move::castling:
             return "-castling ";
             break;
-        case Moves::promotion:
+        case Move::promotion:
             return "-promotion " + up + " ";
             break;
-        case Moves::enpassant:
+        case Move::enpassant:
             return "-enpassant ";
             break;
         default:
@@ -86,7 +86,7 @@ string Log::getStrMov(Moves mov, string up) const {
     }
 }
 
-void Log::logMove(Moves mov, std::pair<pair<int, int>, pair<int, int>> movement, string prom) {
+void Log::logMove(Move mov, std::pair<pair<int, int>, pair<int, int>> movement, string prom) {
     fileStream << getStrMov(mov, prom) << reConvertPos(movement) <<std::endl;
 }
 

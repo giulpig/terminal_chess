@@ -59,14 +59,14 @@ void DirectionalPieces::setPosition(int _row, int _column) {
 }
 
 
-Moves DirectionalPieces::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> board [8][8]) const {
+Move DirectionalPieces::moveType(int _row, int _col, const std::shared_ptr<ChessPiece> board [8][8]) const {
 
     std::set<std::pair<int, int>> legalMoves = getLegalMoves(board);
     if(legalMoves.find({_row, _col}) != legalMoves.end()) {
         //we find the pair in the legalMoves
-        return Moves::movement;
+        return Move::movement;
     } else
-        return Moves::NaM;
+        return Move::NaM;
 
 }
 

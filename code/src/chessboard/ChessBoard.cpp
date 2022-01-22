@@ -27,46 +27,46 @@ using std::pair;
 
 /*--------------------------- Section 1 - Utility methods ----------------------------------------*/
 
-Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Side side){
+Move ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Side side){
 
     shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not modify...
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
     Side opponent = otherSide(fromPiece->getSide());
-    Moves moveType = fromPiece->moveType(to.first, to.second, _chessBoard);
+    Move moveType = fromPiece->moveType(to.first, to.second, _chessBoard);
     shared_ptr<ChessPiece> newDoubleMoved = nullptr;
     bool enpassed = false;
     
     if(!isPossibleMove(from, to, side)){
-        return Moves::NaM;
+        return Move::NaM;
     }
 
     //Check for special moves
     switch(moveType){
 
-        case Moves::castling:
+        case Move::castling:
             if(!doCastling(to))
-                return Moves::NaM;
+                return Move::NaM;
             
             if(isStaleMate(opponent))
-                return Moves::staleMate;
+                return Move::staleMate;
 
             //checkMate check
             if(isCheck(opponent) && !hasPossibleMoves(opponent)){
-                return Moves::checkMate;
+                return Move::checkMate;
             }
 
-            return Moves::castling;
+            return Move::castling;
 
-        case Moves::promotion:
+        case Move::promotion:
             _toPromote = _chessBoard[from.first][from.second];
         break;
 
-        case Moves::enpassant:
+        case Move::enpassant:
             doEnpassant(from, to);  //doEmpassant just removes the other pawn, the move is done in doMove
             enpassed = true;
         break;
 
-        case Moves::doublePawn:
+        case Move::doublePawn:
             newDoubleMoved = fromPiece;
         break;
 
@@ -76,10 +76,10 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     doMove(from, to);
 
     if(isStaleMate(opponent))
-        return Moves::staleMate;
+        return Move::staleMate;
 
     if(isCheck(opponent) && !hasPossibleMoves(opponent)){
-        return Moves::checkMate;
+        return Move::checkMate;
     }
 
     //overwrite previous double-moved pawn
@@ -95,12 +95,12 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     }
 
     if(enpassed)
-        return Moves::enpassant;
+        return Move::enpassant;
 
     if(_toPromote != nullptr)
-        return Moves::promotion;
+        return Move::promotion;
 
-    return Moves::movement;
+    return Move::movement;
 }
 
 
@@ -154,7 +154,7 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     const shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
 
     //You can't do castling under check
-    if(fromPiece->moveType(to.first, to.second, _chessBoard) == Moves::castling && isCheck(s))
+    if(fromPiece->moveType(to.first, to.second, _chessBoard) == Move::castling && isCheck(s))
         return false;
 
     //You can't move other player's pieces
