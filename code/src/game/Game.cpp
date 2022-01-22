@@ -45,14 +45,14 @@ Game::Game(GameType _gType) : gType{_gType} {
             break;
 
         //To be removed
-        //case GameType::HumanVsHuman:
-            //players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
-            //players[1] = unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
-            //break;
+        case GameType::HumanVsHuman:
+            players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
+            players[1] = unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
+            break;
     }
 
     //to be removede this if
-    //if(gType != GameType::HumanVsHuman)
+    if(gType != GameType::HumanVsHuman)
         players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
@@ -91,6 +91,9 @@ void Game::play() {
 
     Moves moveType;
     int playerTurn = 0;
+
+    // Check who is the white player
+
     int countMoves = 0;
     char promotioChar;
 
@@ -99,7 +102,7 @@ void Game::play() {
 
     std::cout << "Inizia a giocare!" << std::endl;
     std::cout << "Scrivi 'XX XX' per stampare la tavola da gioco \n";
-    std::cout << "Scrivi 'QQ QQ' per abbandonare la partita \n";
+    std::cout << "Scrivi 'QQ QQ' per abbandonare la partita \n\n";
 
     // Loop until there is a 'flap', someone win or the pc players have reached up the max moves
     while(!endGame && countMoves <= maxMovesPc) {
