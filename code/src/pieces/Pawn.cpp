@@ -14,12 +14,6 @@ void Pawn::setPosition(int _row, int _col){
         enpassant = true;
     }
     ChessPiece::setPosition(_row, _col);
-    //if the en passant wasn't done
-    /*
-    if(enpassant){
-        enpassant = false;
-    }
-    */
 }
 
 std::set<std::pair<int, int>> Pawn::getLegalMoves(const std::shared_ptr<ChessPiece> mat[8][8]) const{
