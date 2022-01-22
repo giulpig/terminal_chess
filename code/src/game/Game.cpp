@@ -53,7 +53,7 @@ Game::Game(GameType _gType) : gType{_gType} {
 
     //to be removede this if
     //if(gType != GameType::HumanVsHuman)
-    players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
+        players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
 std::string Game::getFileLogName() {
@@ -70,6 +70,8 @@ void Game::setMaxMoves() {
     do {
         std::getline(std::cin, input);
 
+        // If the user write something I have to check thath it is
+        // a real number to use in the maxMoves variable
         try {
             maxMovesPc = input.empty() ? 50 : stoi(input);
             validInput = true;
@@ -78,17 +80,6 @@ void Game::setMaxMoves() {
         }
     } while(!validInput);
 }
-
-/*
-Game& Game::operator=(const Game& g) {
-    gType = g.gType;
-    // do not need to copy stuff, the vector will do everyting
-    players = g.players;
-    board = g.board;
-    log = g.log();
-    return *this;
-}
-*/
 
 void Game::play() {
 
@@ -105,6 +96,10 @@ void Game::play() {
 
     // Print the initial chessBoard
     printChessBoard();
+
+    std::cout << "Inizia a giocare!" << std::endl;
+    std::cout << "Scrivi 'XX XX' per stampare la tavola da gioco \n";
+    std::cout << "Scrivi 'QQ QQ' per abbandonare la partita \n";
 
     // Loop until there is a 'flap', someone win or the pc players have reached up the max moves
     while(!endGame && countMoves <= maxMovesPc) {
@@ -178,9 +173,6 @@ void Game::play() {
         
         // Advance to the other player
         playerTurn = playerTurn + 1 >= 2 ? 0 : playerTurn + 1;
-        //playerTurn++;
-        //if(playerTurn >= 2)
-            //playerTurn = 0;
 
         if(gType == GameType::PcVsPc)
             countMoves++;        

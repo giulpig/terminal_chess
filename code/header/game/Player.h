@@ -29,6 +29,11 @@ class Player {
          */
         Player(Side, PlayerType);  
 
+        Player(Player&) = delete;
+        Player(Player&&) = delete;
+        Player& operator=(Player&) = delete;
+        Player& operator=(Player&&) = delete;
+
         /**
          * This funtion will return the movement selected from the player,
          * it will be override 
