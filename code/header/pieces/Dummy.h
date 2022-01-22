@@ -1,7 +1,8 @@
+//Artico Giovanni 2000178
 #ifndef DUMMY_H
 #define DUMMY_H
 #include "ChessPiece.h"
-//class used to check for empty spaces, has no other use. like my condoms in the wallet
+//class used to check for empty spaces, most overridden functions do nothing
 class Dummy : public ChessPiece{
     public:
     Dummy();

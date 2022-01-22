@@ -1,3 +1,4 @@
+//Artico Giovanni n. matr. 2000178
 #ifndef KNIGHT_CPP
 #define KNIGHT_CPP
 

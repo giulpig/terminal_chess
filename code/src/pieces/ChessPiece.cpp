@@ -1,3 +1,4 @@
+//Artico Giovanni n.matr. 200178
 #ifndef CHESSPIECE_CPP
 #define CHESSPIECE_CPP
 
@@ -10,10 +11,6 @@ ChessPiece::ChessPiece(int _row, int _col, Side s){
     location.first = _row;
     location.second = _col;
     color = s;
-}
-
-ChessPiece::ChessPiece(const ChessPiece& o){
-    
 }
 
 int ChessPiece::getRow() const{
