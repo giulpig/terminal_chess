@@ -90,9 +90,10 @@ void Game::play() {
     pair<pair<int, int>, pair<int, int>> quitGame = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
 
     Moves moveType;
-    int playerTurn = 0;
 
+    int playerTurn = 0;
     // Check who is the white player
+    playerTurn = players[0] -> getSide() == Side::white ? 0 : 1;
 
     int countMoves = 0;
     char promotioChar;
@@ -134,8 +135,10 @@ void Game::play() {
             if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
                 std::cout << "Illegal Movement! \n\n";
             // If the movement is ok and it is done by a computer than print the movement
-            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc)
+            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc) {
+                std::cout << players[playerTurn] -> getSideStr() << " moved: \n";
                 std::cout << reConvertPos(movement) << "\n\n";
+            }
 
         } while(moveType == Moves::NaM);
 

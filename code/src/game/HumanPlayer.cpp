@@ -32,7 +32,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
     pos = vector<string>{3};
 
     if(!rightInput)
-      std::cout << "Invalid Input!" <<std::endl;
+      std::cout << "\nInvalid Input!\n" <<std::endl;
 
     // Get all the line of the input
     getline(std::cin, line);

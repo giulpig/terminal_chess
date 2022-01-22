@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    std::cout << "Credits: \n";
+    std::cout << "Credits: \n\n";
     std::cout << "--- Team: C++Mi+ \n";
     std::cout << "----- Giovanni Artico    -   geostartico \n";
     std::cout << "----- Giulio Codutti     -   giulipg \n";
