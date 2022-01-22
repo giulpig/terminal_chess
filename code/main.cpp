@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
     std::cout << "Credits: \n\n";
     std::cout << "--- Team: C++Mi+ \n";
     std::cout << "----- Giovanni Artico    -   geostartico \n";
-    std::cout << "----- Giulio Codutti     -   giulipg \n";
+    std::cout << "----- Giulio Codutti     -   giulpig \n";
     std::cout << "----- Gabriele Miotti    -   gabriele-0201\n\n";
 
     std::cout << "Gioco degli Scacchi \n\n";
