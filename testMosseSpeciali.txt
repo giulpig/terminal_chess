@@ -1,0 +1,22 @@
+H2 H4
+G8 F6
+H4 H5
+G7 G5
+-enpassant H5 G6
+B8 A6
+G6 G7
+D7 D5
+-promotion d G7 H8
+D8 D6
+H1 H7
+C8 D7
+G1 H3
+-castling E8 C8
+H7 F7
+F6 H5
+H8 F8
+D8 F8
+F7 F8
+D7 E8
+F8 E8
+C8 D7

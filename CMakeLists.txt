@@ -95,10 +95,10 @@ add_library(Log
     code/header/utilities/Log.h
 )
 
-add_executable(Main
+add_executable(scacchiera
     code/main.cpp
 )
-add_executable(Replay
+add_executable(replay
     code/Replay.cpp
 )
 
@@ -138,11 +138,11 @@ target_link_libraries(PcPlayer
     Player
 )
 
-target_link_libraries(Main
+target_link_libraries(scacchiera
     ChessBoard
     Game
 )
 
-target_link_libraries(Replay
+target_link_libraries(replay
     ManagePosition
 )

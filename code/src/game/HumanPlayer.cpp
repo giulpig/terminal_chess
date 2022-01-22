@@ -93,7 +93,7 @@ char HumanPlayer::getPromotion() const {
       if(line.size() != 1)
         continue;
         
-      std::toupper(line[0]);
+      line[0] = std::toupper(line[0]);
 
       if(line[0] == 'P')
         std::cout << "Veramente??\n";

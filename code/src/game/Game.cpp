@@ -180,25 +180,26 @@ void Game::play() {
             }
         }
         
-        // Advance to the other player
-        playerTurn = playerTurn + 1 >= 2 ? 0 : playerTurn + 1;
-
-        if(gType == GameType::PcVsPc)
-            countMoves++;        
-
         // Log the movement
         promotioChar = players[playerTurn] -> getSide() == Side::white ? std::tolower(promotioChar) : promotioChar;
 
         moveType = isPromotion ? Moves::promotion : moveType;
 
-        if(!endGame)
-            log.logMove(moveType, movement, {1, promotioChar});
+        if(!endGame) {
+            char p[] = {promotioChar};
+            //log.logMove(moveType, movement, {1, promotioChar});
+            log.logMove(moveType, movement, p);
+        }
+
+        // Advance to the other player
+        playerTurn = playerTurn + 1 >= 2 ? 0 : playerTurn + 1;
+
+        if(gType == GameType::PcVsPc)
+            countMoves++;        
     }
 
     if(gType == GameType::PcVsPc && countMoves >= maxMovesPc)
         std::cout << "Numero massimo di mosse raggiunta" <<std::endl;
-
-    std::cout << "Finito IL GAME" <<std::endl;
 }
 
 void Game::printChessBoard() {
