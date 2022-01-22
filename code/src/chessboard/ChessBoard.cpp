@@ -33,12 +33,12 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
     Side opponent = otherSide(fromPiece->getSide());
     Moves moveType = fromPiece->moveType(to.first, to.second, _chessBoard);
-    shared_ptr<ChessPiece> newEnpassed = nullptr;
+    shared_ptr<ChessPiece> newDoubleMoved = nullptr;
+    bool enpassed = false;
     
     if(!isPossibleMove(from, to, side)){
         return Moves::NaM;
     }
-
 
     //Check for special moves
     switch(moveType){
@@ -63,10 +63,11 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 
         case Moves::enpassant:
             doEnpassant(from, to);  //doEmpassant just removes the other pawn, the move is done in doMove
+            enpassed = true;
         break;
 
         case Moves::doublePawn:
-            newEnpassed = fromPiece;
+            newDoubleMoved = fromPiece;
         break;
 
     }
@@ -85,13 +86,16 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
     if(side == Side::black){
         if(_enpassedBlack != nullptr)
             std::dynamic_pointer_cast<Pawn>(_enpassedBlack)->cancelEnpassant();
-        _enpassedBlack = newEnpassed;
+        _enpassedBlack = newDoubleMoved;
     }
     else{
         if(_enpassedWhite != nullptr)
             std::dynamic_pointer_cast<Pawn>(_enpassedWhite)->cancelEnpassant();
-        _enpassedWhite = newEnpassed;
+        _enpassedWhite = newDoubleMoved;
     }
+
+    if(enpassed)
+        return Moves::enpassant;
 
     if(_toPromote != nullptr)
         return Moves::promotion;
