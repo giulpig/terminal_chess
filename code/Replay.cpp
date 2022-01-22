@@ -71,11 +71,8 @@ int main(int argc, char** argv){
             if(from == "-promotion"){
                 std::string s;
                 temp >> s;
-                //std::getline(temp, s,  (char)1);
-                //std::cout << s[1] /*<< (int)s[1]*/ <<std::endl;
                 //the name of the promoted piece can't be more than one character
                 if(s.size() != 1){
-                    std::cout <<  "dio cane il promotion \n" <<s<<std::flush;
                     throw WrongFormat{};
                 }
                 temp>>from>>to;
@@ -105,7 +102,6 @@ int main(int argc, char** argv){
             }
             //none of the right commands were used
             else{
-                std::cout <<  "dio cane il caco \n" <<std::flush;
                 throw WrongFormat{};
             }
         }

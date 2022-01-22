@@ -21,9 +21,9 @@ std::set<std::pair<int, int>> Bishop::getLegalMoves(const std::shared_ptr<ChessP
     
     // Iterate through each possible direction and
     // foreach add all the possible moves that could be done to a set
-    // For each direction the movement is create adding always the same increment to a starting position
+    // For each direction the movement is created by adding always the same increment to a starting position
     for(i = 1; i < 5; ++i) {
-        // Depends on the selected dir this switch would select an appropiate increment
+        // Depending on the selected dir this switch will select an appropiate increment
         switch(i) {
             case 1:
                 dir = make_pair(-1, 1);

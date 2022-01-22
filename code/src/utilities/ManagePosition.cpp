@@ -36,7 +36,7 @@ bool mPos::isValidInput(string pos) {
 
 std::string mPos::reConvertPos(pair<pair<int, int>, pair<int, int>> mov) {
 
-    // Create a stirng with a proper format
+    // Create a string with a proper format
     string st;
     st += (char) mov.first.second + 65;
     st += (char) (8 - mov.first.first) + 48;

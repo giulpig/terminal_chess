@@ -23,7 +23,7 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
 
   pair<pair<int, int>, pair<int, int>> movement;
   string line;
-  // Use three string to obtain also all the text that could
+  // Use three strings to obtain also all the text that could
   // be after a proper input, if there is something than invalidate the input
   vector<string> pos {3};
   bool rightInput = true;
@@ -38,13 +38,13 @@ pair<pair<int, int>, pair<int, int>> HumanPlayer::getMove() {
     getline(std::cin, line);
 
     // Check some prefix line, one is to print the board and one is to quit the game
-    // Return a specific pair so the Game class can understan want the player want to do
+    // Return a specific pair so the Game class can understand what the player wants to do
     if(line == "XX XX")
       return {{-1, -1}, {-1, -1}};
     else if(line == "QQ QQ")
       return {{-2, -2}, {-2, -2}};
 
-    // Scann all the input, divide in to blocks anc make it upper
+    // Scan all the input, divide into blocks anc make it uppercase
     // Doing this conversion will allow to accept uppercase 
     // or lowercase input and at the same time simplify the conversion
     stringstream inStream (line);

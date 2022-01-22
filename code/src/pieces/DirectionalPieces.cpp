@@ -54,7 +54,6 @@ void DirectionalPieces::addLegalMoves(std::pair<int, int> dir, std::set<std::pai
 }
 
 void DirectionalPieces::setPosition(int _row, int _column) {
-    //do not know if this is correct
     ChessPiece::setPosition(_row, _column);
 }
 

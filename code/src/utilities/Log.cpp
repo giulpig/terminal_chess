@@ -36,7 +36,7 @@ Log& Log::operator=(Log&& l) {
 }
 
 bool Log::exist(string fname) const {
-    // distructor will automatically close the stream
+    // destructor will automatically close the stream
     std::ifstream stream (fname);
     return bool(stream);
 }
