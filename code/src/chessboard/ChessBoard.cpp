@@ -59,9 +59,7 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
 
         case Moves::promotion:
             _toPromote = _chessBoard[from.first][from.second];
-
-            //promotion is then called by Game class
-            return Moves::promotion;
+        break;
 
         case Moves::enpassant:
             doEnpassant(from, to);  //doEmpassant just removes the other pawn, the move is done in doMove
@@ -94,6 +92,9 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
             std::dynamic_pointer_cast<Pawn>(_enpassedWhite)->cancelEnpassant();
         _enpassedWhite = newEnpassed;
     }
+
+    if(_toPromote != nullptr)
+        return Moves::promotion;
 
     return Moves::movement;
 }
