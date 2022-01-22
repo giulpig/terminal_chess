@@ -7,16 +7,16 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include<iostream>
-#include<memory>
-#include<vector>
+#include <iostream>
+#include <memory>
+#include <vector>
 #include <sys/time.h>
-#include"Enums.h"
-#include"Player.h"
-#include"HumanPlayer.h"
-#include"PcPlayer.h"
-#include"ChessBoard.h"
-#include"Log.h"
+#include "Enums.h"
+#include "Player.h"
+#include "HumanPlayer.h"
+#include "PcPlayer.h"
+#include "ChessBoard.h"
+#include "Log.h"
 
 class Game {
     private:
@@ -29,14 +29,14 @@ class Game {
         ChessBoard board;
         Log log;
 
+        // Max moves in a pc vs pc game
+        int maxMovesPc = 1;
+
         /*
         ** Print on screen the status of the board
         ** with some spaces before and after
         */
         void printChessBoard();
-
-        // Max moves in a pc vs pc game
-        int maxMovesPc = 1;
 
         /*
         ** Get a desired name for the log, if empty use a default one
@@ -53,8 +53,9 @@ class Game {
         // Constructor specifing the type of the game
         Game(GameType);
 
-        //Game(Game&) = delete;
-        //Game& operator=(const Game& g) = delete;
+        // Copy constructor and operator are usefull
+        Game(Game&) = delete;
+        Game& operator=(const Game& g) = delete;
 
         /* 
         ** Main method that will manage an entire game between the player

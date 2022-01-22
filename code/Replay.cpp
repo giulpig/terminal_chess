@@ -81,7 +81,7 @@ int main(int argc, char** argv){
             else if(from == "-castling"){
                 temp>>from>>to;
                 std::pair<std::pair<int,int>, std::pair<int,int>> movement = movePiece(from, to);
-                //moving the respective tower
+                //moving the respective rook
                 if(movement.first.second < movement.second.second){
                     chess[movement.first.first][movement.first.second + 1] = chess[movement.first.first][7];
                     chess[movement.first.first][7] = ' ';

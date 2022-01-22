@@ -45,15 +45,15 @@ Game::Game(GameType _gType) : gType{_gType} {
             break;
 
         //To be removed
-        //case GameType::HumanVsHuman:
-            //players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
-            //players[1] = unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
-            //break;
+        case GameType::HumanVsHuman:
+            players[0] = unique_ptr<HumanPlayer>{new HumanPlayer(side1)};
+            players[1] = unique_ptr<HumanPlayer>{new HumanPlayer(side2)};
+            break;
     }
 
     //to be removede this if
-    //if(gType != GameType::HumanVsHuman)
-    players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
+    if(gType != GameType::HumanVsHuman)
+        players[1] = unique_ptr<PcPlayer>{new PcPlayer(board, side2)};
 }
 
 std::string Game::getFileLogName() {
@@ -70,6 +70,8 @@ void Game::setMaxMoves() {
     do {
         std::getline(std::cin, input);
 
+        // If the user write something I have to check thath it is
+        // a real number to use in the maxMoves variable
         try {
             maxMovesPc = input.empty() ? 50 : stoi(input);
             validInput = true;
@@ -78,17 +80,6 @@ void Game::setMaxMoves() {
         }
     } while(!validInput);
 }
-
-/*
-Game& Game::operator=(const Game& g) {
-    gType = g.gType;
-    // do not need to copy stuff, the vector will do everyting
-    players = g.players;
-    board = g.board;
-    log = g.log();
-    return *this;
-}
-*/
 
 void Game::play() {
 
@@ -99,12 +90,20 @@ void Game::play() {
     pair<pair<int, int>, pair<int, int>> quitGame = std::make_pair(std::make_pair(-2, -2), std::make_pair(-2, -2));
 
     Moves moveType;
+
     int playerTurn = 0;
+    // Check who is the white player
+    playerTurn = players[0] -> getSide() == Side::white ? 0 : 1;
+
     int countMoves = 0;
     char promotioChar;
 
     // Print the initial chessBoard
     printChessBoard();
+
+    std::cout << "Inizia a giocare!" << std::endl;
+    std::cout << "Scrivi 'XX XX' per stampare la tavola da gioco \n";
+    std::cout << "Scrivi 'QQ QQ' per abbandonare la partita \n\n";
 
     // Loop until there is a 'flap', someone win or the pc players have reached up the max moves
     while(!endGame && countMoves <= maxMovesPc) {
@@ -136,8 +135,10 @@ void Game::play() {
             if(moveType == Moves::NaM && players[playerTurn] -> getType() == PlayerType::human)
                 std::cout << "Illegal Movement! \n\n";
             // If the movement is ok and it is done by a computer than print the movement
-            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc)
+            else if(moveType != Moves::NaM  && players[playerTurn] -> getType() == PlayerType::pc) {
+                std::cout << players[playerTurn] -> getSideStr() << " moved: \n";
                 std::cout << reConvertPos(movement) << "\n\n";
+            }
 
         } while(moveType == Moves::NaM);
 
@@ -178,9 +179,6 @@ void Game::play() {
         
         // Advance to the other player
         playerTurn = playerTurn + 1 >= 2 ? 0 : playerTurn + 1;
-        //playerTurn++;
-        //if(playerTurn >= 2)
-            //playerTurn = 0;
 
         if(gType == GameType::PcVsPc)
             countMoves++;        

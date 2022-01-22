@@ -25,7 +25,7 @@ Log::Log(string _nameFile) {
 }
 
 /**
- * Move Constructor
+ * Move Operator 
 */
 Log& Log::operator=(Log&& l) {
     nameFile = l.nameFile;

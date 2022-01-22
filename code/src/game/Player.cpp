@@ -23,8 +23,19 @@ PlayerType Player::getType() const {
 }
 
 string Player::getSideStr() const {
-    if(side == Side::noSide) return "";
-    return side == Side::white ? "white " : "black";
+
+    switch (side) {
+        case Side::white:
+            return "white";
+            break;
+        case Side::black:
+            return "black";
+            break;
+        default:
+            return "";
+            break;
+    }
+
 }
 
 

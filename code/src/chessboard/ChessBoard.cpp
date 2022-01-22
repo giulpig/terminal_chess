@@ -1,3 +1,5 @@
+//Giulio Codutti 2008795
+
 #ifndef CHESSBOARD_CPP
 #define CHESSBOARD_CPP
 
