@@ -100,10 +100,11 @@ private:
     void swapPieces(const std::pair<int, int> &, const std::pair<int, int> &);
 
 public:
-//--  --constructors----
+//------constructors----
     ChessBoard();
-    ChessBoard(const ChessBoard &);          //copy
-    ChessBoard(ChessBoard &&);               //move
+    ChessBoard(const ChessBoard &);     //copy
+    ChessBoard(ChessBoard &&);          //move
+    ~ChessBoard() = default;            //default destructor
 
 //------operators-------
     ChessBoard &operator=(const ChessBoard &); //does a copy

@@ -2,5 +2,5 @@
 for i in {1..100}
 do
 	echo $i;
-	./Main;
+	./Main cc <<< echo "test" <<< echo "5000";
 done
