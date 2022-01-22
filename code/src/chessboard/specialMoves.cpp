@@ -43,51 +43,46 @@ Moves ChessBoard::promotion(Role role){
 
 
 //removes the piece that is supposed to be eaten in enpassant
-void ChessBoard::doEnpassant(const pair<int, int>& pos){
-    const shared_ptr<ChessPiece> &piece = _chessBoard[pos.first][pos.second];
+void ChessBoard::doEnpassant(const pair<int, int>& from, const pair<int, int>& to){
+    const shared_ptr<ChessPiece> &fromPiece = _chessBoard[from.first][from.second];
+    const shared_ptr<ChessPiece> &toPiece   = _chessBoard[to.first][to.second];
 
-    switch(piece->getSide()){
-
-        case(Side::black):
-            removeFromPieceList(_chessBoard[pos.first+1][pos.second]);
-            _chessBoard[pos.first+1][pos.second] = oneDummyToRuleThemAll;
-            return;
-
-        case(Side::white):
-            removeFromPieceList(_chessBoard[pos.first-1][pos.second]);
-            _chessBoard[pos.first-1][pos.second] = oneDummyToRuleThemAll;
-            return;
-    }
+    removeFromPieceList(_chessBoard[from.first][to.second]);
+    _chessBoard[from.first][to.second] = oneDummyToRuleThemAll;
+    
+    return;
 }
 
 
-bool ChessBoard::doCastling(const pair<int, int> &rookPos){
+bool ChessBoard::doCastling(const pair<int, int> &finalKingPos){
 
-    const int rookCol = rookPos.second;
-    constexpr int kingCol = 4;              //king surely has not moved
+    const int rookCol = finalKingPos.second==2 ? 0 : 7;
+    constexpr int kingCol = 4;  //king surely has not moved
 
-    shared_ptr<ChessPiece> kingPiece = _chessBoard[rookPos.first][kingCol];
-    shared_ptr<ChessPiece> rookPiece = _chessBoard[rookPos.first][rookPos.second];
+    const int commonRow = finalKingPos.first;    
+
+    shared_ptr<ChessPiece> kingPiece = _chessBoard[finalKingPos.first][kingCol];
+    shared_ptr<ChessPiece> rookPiece = _chessBoard[finalKingPos.first][commonRow];
     Side side = kingPiece->getSide();
 
     if(rookCol==0){     //left~long castling
         for(int i=1; i<=2; i++){
             //move king to the left one by one
-            swapPieces({rookPos.first, kingCol-i+1}, {rookPos.first, kingCol-i});
+            swapPieces({commonRow, kingCol-i+1}, {commonRow, kingCol-i});
             //check for check situation --> (invalid castling)
-            if(isCheck(side, _chessBoard, {rookPos.first, kingCol-i})){
+            if(isCheck(side, _chessBoard, {commonRow, kingCol-i})){
                 //go back
-                swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol-i});
+                swapPieces({commonRow, kingCol}, {commonRow, kingCol-i});
                 return false;
             }
         }
 
         //move rook
-        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second+3});
+        swapPieces({commonRow, rookCol}, {commonRow, rookCol+3});
 
         //update piece information
-        kingPiece->setPosition(rookPos.first, kingCol-2);
-        rookPiece->setPosition(rookPos.first, rookPos.second+3);
+        kingPiece->setPosition(commonRow, kingCol-2);
+        rookPiece->setPosition(commonRow, rookCol+3);
         return true;
     }
 
@@ -95,22 +90,22 @@ bool ChessBoard::doCastling(const pair<int, int> &rookPos){
     if(rookCol==7){     //right~short castling
         for(int i=1; i<=2; i++){
             //move king to the right one by one
-            swapPieces({rookPos.first, kingCol+i-1}, {rookPos.first, kingCol+i});
+            swapPieces({commonRow, kingCol+i-1}, {commonRow, kingCol+i});
             
             //check for check situation --> (invalid castling)
-            if(isCheck(side, _chessBoard, {rookPos.first, kingCol+i})){
+            if(isCheck(side, _chessBoard, {commonRow, kingCol+i})){
                 //go back
-                swapPieces({rookPos.first, kingCol}, {rookPos.first, kingCol+i});
+                swapPieces({commonRow, kingCol}, {commonRow, kingCol+i});
                 return false;
             }
         }
 
         //move rook
-        swapPieces({rookPos.first, rookPos.second}, {rookPos.first, rookPos.second-2});
+        swapPieces({commonRow, rookCol}, {commonRow, rookCol-2});
 
         //update piece information
-        kingPiece->setPosition(rookPos.first, kingCol+2);
-        rookPiece->setPosition(rookPos.first, rookPos.second-2);
+        kingPiece->setPosition(commonRow, kingCol+2);
+        rookPiece->setPosition(commonRow, rookCol-2);
 
         return true;
     }

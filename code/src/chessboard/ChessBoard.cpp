@@ -64,14 +64,11 @@ Moves ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Sid
             return Moves::promotion;
 
         case Moves::enpassant:
-            doEnpassant(from);  //doEmpassant just removes the other pawn, the move is done in doMove
+            doEnpassant(from, to);  //doEmpassant just removes the other pawn, the move is done in doMove
         break;
 
         case Moves::doublePawn:
-            if(side == Side::black)
-                newEnpassed = fromPiece;
-            else
-                newEnpassed = fromPiece;
+            newEnpassed = fromPiece;
         break;
 
     }
@@ -150,8 +147,11 @@ bool ChessBoard::isPossibleMove(const pair<int, int> &from, const pair<int, int>
     
     const shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not touch...
     const shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
-    
-    
+
+    //You can't do castling under check
+    if(fromPiece->moveType(to.first, to.second, _chessBoard) == Moves::castling && isCheck(s))
+        return false;
+
     //You can't move other player's pieces
     if(fromPiece->getSide() != s)
         return false;

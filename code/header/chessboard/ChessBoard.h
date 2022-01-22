@@ -95,7 +95,7 @@ private:
 
     //forced moves (called from public move function)
     void doMove(const std::pair<int, int> &, const std::pair<int, int> &);
-    void doEnpassant(const std::pair<int, int> &);
+    void doEnpassant(const std::pair<int, int> &, const std::pair<int, int> &);
     bool doCastling(const std::pair<int, int> &); //returns false if not legal castling
     void swapPieces(const std::pair<int, int> &, const std::pair<int, int> &);
 

@@ -9,10 +9,10 @@ Pawn::Pawn(int _row, int _col, Side s) : ChessPiece{_row, _col, s}{
 }
 
 void Pawn::setPosition(int _row, int _col){
-    ChessPiece::setPosition(_row, _col);
     if(_row == getRow() + 2 || _row == getRow() - 2){
         enpassant = true;
     }
+    ChessPiece::setPosition(_row, _col);
     //if the en passant wasn't done
     /*
     if(enpassant){
