@@ -58,7 +58,7 @@ Game::Game(GameType _gType) : gType{_gType} {
 
 std::string Game::getFileLogName() {
     std::string input;
-    std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame.txt')" <<std::endl;
+    std::cout << "Inserisci il nome del log (lascia vuoto per nome standard = 'logGame')" <<std::endl;
     std::getline(std::cin, input);
     return  input.empty() ? "gameLog" : input;
 }
