@@ -54,7 +54,9 @@ int main(int argc, char** argv){
     }
 
     std::ifstream in{argv[2]};
-
+    if(!in.is_open()){
+        throw WrongArguments{};
+    }
     std::vector<std::string> vec;//contains the boards
     vec.push_back(print());      //initial matrix
     std::string line;
@@ -133,6 +135,7 @@ int main(int argc, char** argv){
         } 
     }
 }
+
 //returns the string representing the matrix
 std::string print(){
     std::string ret = "";
