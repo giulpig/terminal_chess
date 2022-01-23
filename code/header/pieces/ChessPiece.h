@@ -33,8 +33,9 @@ class ChessPiece{
         //Returns true if the piece in [row_][col_] is of the opposite side;
         bool isOppositeSide(const std::shared_ptr<ChessPiece>[8][8], int row_, int col_) const;
     public:
-
-        ChessPiece(const ChessPiece&) = default;
+        //derived classes will use the default ones;
+        ChessPiece(const ChessPiece&) = delete;
+        ChessPiece& operator=(ChessPiece&) = delete;
 
         int getRow() const;
         int getCol() const;
