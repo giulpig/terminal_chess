@@ -108,7 +108,7 @@ Move ChessBoard::move(const pair<int, int>& from, const pair<int, int>& to, Side
 //Does the move by swapping pointers and updating all information
 void ChessBoard::doMove(const pair<int, int>& from, const pair<int, int>& to){
 
-    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not screw...
+    shared_ptr<ChessPiece>& fromPiece = _chessBoard[from.first][from.second];    //reference just to not modify...
     shared_ptr<ChessPiece>& toPiece = _chessBoard[to.first][to.second];          //...internal shared_ptr counter
 
     //if there's a capture or you move a pawn, you can't go back
@@ -234,7 +234,7 @@ ChessBoard::ChessBoard(){
 //copy constructor
 ChessBoard::ChessBoard(const ChessBoard& o){
     
-    *this = o;      //call equal operator
+    operator=(o); //call assignment operator
 }
 
 
