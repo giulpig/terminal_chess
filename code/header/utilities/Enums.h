@@ -19,7 +19,7 @@ enum class Role: char{
 };
 
 enum class Move{
-    NaM,
+    NaM,//Not a Movement
     movement,
     castling,
     promotion,
@@ -29,7 +29,6 @@ enum class Move{
     checkMate
 };
 
-//for now add an enum for the type of play
 enum class GameType {
     HumanVsPc,
     PcVsPc,

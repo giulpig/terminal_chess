@@ -6,11 +6,11 @@
 
 class Knight : public ChessPiece{
 
-public:
-    Knight(int, int, Side);
-    void setPosition(int _row, int _col) override;
-    std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
-    Move moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
+    public:
+        Knight(int, int, Side);
+        void setPosition(int _row, int _col) override;
+        std::set<std::pair<int, int>> getLegalMoves(const std::shared_ptr<ChessPiece>[8][8]) const override;
+        Move moveType(int _row, int _col, const std::shared_ptr<ChessPiece>[8][8]) const override;
 };
 
 #endif
