@@ -1,27 +1,25 @@
 # ProjectLabC++_Chess
 
-This is a chess game board program developed by the team *C++ mi +* = {Giulio_Codutti; Gabriele_Miotti; Giovanni_Artico}.
-
-[[_TOC_]]
+This is a chess game board program developed by the team *C++ mi +* = {Giulio_Codutti; Gabriele_Miotti; Giovanni_Artico}
 
 ## TODO list
 
-- [ ] Initial steps
+- [x] Initial steps
   - [x] Init Repo
-  - [ ] Main structure of the program
-  - [ ] Program headers
-  - [ ] BASIC and minimal functioning program
-- [ ] Full functioning game
-  - [ ] Check check
-  - [ ] ChechMate check
-  - [ ] Special moves
-    - [ ] Castling
-    - [ ] Em passant
-    - [ ] Promotion
+  - [x] Main structure of the program
+  - [x] Program headers
+  - [x] BASIC and minimal functioning program
+- [x] Full functioning game
+  - [x] Check check
+  - [x] ChechMate check
+  - [x] Special moves
+    - [x] Castling
+    - [x] En passant
+    - [x] Promotion
 - [ ] Final steps
-  - [ ] Replay module
-  - [ ] Cross revision
-  - [ ] Test
+  - [x] Replay module
+  - [x] Cross revision
+  - [x] Test
   - [ ] Optimize
 
 
@@ -38,31 +36,3 @@ This is a chess game board program developed by the team *C++ mi +* = {Giulio_Co
 - ChessBoard
 - Game
 - In/Out
-- main (not actually a class - RIP java)
-
-
-
-## Replay Module
-
-- [ ] Choose format
-- [ ] Logging
-- [ ] ?? Validate format
-
-
-
-
-## Notes
-
-- Enum with possible special moves
->
-- Split the 2 castling cases (kingside/corto, queenside/lungo) and check each indipendently
-- Study castling (arrocco) carachteristics
-  - NOT if king is checked
-  - NOT if king moved
-  - NOT if tower moved
-  - NOT if king's travel path is under attack
->
-- When promoting on promotion, give a choice between queen and horse
->
-- Map for triple position repetition, if board exact configuration counter is 3 --> PATTA,
-  - It can be cleared after a piece removal or after pawn movement (it can't go back)
